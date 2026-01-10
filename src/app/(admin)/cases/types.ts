@@ -69,3 +69,24 @@ export function canEditCase(status: CaseStatus): boolean {
 export function isCaseClosed(status: CaseStatus): boolean {
   return status === 'closed'
 }
+
+// Timeline event types for Case History
+export type TimelineEventType = 
+  | 'created' 
+  | 'opened' 
+  | 'status_change' 
+  | 'priority_change' 
+  | 'deadline_change' 
+  | 'closed' 
+  | 'updated'
+
+export interface TimelineEvent {
+  id: string
+  type: TimelineEventType
+  description: string
+  timestamp: string
+  actorName?: string
+  oldValue?: string
+  newValue?: string
+  source: 'case_field' | 'audit_event'
+}
