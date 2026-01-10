@@ -9,6 +9,12 @@ const ClientDetail = lazy(() => import('@/app/(admin)/clients/[id]/page'))
 const ClientCreate = lazy(() => import('@/app/(admin)/clients/create/page'))
 const ClientEdit = lazy(() => import('@/app/(admin)/clients/[id]/edit/page'))
 
+// Appointments Module
+const AppointmentsList = lazy(() => import('@/app/(admin)/appointments/page'))
+const AppointmentDetail = lazy(() => import('@/app/(admin)/appointments/[id]/page'))
+const AppointmentCreate = lazy(() => import('@/app/(admin)/appointments/create/page'))
+const AppointmentEdit = lazy(() => import('@/app/(admin)/appointments/[id]/edit/page'))
+
 // Base UI Routes
 const Accordions = lazy(() => import('@/app/(admin)/base-ui/accordion/page'))
 const Alerts = lazy(() => import('@/app/(admin)/base-ui/alerts/page'))
@@ -342,6 +348,14 @@ const clientsRoutes: RoutesProps[] = [
   { path: '/clients/:id/edit', name: 'Edit Client', element: <ClientEdit /> },
 ]
 
+// Appointments Routes
+const appointmentsRoutes: RoutesProps[] = [
+  { path: '/appointments', name: 'Appointments', element: <AppointmentsList /> },
+  { path: '/appointments/create', name: 'Create Appointment', element: <AppointmentCreate /> },
+  { path: '/appointments/:id', name: 'Appointment Detail', element: <AppointmentDetail /> },
+  { path: '/appointments/:id/edit', name: 'Edit Appointment', element: <AppointmentEdit /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   // ...authRoutes,
@@ -353,4 +367,5 @@ export const appRoutes = [
   ...tableRoutes,
   ...iconRoutes,
   ...clientsRoutes,
+  ...appointmentsRoutes,
 ]
