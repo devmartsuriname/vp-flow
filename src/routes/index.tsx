@@ -15,6 +15,12 @@ const AppointmentDetail = lazy(() => import('@/app/(admin)/appointments/[id]/pag
 const AppointmentCreate = lazy(() => import('@/app/(admin)/appointments/create/page'))
 const AppointmentEdit = lazy(() => import('@/app/(admin)/appointments/[id]/edit/page'))
 
+// Cases Module
+const CasesList = lazy(() => import('@/app/(admin)/cases/page'))
+const CaseDetail = lazy(() => import('@/app/(admin)/cases/[id]/page'))
+const CaseCreate = lazy(() => import('@/app/(admin)/cases/create/page'))
+const CaseEdit = lazy(() => import('@/app/(admin)/cases/[id]/edit/page'))
+
 // Base UI Routes
 const Accordions = lazy(() => import('@/app/(admin)/base-ui/accordion/page'))
 const Alerts = lazy(() => import('@/app/(admin)/base-ui/alerts/page'))
@@ -356,6 +362,14 @@ const appointmentsRoutes: RoutesProps[] = [
   { path: '/appointments/:id/edit', name: 'Edit Appointment', element: <AppointmentEdit /> },
 ]
 
+// Cases Routes
+const casesRoutes: RoutesProps[] = [
+  { path: '/cases', name: 'Cases', element: <CasesList /> },
+  { path: '/cases/create', name: 'Create Case', element: <CaseCreate /> },
+  { path: '/cases/:id', name: 'Case Detail', element: <CaseDetail /> },
+  { path: '/cases/:id/edit', name: 'Edit Case', element: <CaseEdit /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   // ...authRoutes,
@@ -368,4 +382,5 @@ export const appRoutes = [
   ...iconRoutes,
   ...clientsRoutes,
   ...appointmentsRoutes,
+  ...casesRoutes,
 ]

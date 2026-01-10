@@ -34,22 +34,18 @@ export default function CaseActions({
     return null
   }
 
-  const canEdit = !isClosed
   const canOpen = status === 'draft'
   const canStartWork = status === 'open'
   const canPark = status === 'open' || status === 'in_progress'
   const canResume = status === 'parked'
-  const canClose = ['open', 'in_progress', 'parked'].includes(status)
-  const canClose = status !== 'draft' && status !== 'closed'
+  const canClose = status !== 'draft'
 
   return (
     <div className="d-flex flex-wrap gap-2">
-      {canEdit && (
-        <Link to={`/cases/${caseItem.id}/edit`} className="btn btn-outline-primary">
-          <IconifyIcon icon="bx:edit" className="me-1" />
-          Edit
-        </Link>
-      )}
+      <Link to={`/cases/${caseItem.id}/edit`} className="btn btn-outline-primary">
+        <IconifyIcon icon="bx:edit" className="me-1" />
+        Edit
+      </Link>
 
       {canOpen && onOpen && (
         <Button variant="primary" onClick={onOpen} disabled={isUpdating}>
