@@ -14,16 +14,537 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointment_attendees: {
+        Row: {
+          appointment_id: string
+          created_at: string
+          created_by: string | null
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          role: string | null
+        }
+        Insert: {
+          appointment_id: string
+          created_at?: string
+          created_by?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          role?: string | null
+        }
+        Update: {
+          appointment_id?: string
+          created_at?: string
+          created_by?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          role?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointment_attendees_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      appointments: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          client_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          duration_minutes: number
+          id: string
+          location: string | null
+          rejected_at: string | null
+          rejected_by: string | null
+          rejection_reason: string | null
+          scheduled_date: string
+          scheduled_time: string
+          status: Database["public"]["Enums"]["appointment_status"]
+          subject: string
+          submitted_at: string | null
+          submitted_by: string | null
+          updated_at: string
+          visibility: Database["public"]["Enums"]["appointment_visibility"]
+          vp_notes: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          client_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          location?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
+          scheduled_date: string
+          scheduled_time: string
+          status?: Database["public"]["Enums"]["appointment_status"]
+          subject: string
+          submitted_at?: string | null
+          submitted_by?: string | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["appointment_visibility"]
+          vp_notes?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          client_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          location?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
+          scheduled_date?: string
+          scheduled_time?: string
+          status?: Database["public"]["Enums"]["appointment_status"]
+          subject?: string
+          submitted_at?: string | null
+          submitted_by?: string | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["appointment_visibility"]
+          vp_notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_events: {
+        Row: {
+          action: Database["public"]["Enums"]["audit_action"]
+          entity_id: string
+          entity_type: string
+          id: string
+          ip_address: unknown
+          new_values: Json | null
+          old_values: Json | null
+          performed_at: string
+          performed_by: string
+          user_agent: string | null
+        }
+        Insert: {
+          action: Database["public"]["Enums"]["audit_action"]
+          entity_id: string
+          entity_type: string
+          id?: string
+          ip_address?: unknown
+          new_values?: Json | null
+          old_values?: Json | null
+          performed_at?: string
+          performed_by: string
+          user_agent?: string | null
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["audit_action"]
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          ip_address?: unknown
+          new_values?: Json | null
+          old_values?: Json | null
+          performed_at?: string
+          performed_by?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      cases: {
+        Row: {
+          appointment_id: string | null
+          assigned_to: string | null
+          case_number: string
+          closed_at: string | null
+          closed_by: string | null
+          created_at: string
+          created_by: string
+          deadline: string | null
+          description: string | null
+          id: string
+          opened_at: string | null
+          priority: Database["public"]["Enums"]["case_priority"]
+          resolution_summary: string | null
+          status: Database["public"]["Enums"]["case_status"]
+          title: string
+          updated_at: string
+          vp_notes: string | null
+        }
+        Insert: {
+          appointment_id?: string | null
+          assigned_to?: string | null
+          case_number: string
+          closed_at?: string | null
+          closed_by?: string | null
+          created_at?: string
+          created_by: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          opened_at?: string | null
+          priority?: Database["public"]["Enums"]["case_priority"]
+          resolution_summary?: string | null
+          status?: Database["public"]["Enums"]["case_status"]
+          title: string
+          updated_at?: string
+          vp_notes?: string | null
+        }
+        Update: {
+          appointment_id?: string | null
+          assigned_to?: string | null
+          case_number?: string
+          closed_at?: string | null
+          closed_by?: string | null
+          created_at?: string
+          created_by?: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          opened_at?: string | null
+          priority?: Database["public"]["Enums"]["case_priority"]
+          resolution_summary?: string | null
+          status?: Database["public"]["Enums"]["case_status"]
+          title?: string
+          updated_at?: string
+          vp_notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          address_line1: string | null
+          address_line2: string | null
+          city: string | null
+          client_type: Database["public"]["Enums"]["client_type"]
+          contact_person: string | null
+          created_at: string
+          created_by: string | null
+          district: string | null
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          notes: string | null
+          organization_name: string | null
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          client_type?: Database["public"]["Enums"]["client_type"]
+          contact_person?: string | null
+          created_at?: string
+          created_by?: string | null
+          district?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          notes?: string | null
+          organization_name?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          client_type?: Database["public"]["Enums"]["client_type"]
+          contact_person?: string | null
+          created_at?: string
+          created_by?: string | null
+          district?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          notes?: string | null
+          organization_name?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["document_entity_type"]
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          mime_type: string | null
+          uploaded_at: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          entity_id: string
+          entity_type?: Database["public"]["Enums"]["document_entity_type"]
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          entity_id?: string
+          entity_type?: Database["public"]["Enums"]["document_entity_type"]
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          link: string | null
+          message: string
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          message: string
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          message?: string
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      protocol_events: {
+        Row: {
+          appointment_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          status: Database["public"]["Enums"]["protocol_status"]
+          status_changed_at: string
+          status_changed_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          appointment_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["protocol_status"]
+          status_changed_at?: string
+          status_changed_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          appointment_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["protocol_status"]
+          status_changed_at?: string
+          status_changed_by?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "protocol_events_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reminders: {
+        Row: {
+          case_id: string
+          channel: Database["public"]["Enums"]["reminder_channel"]
+          created_at: string
+          id: string
+          is_sent: boolean
+          reminder_date: string
+          reminder_type: Database["public"]["Enums"]["reminder_type"]
+          sent_at: string | null
+        }
+        Insert: {
+          case_id: string
+          channel?: Database["public"]["Enums"]["reminder_channel"]
+          created_at?: string
+          id?: string
+          is_sent?: boolean
+          reminder_date: string
+          reminder_type: Database["public"]["Enums"]["reminder_type"]
+          sent_at?: string | null
+        }
+        Update: {
+          case_id?: string
+          channel?: Database["public"]["Enums"]["reminder_channel"]
+          created_at?: string
+          id?: string
+          is_sent?: boolean
+          reminder_date?: string
+          reminder_type?: Database["public"]["Enums"]["reminder_type"]
+          sent_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          is_active: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_protocol: { Args: { _user_id: string }; Returns: boolean }
+      is_secretary: { Args: { _user_id: string }; Returns: boolean }
+      is_vp: { Args: { _user_id: string }; Returns: boolean }
+      is_vp_or_secretary: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "vp" | "secretary" | "protocol"
+      appointment_status:
+        | "draft"
+        | "pending_vp"
+        | "approved"
+        | "rejected"
+        | "rescheduled"
+        | "cancelled"
+        | "completed"
+      appointment_visibility: "vp_secretary" | "vp_only"
+      audit_action:
+        | "create"
+        | "update"
+        | "status_change"
+        | "pdf_generate"
+        | "priority_change"
+        | "deadline_change"
+      case_priority: "high" | "medium" | "low"
+      case_status: "draft" | "open" | "in_progress" | "parked" | "closed"
+      client_type: "person" | "organization"
+      document_entity_type: "case"
+      protocol_status:
+        | "expected"
+        | "arrived"
+        | "assisted"
+        | "no_show"
+        | "completed"
+      reminder_channel: "in_app" | "email"
+      reminder_type: "upcoming_deadline" | "overdue"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +671,39 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["vp", "secretary", "protocol"],
+      appointment_status: [
+        "draft",
+        "pending_vp",
+        "approved",
+        "rejected",
+        "rescheduled",
+        "cancelled",
+        "completed",
+      ],
+      appointment_visibility: ["vp_secretary", "vp_only"],
+      audit_action: [
+        "create",
+        "update",
+        "status_change",
+        "pdf_generate",
+        "priority_change",
+        "deadline_change",
+      ],
+      case_priority: ["high", "medium", "low"],
+      case_status: ["draft", "open", "in_progress", "parked", "closed"],
+      client_type: ["person", "organization"],
+      document_entity_type: ["case"],
+      protocol_status: [
+        "expected",
+        "arrived",
+        "assisted",
+        "no_show",
+        "completed",
+      ],
+      reminder_channel: ["in_app", "email"],
+      reminder_type: ["upcoming_deadline", "overdue"],
+    },
   },
 } as const
