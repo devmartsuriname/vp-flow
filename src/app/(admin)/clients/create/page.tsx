@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardBody, Spinner } from 'react-bootstrap'
+import { Card, CardBody } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
 import { ClientForm } from '../components'
 import { useCreateClient } from '../hooks'
@@ -12,32 +11,15 @@ const CreateClientPage = () => {
   const { role, isLoading: isRoleLoading } = useUserRole()
   const createClient = useCreateClient()
 
-  // Role-based access control - redirect unauthorized users
-  useEffect(() => {
-    if (!isRoleLoading) {
-      if (isProtocol(role) || !isVPOrSecretary(role)) {
-        navigate('/dashboards', { replace: true })
-      }
-    }
-  }, [role, isRoleLoading, navigate])
-
-  // Show loading while role is being checked
-  if (isRoleLoading) {
-    return (
-      <>
-        <PageTitle subName="Clients" title="Create Client" />
-        <Card>
-          <CardBody className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-            <p className="mt-2 text-muted">Checking access...</p>
-          </CardBody>
-        </Card>
-      </>
-    )
+  // Redirect Protocol users (no access)
+  if (!isRoleLoading && isProtocol(role)) {
+    navigate('/dashboards')
+    return null
   }
 
-  // Block render for unauthorized roles
-  if (!isVPOrSecretary(role)) {
+  // Check for VP/Secretary access
+  if (!isRoleLoading && !isVPOrSecretary(role)) {
+    navigate('/dashboards')
     return null
   }
 

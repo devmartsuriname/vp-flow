@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Card, CardBody, Button, Row, Col, Spinner } from 'react-bootstrap'
+import { useState } from 'react'
+import { Card, CardBody, Button, Row, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
@@ -16,32 +16,15 @@ const ClientsPage = () => {
 
   const [clientToDelete, setClientToDelete] = useState<Client | null>(null)
 
-  // Role-based access control - redirect unauthorized users
-  useEffect(() => {
-    if (!isRoleLoading) {
-      if (isProtocol(role) || !isVPOrSecretary(role)) {
-        navigate('/dashboards', { replace: true })
-      }
-    }
-  }, [role, isRoleLoading, navigate])
-
-  // Show loading while role is being checked
-  if (isRoleLoading) {
-    return (
-      <>
-        <PageTitle subName="VP-Flow" title="Clients" />
-        <Card>
-          <CardBody className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-            <p className="mt-2 text-muted">Checking access...</p>
-          </CardBody>
-        </Card>
-      </>
-    )
+  // Redirect Protocol users (no access)
+  if (!isRoleLoading && isProtocol(role)) {
+    navigate('/dashboards')
+    return null
   }
 
-  // Block render for unauthorized roles
-  if (!isVPOrSecretary(role)) {
+  // Check for VP/Secretary access
+  if (!isRoleLoading && !isVPOrSecretary(role)) {
+    navigate('/dashboards')
     return null
   }
 

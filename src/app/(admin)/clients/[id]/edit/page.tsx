@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Card, CardBody, Spinner, Button } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
@@ -15,14 +14,17 @@ const EditClientPage = () => {
   const { data: client, isLoading, error } = useClient(id)
   const updateClient = useUpdateClient()
 
-  // Role-based access control - redirect unauthorized users
-  useEffect(() => {
-    if (!isRoleLoading) {
-      if (isProtocol(role) || !isVPOrSecretary(role)) {
-        navigate('/dashboards', { replace: true })
-      }
-    }
-  }, [role, isRoleLoading, navigate])
+  // Redirect Protocol users (no access)
+  if (!isRoleLoading && isProtocol(role)) {
+    navigate('/dashboards')
+    return null
+  }
+
+  // Check for VP/Secretary access
+  if (!isRoleLoading && !isVPOrSecretary(role)) {
+    navigate('/dashboards')
+    return null
+  }
 
   const handleSubmit = (formData: ClientFormData) => {
     if (!id) return
