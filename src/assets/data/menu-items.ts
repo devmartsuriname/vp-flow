@@ -37,6 +37,12 @@ export const MENU_ITEMS: MenuItemType[] = [
     url: '/audit-logs',
   },
   {
+    key: 'notifications',
+    label: 'Notifications',
+    icon: 'bx:bell',
+    url: '/notifications',
+  },
+  {
     key: 'auth',
     label: 'Authentication',
     icon: 'mingcute:user-3-line',
