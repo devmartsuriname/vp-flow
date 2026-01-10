@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Card, CardBody, Spinner, Button } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
@@ -16,17 +16,14 @@ const ClientDetailPage = () => {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-  // Redirect Protocol users (no access)
-  if (!isRoleLoading && isProtocol(role)) {
-    navigate('/dashboards')
-    return null
-  }
-
-  // Check for VP/Secretary access
-  if (!isRoleLoading && !isVPOrSecretary(role)) {
-    navigate('/dashboards')
-    return null
-  }
+  // Role-based access control - redirect unauthorized users
+  useEffect(() => {
+    if (!isRoleLoading) {
+      if (isProtocol(role) || !isVPOrSecretary(role)) {
+        navigate('/dashboards', { replace: true })
+      }
+    }
+  }, [role, isRoleLoading, navigate])
 
   const handleDeleteClick = () => {
     setShowDeleteModal(true)
