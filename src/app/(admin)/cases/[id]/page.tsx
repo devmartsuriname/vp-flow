@@ -4,7 +4,7 @@ import { Card, CardBody, Spinner, Button } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useCase, useUpdateCaseStatus, useCloseCase } from '../hooks'
-import { CaseDetail, CaseActions, CloseModal } from '../components'
+import { CaseDetail, CaseActions, CloseModal, CaseTimeline } from '../components'
 import { useUserRole, isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
 import { supabase } from '@/integrations/supabase/client'
 
@@ -78,6 +78,7 @@ const CaseDetailPage = () => {
         </Button>
       </div>
       <CaseDetail caseItem={caseItem} userRole={role} />
+      <CaseTimeline caseItem={caseItem} userRole={role} />
       <Card className="mt-3">
         <CardBody>
           <CaseActions
