@@ -31,6 +31,12 @@ export const MENU_ITEMS: MenuItemType[] = [
     url: '/cases',
   },
   {
+    key: 'audit-logs',
+    label: 'Audit Logs',
+    icon: 'bx:history',
+    url: '/audit-logs',
+  },
+  {
     key: 'auth',
     label: 'Authentication',
     icon: 'mingcute:user-3-line',
