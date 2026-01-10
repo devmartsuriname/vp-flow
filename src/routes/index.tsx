@@ -27,6 +27,9 @@ const AuditLogsList = lazy(() => import('@/app/(admin)/audit-logs/page'))
 // Notifications Module (all authenticated users)
 const NotificationsList = lazy(() => import('@/app/(admin)/notifications/page'))
 
+// Users Module (VP full access, Secretary limited)
+const UsersList = lazy(() => import('@/app/(admin)/users/page'))
+
 // Base UI Routes
 const Accordions = lazy(() => import('@/app/(admin)/base-ui/accordion/page'))
 const Alerts = lazy(() => import('@/app/(admin)/base-ui/alerts/page'))
@@ -386,6 +389,11 @@ const notificationsRoutes: RoutesProps[] = [
   { path: '/notifications', name: 'Notifications', element: <NotificationsList /> },
 ]
 
+// Users Routes (VP full access, Secretary limited, Protocol blocked)
+const usersRoutes: RoutesProps[] = [
+  { path: '/users', name: 'User Management', element: <UsersList /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   // ...authRoutes,
@@ -401,4 +409,5 @@ export const appRoutes = [
   ...casesRoutes,
   ...auditLogsRoutes,
   ...notificationsRoutes,
+  ...usersRoutes,
 ]
