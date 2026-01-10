@@ -43,6 +43,12 @@ export const MENU_ITEMS: MenuItemType[] = [
     url: '/notifications',
   },
   {
+    key: 'users',
+    label: 'User Management',
+    icon: 'bx:user-circle',
+    url: '/users',
+  },
+  {
     key: 'auth',
     label: 'Authentication',
     icon: 'mingcute:user-3-line',
