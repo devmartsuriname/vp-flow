@@ -3,6 +3,12 @@ import { Navigate, type RouteProps } from 'react-router-dom'
 
 const Dashboards = lazy(() => import('@/app/(admin)/dashboards/page'))
 
+// Clients Module
+const ClientsList = lazy(() => import('@/app/(admin)/clients/page'))
+const ClientDetail = lazy(() => import('@/app/(admin)/clients/[id]/page'))
+const ClientCreate = lazy(() => import('@/app/(admin)/clients/create/page'))
+const ClientEdit = lazy(() => import('@/app/(admin)/clients/[id]/edit/page'))
+
 // Base UI Routes
 const Accordions = lazy(() => import('@/app/(admin)/base-ui/accordion/page'))
 const Alerts = lazy(() => import('@/app/(admin)/base-ui/alerts/page'))
@@ -328,6 +334,14 @@ const layoutsRoutes: RoutesProps[] = [
   },
 ]
 
+// Clients Routes
+const clientsRoutes: RoutesProps[] = [
+  { path: '/clients', name: 'Clients', element: <ClientsList /> },
+  { path: '/clients/create', name: 'Create Client', element: <ClientCreate /> },
+  { path: '/clients/:id', name: 'Client Detail', element: <ClientDetail /> },
+  { path: '/clients/:id/edit', name: 'Edit Client', element: <ClientEdit /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   // ...authRoutes,
@@ -338,4 +352,5 @@ export const appRoutes = [
   ...layoutsRoutes,
   ...tableRoutes,
   ...iconRoutes,
+  ...clientsRoutes,
 ]

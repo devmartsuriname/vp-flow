@@ -8,9 +8,15 @@ export const MENU_ITEMS: MenuItemType[] = [
   },
   {
     key: 'dashboards',
-    label: 'dashboard',
+    label: 'Dashboard',
     icon: 'mingcute:home-3-line',
     url: '/dashboards',
+  },
+  {
+    key: 'clients',
+    label: 'Clients',
+    icon: 'bx:user',
+    url: '/clients',
   },
   {
     key: 'auth',
