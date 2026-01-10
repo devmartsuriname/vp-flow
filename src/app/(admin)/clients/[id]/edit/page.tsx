@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Card, CardBody, Spinner, Button } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
@@ -14,15 +15,15 @@ const EditClientPage = () => {
   const { data: client, isLoading, error } = useClient(id)
   const updateClient = useUpdateClient()
 
-  // Redirect Protocol users (no access)
-  if (!isRoleLoading && isProtocol(role)) {
-    navigate('/dashboards')
-    return null
-  }
+  // Safe redirect in useEffect (not during render)
+  useEffect(() => {
+    if (!isRoleLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
+      navigate('/dashboards', { replace: true })
+    }
+  }, [role, isRoleLoading, navigate])
 
-  // Check for VP/Secretary access
-  if (!isRoleLoading && !isVPOrSecretary(role)) {
-    navigate('/dashboards')
+  // Return null after redirect is scheduled
+  if (isProtocol(role) || !isVPOrSecretary(role)) {
     return null
   }
 
