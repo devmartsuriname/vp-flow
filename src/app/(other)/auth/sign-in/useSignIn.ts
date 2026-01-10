@@ -1,22 +1,16 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import type { AxiosResponse } from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-import { useAuthContext } from '@/context/useAuthContext'
 import { useNotificationContext } from '@/context/useNotificationContext'
-import httpClient from '@/helpers/httpClient'
-import type { UserType } from '@/types/auth'
+import { supabase } from '@/integrations/supabase/client'
 
 const useSignIn = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-
-  const { saveSession } = useAuthContext()
   const [searchParams] = useSearchParams()
-
   const { showNotification } = useNotificationContext()
 
   const loginFormSchema = yup.object({
@@ -27,8 +21,8 @@ const useSignIn = () => {
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(loginFormSchema),
     defaultValues: {
-      email: 'user@demo.com',
-      password: '123456',
+      email: '',
+      password: '',
     },
   })
 
@@ -41,21 +35,32 @@ const useSignIn = () => {
   }
 
   const login = handleSubmit(async (values: LoginFormFields) => {
+    setLoading(true)
     try {
-      const res: AxiosResponse<UserType> = await httpClient.post('/login', values)
-      if (res.data.token) {
-        saveSession({
-          ...(res.data ?? {}),
-          token: res.data.token,
-        })
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      })
+
+      if (error) {
+        // Handle specific Supabase auth errors
+        if (error.message.includes('Invalid login credentials')) {
+          showNotification({ message: 'Invalid email or password', variant: 'danger' })
+        } else if (error.message.includes('Email not confirmed')) {
+          showNotification({ message: 'Please confirm your email before signing in', variant: 'warning' })
+        } else {
+          showNotification({ message: error.message, variant: 'danger' })
+        }
+        return
+      }
+
+      if (data.session) {
+        showNotification({ message: 'Successfully logged in. Redirecting...', variant: 'success' })
         redirectUser()
-        showNotification({ message: 'Successfully logged in. Redirecting....', variant: 'success' })
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      if (e.response?.data?.error) {
-        showNotification({ message: e.response?.data?.error, variant: 'danger' })
-      }
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'An unexpected error occurred'
+      showNotification({ message: errorMessage, variant: 'danger' })
     } finally {
       setLoading(false)
     }

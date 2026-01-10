@@ -1,14 +1,17 @@
-import type { UserType } from '@/types/auth'
-import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
-import { createContext, useContext, useState, useEffect } from 'react'
+import type { User, Session } from '@supabase/supabase-js'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { ChildrenType } from '../types/component-props'
+import type { ChildrenType } from '@/types/component-props'
+import type { VPFlowRole } from '@/types/auth'
+import { supabase } from '@/integrations/supabase/client'
 
 export type AuthContextType = {
-  user: UserType | undefined
+  user: User | null
+  session: Session | null
+  role: VPFlowRole | null
   isAuthenticated: boolean
-  saveSession: (session: UserType | any) => void
-  removeSession: () => void
+  isLoading: boolean
+  signOut: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -21,109 +24,77 @@ export function useAuthContext() {
   return context
 }
 
-const authSessionKey = '_DARKONE_AUTH_KEY_'
-const localStorageKey = '_DARKONE_AUTH_FALLBACK_'
-
-// Check if cookies are accessible (may fail in iframe/editor environments)
-const isCookieAccessible = (): boolean => {
-  try {
-    const testKey = '__cookie_test__'
-    document.cookie = `${testKey}=1; path=/`
-    const result = document.cookie.indexOf(testKey) !== -1
-    document.cookie = `${testKey}=1; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/`
-    return result
-  } catch {
-    return false
-  }
-}
-
-const useCookies = isCookieAccessible()
-
 export function AuthProvider({ children }: ChildrenType) {
   const navigate = useNavigate()
+  const [user, setUser] = useState<User | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [role, setRole] = useState<VPFlowRole | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const getSession = (): AuthContextType['user'] => {
-    // Try cookies first (primary)
-    if (useCookies) {
-      const fetchedCookie = getCookie(authSessionKey)?.toString()
-      if (fetchedCookie) {
-        try {
-          return JSON.parse(fetchedCookie)
-        } catch {
-          return undefined
-        }
-      }
-    }
-    
-    // Fallback to localStorage (for iframe/editor environments)
+  // Fetch user role from user_roles table
+  const fetchUserRole = useCallback(async (userId: string) => {
     try {
-      const stored = localStorage.getItem(localStorageKey)
-      if (stored) {
-        return JSON.parse(stored)
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', userId)
+        .maybeSingle()
+
+      if (error) {
+        console.error('Error fetching user role:', error)
+        return null
       }
-    } catch {
-      return undefined
-    }
-    
-    return undefined
-  }
 
-  const checkIsAuthenticated = (): boolean => {
-    // Try cookies first (primary)
-    if (useCookies && hasCookie(authSessionKey)) {
-      return true
+      return data?.role as VPFlowRole | null
+    } catch (err) {
+      console.error('Error fetching user role:', err)
+      return null
     }
-    
-    // Fallback to localStorage
-    try {
-      return localStorage.getItem(localStorageKey) !== null
-    } catch {
-      return false
-    }
-  }
+  }, [])
 
-  const [user, setUser] = useState<UserType | undefined>(getSession())
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(checkIsAuthenticated())
-
-  // Sync auth state on mount and when user changes
   useEffect(() => {
-    setIsAuthenticated(checkIsAuthenticated())
-  }, [user])
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, currentSession) => {
+        setSession(currentSession)
+        setUser(currentSession?.user ?? null)
+        
+        // Defer role fetch to prevent deadlock
+        if (currentSession?.user) {
+          setTimeout(() => {
+            fetchUserRole(currentSession.user.id).then(setRole)
+          }, 0)
+        } else {
+          setRole(null)
+        }
+        
+        setIsLoading(false)
+      }
+    )
 
-  const saveSession = (user: UserType) => {
-    const userJson = JSON.stringify(user)
-    
-    // Save to cookies (primary)
-    if (useCookies) {
-      setCookie(authSessionKey, userJson)
-    }
-    
-    // Always save to localStorage as fallback
-    try {
-      localStorage.setItem(localStorageKey, userJson)
-    } catch {
-      // localStorage may be unavailable
-    }
-    
-    setUser(user)
-    setIsAuthenticated(true)
-  }
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session: existingSession } }) => {
+      setSession(existingSession)
+      setUser(existingSession?.user ?? null)
+      
+      if (existingSession?.user) {
+        fetchUserRole(existingSession.user.id).then(setRole)
+      }
+      
+      setIsLoading(false)
+    })
 
-  const removeSession = () => {
-    // Remove from cookies
-    if (useCookies) {
-      deleteCookie(authSessionKey)
+    return () => subscription.unsubscribe()
+  }, [fetchUserRole])
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      console.error('Sign out error:', error)
     }
-    
-    // Remove from localStorage
-    try {
-      localStorage.removeItem(localStorageKey)
-    } catch {
-      // localStorage may be unavailable
-    }
-    
-    setUser(undefined)
-    setIsAuthenticated(false)
+    setUser(null)
+    setSession(null)
+    setRole(null)
     navigate('/auth/sign-in')
   }
 
@@ -131,9 +102,11 @@ export function AuthProvider({ children }: ChildrenType) {
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated,
-        saveSession,
-        removeSession,
+        session,
+        role,
+        isAuthenticated: !!session,
+        isLoading,
+        signOut,
       }}>
       {children}
     </AuthContext.Provider>
