@@ -21,6 +21,9 @@ const CaseDetail = lazy(() => import('@/app/(admin)/cases/[id]/page'))
 const CaseCreate = lazy(() => import('@/app/(admin)/cases/create/page'))
 const CaseEdit = lazy(() => import('@/app/(admin)/cases/[id]/edit/page'))
 
+// Audit Logs Module (VP-only)
+const AuditLogsList = lazy(() => import('@/app/(admin)/audit-logs/page'))
+
 // Base UI Routes
 const Accordions = lazy(() => import('@/app/(admin)/base-ui/accordion/page'))
 const Alerts = lazy(() => import('@/app/(admin)/base-ui/alerts/page'))
@@ -370,6 +373,11 @@ const casesRoutes: RoutesProps[] = [
   { path: '/cases/:id/edit', name: 'Edit Case', element: <CaseEdit /> },
 ]
 
+// Audit Logs Routes (VP-only, page handles role enforcement)
+const auditLogsRoutes: RoutesProps[] = [
+  { path: '/audit-logs', name: 'Audit Logs', element: <AuditLogsList /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   // ...authRoutes,
@@ -383,4 +391,5 @@ export const appRoutes = [
   ...clientsRoutes,
   ...appointmentsRoutes,
   ...casesRoutes,
+  ...auditLogsRoutes,
 ]
