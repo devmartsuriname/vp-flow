@@ -25,6 +25,12 @@ export const MENU_ITEMS: MenuItemType[] = [
     url: '/appointments',
   },
   {
+    key: 'cases',
+    label: 'Cases',
+    icon: 'bx:briefcase',
+    url: '/cases',
+  },
+  {
     key: 'auth',
     label: 'Authentication',
     icon: 'mingcute:user-3-line',
