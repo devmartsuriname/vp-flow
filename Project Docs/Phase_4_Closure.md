@@ -110,7 +110,7 @@ Phase 5 requires explicit written approval from the VP Office before any tasks m
 **Status:** COMPLETE
 
 ### Branding Updates
-- Generated VP-Flow logos (dark, light, icon-only)
+- Manually designed VP-Flow logos (created outside Lovable)
 - Replaced all Darkone logos in sidebar, auth screens
 - Updated footer: "© 2026 VP-Flow. All rights reserved."
 - Updated index.html meta tags and title
@@ -129,6 +129,70 @@ Phase 5 requires explicit written approval from the VP Office before any tasks m
 
 ### Result
 VP-Flow Admin is production-ready and fully branded.
+
+---
+
+## Branding Asset Specification (2026-01-11)
+
+### Asset Inventory
+
+| Asset | File | Usage Context |
+|-------|------|---------------|
+| Logo (light content) | `src/assets/images/vpflow-logo-light.png` | Dark theme sidebar, auth screens, dark backgrounds |
+| Logo (dark content) | `src/assets/images/vpflow-logo-dark.png` | Light theme sidebar, light backgrounds |
+| Logo (icon only) | `src/assets/images/vpflow-logo-sm.png` | Collapsed sidebar (both themes) |
+| Favicon | `public/favicon.ico` | Browser tab |
+
+### Theme-to-Logo Mapping (MANDATORY)
+
+| Theme | Logo Version | Reason |
+|-------|--------------|--------|
+| **Dark Theme** | LIGHT version (`vpflow-logo-light.png`) | Light/white content visible on dark backgrounds |
+| **Light Theme** | DARK version (`vpflow-logo-dark.png`) | Dark content visible on light backgrounds |
+
+### Usage Rules (NON-NEGOTIABLE)
+
+1. **Dark Theme Context:**
+   - Use `vpflow-logo-light.png` (light-colored content) EVERYWHERE
+   - Applies to: Admin sidebar (expanded + collapsed), top navigation, auth screens, any dark-background surface
+
+2. **Light Theme Context:**
+   - Use `vpflow-logo-dark.png` (dark-colored content) EVERYWHERE
+   - Applies to: Admin sidebar (expanded + collapsed), top navigation, auth screens, any light-background surface
+
+3. **Logo Handling Constraints:**
+   - Logos must NEVER be stretched
+   - Aspect ratio must ALWAYS be preserved
+   - Sidebar logo uses a dedicated, correctly sized horizontal version
+   - Collapsed sidebar uses the icon-only variant (`vpflow-logo-sm.png`)
+   - Auth screens may use a vertical-safe composition
+   - NO CSS scaling hacks or container stretching
+
+4. **Favicon:**
+   - Current: Static `public/favicon.ico`
+   - Dynamic upload: DEFERRED to future phase
+
+### Logo Dimensions
+
+| Variant | Logical Size | Retina Size | Purpose |
+|---------|--------------|-------------|---------|
+| Horizontal (lg) | 114×28 px | 228×56 px | Expanded sidebar |
+| Icon only (sm) | 24×24 px | 48×48 px | Collapsed sidebar |
+
+### Deferred Branding Configuration
+
+The following branding functionality is **EXCLUDED** from Phase 4 and Phase 5:
+
+| Feature | Status | Target Phase |
+|---------|--------|--------------|
+| Settings → Branding Tab | DEFERRED | Future (TBD) |
+| Logo upload (Light theme) | DEFERRED | Future (TBD) |
+| Logo upload (Dark theme) | DEFERRED | Future (TBD) |
+| Favicon upload | DEFERRED | Future (TBD) |
+| Preview support (sidebar/auth) | DEFERRED | Future (TBD) |
+| Storage strategy decision | DEFERRED | Future (TBD) |
+
+**Phase Boundary:** Branding configurability is intentionally excluded from v1.0 (Phase 4/5). Current implementation uses fixed static assets only.
 
 ---
 
