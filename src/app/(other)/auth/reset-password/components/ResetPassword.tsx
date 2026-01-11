@@ -1,4 +1,4 @@
-import Logo from '@/assets/images/vpflow-logo-light.png'
+import Logo from '@/assets/images/vpflow-logo-dark.png'
 import * as yup from 'yup'
 import TextFormInput from '@/components/from/TextFormInput'
 import { yupResolver } from '@hookform/resolvers/yup'
