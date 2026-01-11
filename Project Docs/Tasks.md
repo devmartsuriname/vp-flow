@@ -129,19 +129,53 @@ This document provides a structured, phase-gated breakdown of implementation tas
 
 ---
 
-## Phase 5 — Deployment & Handover
+## Phase 5 — QA & Hardening
 
-### 5.1 Deployment Preparation
+### Phase 5A: QA & Regression Hardening
+
+- [ ] Comprehensive role-based access testing (VP/Secretary/Protocol)
+- [ ] Verify Protocol cannot access Cases or Settings
+- [ ] Verify Secretary cannot approve appointments or create cases
+- [ ] Verify closed case immutability across all entry points
+- [ ] Test all module routes with each role (positive/negative)
+- [ ] Verify audit log append-only behavior
+- [ ] Cross-browser testing (Chrome, Firefox, Safari, Edge)
+- [ ] Mobile responsiveness verification
+- [ ] Error handling and edge case coverage
+- [ ] Network error/timeout graceful degradation
+
+### Phase 5B: Controlled Consolidation
+
+- [ ] Unify role-fetching logic (`useUserRole` vs `useAuthContext().role`)
+- [ ] Consolidate duplicated `EmptyState` components into shared component
+- [ ] Consolidate `STATUS_BADGE_VARIANTS` into single source of truth
+- [ ] Standardize Protocol redirect destinations (currently inconsistent)
+- [ ] Review and clean up unused imports/exports
+- [ ] Audit module loading states for consistency
+
+### Phase 5C: Security Hardening
+
+- [ ] Decision: appointment_attendees Protocol access (Option 1 vs Option 2)
+- [ ] Implement documents UPDATE policy (when feature activated)
+- [ ] Consider notifications DELETE policy for user convenience
+- [ ] Final security scan verification (all ERRORs resolved or documented)
+- [ ] RLS policy review against Phase 1 matrix
+
+---
+
+## Phase 6 — Deployment & Handover
+
+### 6.1 Deployment Preparation
 - [ ] Production environment configuration
 - [ ] Secrets management verification
 - [ ] Database migration scripts finalized
 
-### 5.2 Documentation Handover
+### 6.2 Documentation Handover
 - [ ] User guides per role
 - [ ] Admin documentation
 - [ ] Troubleshooting guide
 
-### 5.3 Training
+### 6.3 Training
 - [ ] VP orientation
 - [ ] Secretary training
 - [ ] Protocol training
@@ -164,11 +198,11 @@ This document provides a structured, phase-gated breakdown of implementation tas
 - [x] Complete
 - [!] Blocked
 
-**Current Phase:** Pre-Phase 2 (Documentation Only)  
-**Execution Status:** NOT AUTHORIZED
+**Current Phase:** Phase 4 COMPLETE → Phase 5 READY  
+**Execution Status:** AWAITING PHASE 5 AUTHORIZATION
 
 ---
 
-**Document Version:** 1.0  
-**Created:** 2026-01-10  
+**Document Version:** 1.1  
+**Updated:** 2026-01-11  
 **Authority:** Devmart / Office of the Vice President
