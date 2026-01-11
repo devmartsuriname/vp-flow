@@ -58,9 +58,26 @@ Phase 4 encompassed UI Implementation, Security Alignment, and Testing & Refinem
 
 | Item | Reason for Deferral | Phase |
 |------|---------------------|-------|
-| Option 2 RLS enforcement | Policy decision made; technical implementation pending | 5C |
 | Documents UPDATE policy | Feature not in v1.0 UI | 5C (when activated) |
 | Notifications DELETE policy | Low-priority UX enhancement | 5C |
+
+---
+
+## Post-Closure Security Fix (2026-01-11)
+
+**Issue:** Security scan error "Attendee Contact Information Could Be Harvested"  
+**Authorization:** Limited Security Remediation (Post-Phase 4 Closure)  
+**Scope:** Database-only fix, no UI changes
+
+**Fix Implemented:**
+- Dropped Protocol direct SELECT policy on `appointment_attendees` base table
+- Created `get_protocol_attendees()` security definer function
+- Function returns only: `id`, `appointment_id`, `name`, `role`, `created_at`, `created_by`
+- Email and phone columns excluded from function return
+- VP/Secretary access unchanged (full table access retained)
+- Security scanner finding marked as IGNORED with fix documentation
+
+**Result:** Option 2 ENFORCED. Security issue RESOLVED.
 
 ---
 
