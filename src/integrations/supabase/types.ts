@@ -503,6 +503,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_protocol_attendees: {
+        Args: { p_appointment_id?: string }
+        Returns: {
+          appointment_id: string
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+          role: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

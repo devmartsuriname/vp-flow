@@ -163,7 +163,7 @@ This document provides a structured, phase-gated breakdown of implementation tas
 **Status:** NOT AUTHORIZED
 
 - [x] Decision: appointment_attendees Protocol access → **OPTION 2 ENFORCED** (2026-01-11)
-- [ ] Implement appointment_attendees Option 2 restriction (RLS VIEW or column enforcement)
+- [x] Implement appointment_attendees Option 2 restriction → **COMPLETED** (2026-01-11) — Created `get_protocol_attendees()` function, dropped Protocol direct table access
 - [ ] Implement documents UPDATE policy (when feature activated)
 - [ ] Consider notifications DELETE policy for user convenience
 - [ ] Final security scan verification (all ERRORs resolved or documented)
