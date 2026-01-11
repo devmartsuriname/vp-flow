@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DarkLogo from '@/assets/images/vpflow-logo-dark.png'
 import LightLogo from '@/assets/images/vpflow-logo-light.png'
 import TextFormInput from '@/components/from/TextFormInput'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -102,11 +101,8 @@ const SignUp = () => {
                   <CardBody className="p-5">
                     <div className="text-center">
                       <div className="mx-auto mb-4 text-center auth-logo">
-                        <Link to="/" className="logo-dark">
-                          <img src={DarkLogo} height={32} alt="VP-Flow" />
-                        </Link>
-                        <Link to="/" className="logo-light">
-                          <img src={LightLogo} height={28} alt="VP-Flow" />
+                        <Link to="/">
+                          <img src={LightLogo} height={40} alt="VP-Flow" />
                         </Link>
                       </div>
                       <h4 className="fw-bold text-dark mb-2">Create Account</h4>

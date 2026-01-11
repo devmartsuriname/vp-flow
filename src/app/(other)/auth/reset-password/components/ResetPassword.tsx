@@ -1,4 +1,3 @@
-import DarkLogo from '@/assets/images/vpflow-logo-dark.png'
 import LightLogo from '@/assets/images/vpflow-logo-light.png'
 import * as yup from 'yup'
 import TextFormInput from '@/components/from/TextFormInput'
@@ -34,11 +33,8 @@ const ResetPassword = () => {
                   <CardBody className=" p-5">
                     <div className="text-center">
                       <div className="mx-auto mb-4 text-center auth-logo">
-                        <Link to="/dashboards" className="logo-dark">
-                          <img src={DarkLogo} height={32} alt="VP-Flow" />
-                        </Link>
-                        <Link to="/dashboards" className="logo-light">
-                          <img src={LightLogo} height={28} alt="VP-Flow" />
+                        <Link to="/">
+                          <img src={LightLogo} height={40} alt="VP-Flow" />
                         </Link>
                       </div>
                       <h4 className="fw-bold text-dark mb-2">Reset Password</h4>
