@@ -49,6 +49,12 @@ export const MENU_ITEMS: MenuItemType[] = [
     url: '/users',
   },
   {
+    key: 'settings',
+    label: 'Settings',
+    icon: 'bx:cog',
+    url: '/settings',
+  },
+  {
     key: 'auth',
     label: 'Authentication',
     icon: 'mingcute:user-3-line',

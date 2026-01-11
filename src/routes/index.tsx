@@ -30,6 +30,9 @@ const NotificationsList = lazy(() => import('@/app/(admin)/notifications/page'))
 // Users Module (VP full access, Secretary limited)
 const UsersList = lazy(() => import('@/app/(admin)/users/page'))
 
+// Settings Module (VP/Secretary, Protocol redirected)
+const SettingsPage = lazy(() => import('@/app/(admin)/settings/page'))
+
 // Base UI Routes
 const Accordions = lazy(() => import('@/app/(admin)/base-ui/accordion/page'))
 const Alerts = lazy(() => import('@/app/(admin)/base-ui/alerts/page'))
@@ -394,6 +397,11 @@ const usersRoutes: RoutesProps[] = [
   { path: '/users', name: 'User Management', element: <UsersList /> },
 ]
 
+// Settings Routes (VP/Secretary, Protocol redirected)
+const settingsRoutes: RoutesProps[] = [
+  { path: '/settings', name: 'Settings', element: <SettingsPage /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   // ...authRoutes,
@@ -410,4 +418,5 @@ export const appRoutes = [
   ...auditLogsRoutes,
   ...notificationsRoutes,
   ...usersRoutes,
+  ...settingsRoutes,
 ]
