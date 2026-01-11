@@ -553,6 +553,44 @@ Protocol role access to `appointment_attendees`:
 
 ---
 
-**Document Version:** 1.2  
+## Phase 5 Validation Notes
+
+### Scan Disposition Summary (Phase 5 Ready)
+
+| Finding | Status | Action Required |
+|---------|--------|-----------------|
+| `appointment_attendees_sensitive_exposure` | FIXED | Verify `get_protocol_attendees()` function excludes email/phone |
+| `clients` table exposure | FALSE POSITIVE | No action — verified RLS blocks Protocol/anon |
+| `cases` DELETE policy missing | INTENTIONAL | No action — by design per Phase 1 §7 |
+| `audit_events` UPDATE/DELETE missing | INTENTIONAL | No action — append-only by design |
+| `reminders` write policies missing | INTENTIONAL | No action — system-managed only |
+| `notifications` INSERT/DELETE missing | INTENTIONAL | DELETE may be added in Phase 5C as UX enhancement |
+| `protocol_events` DELETE missing | INTENTIONAL | No action — historical record preserved |
+| `user_profiles` DELETE missing | INTENTIONAL | No action — deactivation model |
+| `documents` UPDATE missing | DEFERRED | Add when feature activated in UI |
+
+### Phase 5 Security Verification Checklist
+
+The following items MUST be verified during Phase 5 execution:
+
+| # | Verification | Method | Expected Result |
+|---|--------------|--------|-----------------|
+| 1 | Protocol cannot SELECT from cases | Direct API query as Protocol | Empty result / RLS error |
+| 2 | Protocol cannot retrieve email/phone from attendees | Call `get_protocol_attendees()` | Columns not in result |
+| 3 | Closed case UPDATE blocked | Attempt UPDATE on closed case | Database trigger error |
+| 4 | Audit log UPDATE blocked | Attempt UPDATE on audit_events | RLS denial |
+| 5 | Audit log DELETE blocked | Attempt DELETE on audit_events | RLS denial |
+| 6 | Only VP can approve appointments | Secretary attempts approval | Action blocked |
+| 7 | Only VP can create cases | Secretary attempts creation | Action blocked |
+| 8 | Only VP can assign roles | Secretary attempts role change | Action blocked |
+
+### No New Policies Required
+
+All RLS policies are implemented per Phase 1 Matrix. Phase 5 is validation only — no new policies to be introduced.
+
+---
+
+**Document Version:** 1.3  
 **Updated:** 2026-01-11  
+**Phase Status:** Phase 4 CLOSED, Phase 5 READY  
 **Authority:** Devmart / Office of the Vice President
