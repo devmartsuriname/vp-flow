@@ -62,7 +62,7 @@ const SettingsPage = () => {
     <>
       <PageTitle title="Settings" subName="VP-Flow" />
 
-      <Row className="g-4">
+      <Row className="g-4 mb-4">
         {/* Profile Information - All roles */}
         <Col lg={6}>
           <ProfileCard
