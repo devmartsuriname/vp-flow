@@ -1,8 +1,7 @@
 import Logo from '@/assets/images/vpflow-logo-light.png'
 import * as yup from 'yup'
-import TextFormInput from '@/components/from/TextFormInput'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { Card, CardBody, Col, Row } from 'react-bootstrap'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
@@ -44,12 +43,23 @@ const ResetPassword = () => {
                     </div>
                     <form onSubmit={handleSubmit(() => {})} className="mt-4">
                       <div className="mb-3">
-                        <TextFormInput
-                          control={control}
+                        <label className="form-label">Email</label>
+                        <Controller
                           name="email"
-                          placeholder="Enter your email"
-                          className="bg-light bg-opacity-50 border-light py-2"
-                          label="Email"
+                          control={control}
+                          render={({ field, fieldState: { error } }) => (
+                            <>
+                              <input
+                                {...field}
+                                type="email"
+                                placeholder="Enter your email"
+                                className={`form-control bg-light bg-opacity-50 border-light py-2 ${error ? 'is-invalid' : ''}`}
+                              />
+                              {error && (
+                                <div className="invalid-feedback">{error.message}</div>
+                              )}
+                            </>
+                          )}
                         />
                       </div>
                       <div className="d-grid">
