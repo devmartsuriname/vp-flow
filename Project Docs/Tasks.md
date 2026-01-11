@@ -131,7 +131,12 @@ This document provides a structured, phase-gated breakdown of implementation tas
 
 ## Phase 5 — QA & Hardening
 
+**AUTHORIZATION STATUS:** NOT AUTHORIZED — AWAITING VP OFFICE APPROVAL
+
+> **Gate Requirement:** Explicit written authorization required before executing any Phase 5 tasks.
+
 ### Phase 5A: QA & Regression Hardening
+**Status:** NOT AUTHORIZED
 
 - [ ] Comprehensive role-based access testing (VP/Secretary/Protocol)
 - [ ] Verify Protocol cannot access Cases or Settings
@@ -145,6 +150,7 @@ This document provides a structured, phase-gated breakdown of implementation tas
 - [ ] Network error/timeout graceful degradation
 
 ### Phase 5B: Controlled Consolidation
+**Status:** NOT AUTHORIZED
 
 - [ ] Unify role-fetching logic (`useUserRole` vs `useAuthContext().role`)
 - [ ] Consolidate duplicated `EmptyState` components into shared component
@@ -154,8 +160,10 @@ This document provides a structured, phase-gated breakdown of implementation tas
 - [ ] Audit module loading states for consistency
 
 ### Phase 5C: Security Hardening
+**Status:** NOT AUTHORIZED
 
-- [ ] Decision: appointment_attendees Protocol access (Option 1 vs Option 2)
+- [x] Decision: appointment_attendees Protocol access → **OPTION 2 ENFORCED** (2026-01-11)
+- [ ] Implement appointment_attendees Option 2 restriction (RLS VIEW or column enforcement)
 - [ ] Implement documents UPDATE policy (when feature activated)
 - [ ] Consider notifications DELETE policy for user convenience
 - [ ] Final security scan verification (all ERRORs resolved or documented)
@@ -198,8 +206,8 @@ This document provides a structured, phase-gated breakdown of implementation tas
 - [x] Complete
 - [!] Blocked
 
-**Current Phase:** Phase 4 COMPLETE → Phase 5 READY  
-**Execution Status:** AWAITING PHASE 5 AUTHORIZATION
+**Current Phase:** Phase 4 COMPLETE  
+**Execution Status:** Phase 5 NOT AUTHORIZED — AWAITING VP OFFICE APPROVAL
 
 ---
 
