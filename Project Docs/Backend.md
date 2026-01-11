@@ -151,6 +151,38 @@ VP-Flow uses **Lovable Cloud** (Supabase) as its backend infrastructure.
 
 ---
 
+## Branding Storage (DEFERRED)
+
+### Current State
+Branding assets (logos, favicon) are stored as **static files** in the codebase:
+- Logos: `src/assets/images/vpflow-logo-*.png`
+- Favicon: `public/favicon.ico`
+
+### Future Configuration (NOT IN SCOPE for Phase 4/5)
+
+When branding configuration is implemented in a future phase, storage options include:
+
+| Option | Approach | Trade-offs |
+|--------|----------|------------|
+| Option A | Static assets (current) | Requires rebuild; simple; no runtime config |
+| Option B | Supabase Storage bucket | Dynamic; no rebuild; requires storage policies |
+
+### Potential Bucket Design (Future)
+
+| Bucket | Purpose | Access |
+|--------|---------|--------|
+| `branding` or `system-assets` | Custom logos, favicon | Public read (no auth for logos), VP upload only |
+
+### Deferred Features
+
+- Logo upload (Light/Dark theme)
+- Favicon upload
+- Branding preview (sidebar, auth screen)
+
+**Phase Boundary:** Branding storage is explicitly OUT OF SCOPE for Phase 4 and Phase 5.
+
+---
+
 ## Integration Points
 
 ### Google Calendar (Optional)

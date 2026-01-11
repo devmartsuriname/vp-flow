@@ -389,6 +389,12 @@ Authentication
 **Required:** Explicit written authorization from VP Office to begin Phase 5 QA & Hardening  
 **Reference:** See `/Project Docs/Phase_4_Closure.md` for formal closure statement
 
+### Deferred Items Beyond Phase 5
+
+| Item | Description | Target Phase |
+|------|-------------|--------------|
+| Branding Configuration | Settings → Branding tab with logo upload (Light/Dark), favicon upload, preview support | Future (TBD) |
+
 ---
 
 ## 8. References

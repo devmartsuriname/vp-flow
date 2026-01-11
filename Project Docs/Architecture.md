@@ -188,6 +188,48 @@ VP-Flow is the **System of Record** for the Office of the Vice President, managi
 
 ---
 
+## Branding & Visual Identity
+
+### Current State (v1.0)
+
+VP-Flow branding is implemented as **fixed static assets**, manually designed outside Lovable.
+
+### Asset Locations
+
+| Asset | Path | Context |
+|-------|------|---------|
+| Logo (light content) | `src/assets/images/vpflow-logo-light.png` | Dark theme, auth screens |
+| Logo (dark content) | `src/assets/images/vpflow-logo-dark.png` | Light theme |
+| Logo (icon only) | `src/assets/images/vpflow-logo-sm.png` | Collapsed sidebar |
+| Favicon | `public/favicon.ico` | Browser tab |
+
+### Theme Mapping Rule
+
+| Theme | Logo Version |
+|-------|--------------|
+| Dark Theme | LIGHT version (white/light content) |
+| Light Theme | DARK version (dark content) |
+
+### Branding Constraints
+
+- Logos are fixed assets, not user-configurable in v1.0
+- Aspect ratio must always be preserved
+- No CSS scaling hacks or container stretching permitted
+- Theme auto-selection handled by UI components
+
+### Dynamic Configuration (DEFERRED)
+
+The following features are **NOT IN SCOPE** for Phase 4/5:
+
+- Settings → Branding tab
+- Logo upload functionality
+- Favicon upload functionality
+- Runtime branding customization
+
+**Target:** Dedicated future phase beyond v1.0
+
+---
+
 ## Module Dependency
 
 ```
