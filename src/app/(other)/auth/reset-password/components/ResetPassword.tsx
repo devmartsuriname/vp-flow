@@ -1,5 +1,5 @@
-import DarkLogo from '@/assets/images/logo-dark.png'
-import LightLogo from '@/assets/images/logo-light.png'
+import DarkLogo from '@/assets/images/vpflow-logo-dark.png'
+import LightLogo from '@/assets/images/vpflow-logo-light.png'
 import * as yup from 'yup'
 import TextFormInput from '@/components/from/TextFormInput'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -35,10 +35,10 @@ const ResetPassword = () => {
                     <div className="text-center">
                       <div className="mx-auto mb-4 text-center auth-logo">
                         <Link to="/dashboards" className="logo-dark">
-                          <img src={DarkLogo} height={32} alt="logo dark" />
+                          <img src={DarkLogo} height={32} alt="VP-Flow" />
                         </Link>
                         <Link to="/dashboards" className="logo-light">
-                          <img src={LightLogo} height={28} alt="logo light" />
+                          <img src={LightLogo} height={28} alt="VP-Flow" />
                         </Link>
                       </div>
                       <h4 className="fw-bold text-dark mb-2">Reset Password</h4>
