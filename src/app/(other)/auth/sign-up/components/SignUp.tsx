@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Logo from '@/assets/images/vpflow-logo-dark.png'
+import Logo from '@/assets/images/vpflow-logo-light.png'
 import TextFormInput from '@/components/from/TextFormInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
