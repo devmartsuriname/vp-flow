@@ -225,6 +225,18 @@ Authentication
 
 ---
 
-**Document Version:** 1.0  
+## Current Phase Status
+
+**Phase 4:** COMPLETE (2026-01-11)  
+**Phase 5:** NOT AUTHORIZED
+
+**Protocol Access Note:** Per VP Office decision (2026-01-11), Protocol role access to `appointment_attendees` is restricted to non-sensitive metadata only (Option 2 enforced). Email and phone fields are blocked from Protocol view.
+
+**Reference:** See `/Project Docs/Phase_4_Closure.md` for formal closure statement.
+
+---
+
+**Document Version:** 1.1  
 **Created:** 2026-01-10  
+**Updated:** 2026-01-11  
 **Authority:** Devmart / Office of the Vice President

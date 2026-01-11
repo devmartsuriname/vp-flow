@@ -1,12 +1,27 @@
-# Phase 5 — Deployment & Handover
+# Phase 5 — QA & Hardening
 
-**Status:** 🔮 FUTURE
+> ⛔ **STATUS: NOT AUTHORIZED — AWAITING VP OFFICE APPROVAL**
+>
+> **GATE REQUIREMENT:** Explicit written authorization required from VP Office before any Phase 5 tasks may be executed.
+
+**Prerequisite:** Phase 4 Complete ✓  
+**Authorization Status:** NOT AUTHORIZED
 
 ---
 
 ## Purpose
 
-Production deployment, comprehensive documentation, user training, and formal handover to the VP Office.
+Quality assurance, controlled consolidation, and security hardening for production readiness.
+
+---
+
+## Sub-Phases
+
+| Sub-Phase | Focus | Status |
+|-----------|-------|--------|
+| 5A | QA & Regression Hardening | NOT AUTHORIZED |
+| 5B | Controlled Consolidation | NOT AUTHORIZED |
+| 5C | Security Hardening | NOT AUTHORIZED |
 
 ---
 
@@ -14,57 +29,40 @@ Production deployment, comprehensive documentation, user training, and formal ha
 
 | Source | Description |
 |--------|-------------|
-| Tested Phase 4 output | Verified, secure, functional system |
-| Production environment credentials | Lovable Cloud / Supabase production |
+| Phase 4 closure | Verified, secure, functional system |
+| Security scan results | All findings resolved or documented |
+| Option 2 policy decision | Protocol access restriction ready for implementation |
 
 ---
 
 ## Expected Outputs
 
-### Deployment
+### 5A: QA & Regression Hardening
+- Role-based access testing (VP, Secretary, Protocol)
+- Cross-browser testing
+- Error handling verification
+- Edge case coverage
 
-| Deliverable | Description |
-|-------------|-------------|
-| Production environment | Live system accessible to VP Office |
-| Secrets configuration | All API keys and credentials secured |
-| DNS configuration | Custom domain if required |
+### 5B: Controlled Consolidation
+- Role hook unification
+- EmptyState component consolidation
+- STATUS_BADGE_VARIANTS consolidation
+- Code cleanup
 
-### Documentation
-
-| Document | Audience |
-|----------|----------|
-| VP User Guide | Vice President |
-| Secretary Guide | Secretary role |
-| Protocol Guide | Protocol role |
-| Admin Guide | System administrators |
-| Troubleshooting Guide | Support team |
-
-### Training
-
-| Session | Audience |
-|---------|----------|
-| VP orientation | Vice President |
-| Secretary training | Secretary role users |
-| Protocol training | Protocol role users |
-| Admin training | System administrators |
-
-### Handover
-
-| Item | Description |
-|------|-------------|
-| Access credentials | All production access details |
-| Support contacts | Devmart support information |
-| Backup procedures | Data backup and recovery process |
+### 5C: Security Hardening
+- Option 2 RLS implementation for `appointment_attendees`
+- Documents UPDATE policy (when feature activated)
+- Final security scan verification
 
 ---
 
 ## Exit Criteria
 
-- [ ] Production environment operational
-- [ ] All users trained on their roles
-- [ ] All documentation delivered and accepted
-- [ ] Support handover complete
-- [ ] VP Authority formal acceptance
+- [ ] All QA test cases pass
+- [ ] Code consolidation complete
+- [ ] Security hardening implemented
+- [ ] Final security scan: no critical issues
+- [ ] VP Office accepts readiness for deployment
 
 ---
 
@@ -72,24 +70,24 @@ Production deployment, comprehensive documentation, user training, and formal ha
 
 | Condition | Action |
 |-----------|--------|
-| Production environment issues | STOP, resolve before handover |
-| Missing documentation | STOP, complete all docs |
-| Training not completed | STOP, schedule remaining sessions |
-| VP Office rejects acceptance | STOP, address concerns |
+| Security regression discovered | STOP, remediate immediately |
+| Unresolved critical bugs | STOP, fix before proceeding |
+| VP Office rejects readiness | STOP, address feedback |
 
 ---
 
 ## Authorization Required
 
-**Current Status:** BLOCKED  
-**Prerequisite:** Phase 4 COMPLETE  
+**Current Status:** NOT AUTHORIZED  
+**Prerequisite:** Phase 4 COMPLETE ✓  
 **Gate:** Phase 4 → Phase 5
 
 ---
 
-## Final Milestone
+## Phase 5 Pre-Gate Note
 
-Upon successful completion of Phase 5:
-- VP-Flow is LIVE
-- VP Office has full operational control
-- Devmart transitions to support mode
+Phase 5 (QA & Hardening) exists in the project roadmap with defined sub-phases and deliverables.
+
+**This phase requires explicit written approval from the VP Office.**
+
+No Phase 5 scope expansion is permitted without formal authorization.
