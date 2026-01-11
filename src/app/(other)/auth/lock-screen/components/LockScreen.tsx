@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import Logo from '@/assets/images/vpflow-logo-light.png'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
-import TextFormInput from '@/components/from/TextFormInput'
 import { Card, CardBody, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
@@ -44,14 +43,23 @@ const LockScreen = () => {
                     </div>
                     <form onSubmit={handleSubmit(() => {})} className="mt-4">
                       <div className="mb-3">
-                        <label className="form-label" htmlFor="example-password">
-                          Password
-                        </label>
-                        <TextFormInput
-                          control={control}
+                        <label className="form-label">Password</label>
+                        <Controller
                           name="password"
-                          placeholder="Enter your password"
-                          className="bg-light bg-opacity-50 border-light py-2"
+                          control={control}
+                          render={({ field, fieldState: { error } }) => (
+                            <>
+                              <input
+                                {...field}
+                                type="password"
+                                placeholder="Enter your password"
+                                className={`form-control bg-light bg-opacity-50 border-light py-2 ${error ? 'is-invalid' : ''}`}
+                              />
+                              {error && (
+                                <div className="invalid-feedback">{error.message}</div>
+                              )}
+                            </>
+                          )}
                         />
                       </div>
                       <div className="mb-3">

@@ -1,8 +1,8 @@
 import Logo from '@/assets/images/vpflow-logo-light.png'
-import TextFormInput from '@/components/from/TextFormInput'
 import { useEffect } from 'react'
 import { Card, CardBody, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { Controller } from 'react-hook-form'
 import useSignIn from '../useSignIn'
 
 const SignIn = () => {
@@ -34,24 +34,46 @@ const SignIn = () => {
                   </div>
                   <form onSubmit={login} className="mt-4">
                     <div className="mb-3">
-                      <TextFormInput 
-                        control={control} 
-                        name="email" 
-                        placeholder="Enter your email" 
-                        className="form-control" 
-                        label="Email Address" 
+                      <label className="form-label">Email Address</label>
+                      <Controller
+                        name="email"
+                        control={control}
+                        render={({ field, fieldState: { error } }) => (
+                          <>
+                            <input
+                              {...field}
+                              type="email"
+                              placeholder="Enter your email"
+                              className={`form-control ${error ? 'is-invalid' : ''}`}
+                            />
+                            {error && (
+                              <div className="invalid-feedback">{error.message}</div>
+                            )}
+                          </>
+                        )}
                       />
                     </div>
                     <div className="mb-3">
                       <Link to="/auth/reset-password" className="float-end text-muted ms-1">
                         Forgot password?
                       </Link>
-                      <TextFormInput 
-                        control={control} 
-                        name="password" 
-                        placeholder="Enter your password" 
-                        className="form-control" 
-                        label="Password" 
+                      <label className="form-label">Password</label>
+                      <Controller
+                        name="password"
+                        control={control}
+                        render={({ field, fieldState: { error } }) => (
+                          <>
+                            <input
+                              {...field}
+                              type="password"
+                              placeholder="Enter your password"
+                              className={`form-control ${error ? 'is-invalid' : ''}`}
+                            />
+                            {error && (
+                              <div className="invalid-feedback">{error.message}</div>
+                            )}
+                          </>
+                        )}
                       />
                     </div>
 

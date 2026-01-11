@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import Logo from '@/assets/images/vpflow-logo-light.png'
-import TextFormInput from '@/components/from/TextFormInput'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { Card, CardBody, Col, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -59,7 +58,6 @@ const SignUp = () => {
       })
 
       if (error) {
-        // Handle specific Supabase auth errors
         if (error.message.includes('User already registered')) {
           showNotification({ message: 'An account with this email already exists', variant: 'danger' })
         } else {
@@ -70,11 +68,9 @@ const SignUp = () => {
 
       if (data.user) {
         if (data.session) {
-          // User was created and logged in (email confirmation disabled)
           showNotification({ message: 'Account created successfully! Redirecting...', variant: 'success' })
           navigate('/')
         } else {
-          // Email confirmation is enabled
           showNotification({ 
             message: 'Account created! Please check your email to confirm your account.', 
             variant: 'success' 
@@ -110,30 +106,63 @@ const SignUp = () => {
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
                       <div className="mb-3">
-                        <TextFormInput 
-                          control={control} 
-                          name="fullName" 
-                          placeholder="Enter your full name" 
-                          className="form-control" 
-                          label="Full Name" 
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <TextFormInput 
-                          control={control} 
-                          name="email" 
-                          placeholder="Enter your email" 
-                          className="form-control" 
-                          label="Email Address" 
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <TextFormInput
+                        <label className="form-label">Full Name</label>
+                        <Controller
+                          name="fullName"
                           control={control}
+                          render={({ field, fieldState: { error } }) => (
+                            <>
+                              <input
+                                {...field}
+                                type="text"
+                                placeholder="Enter your full name"
+                                className={`form-control ${error ? 'is-invalid' : ''}`}
+                              />
+                              {error && (
+                                <div className="invalid-feedback">{error.message}</div>
+                              )}
+                            </>
+                          )}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Email Address</label>
+                        <Controller
+                          name="email"
+                          control={control}
+                          render={({ field, fieldState: { error } }) => (
+                            <>
+                              <input
+                                {...field}
+                                type="email"
+                                placeholder="Enter your email"
+                                className={`form-control ${error ? 'is-invalid' : ''}`}
+                              />
+                              {error && (
+                                <div className="invalid-feedback">{error.message}</div>
+                              )}
+                            </>
+                          )}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Password</label>
+                        <Controller
                           name="password"
-                          placeholder="Enter your password"
-                          className="form-control"
-                          label="Password"
+                          control={control}
+                          render={({ field, fieldState: { error } }) => (
+                            <>
+                              <input
+                                {...field}
+                                type="password"
+                                placeholder="Enter your password"
+                                className={`form-control ${error ? 'is-invalid' : ''}`}
+                              />
+                              {error && (
+                                <div className="invalid-feedback">{error.message}</div>
+                              )}
+                            </>
+                          )}
                         />
                       </div>
                       <div className="mb-3">
