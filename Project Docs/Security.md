@@ -346,7 +346,7 @@ Maintain an immutable record of all significant actions for:
 
 | ID | Table | Finding | Disposition | Rationale |
 |----|-------|---------|-------------|-----------|
-| EXPOSED_SENSITIVE_DATA | `appointment_attendees` | "Meeting Attendee Contact Information Could Be Stolen" | **ACCEPT (Intentional)** | Per Phase 1 RLS Matrix §6: Protocol can read attendees for approved appointments (names only in display). The scanner cannot distinguish that RLS restricts to `is_protocol() AND status='approved'`. Email/phone exposure is intentional for day-of execution coordination. |
+| EXPOSED_SENSITIVE_DATA | `appointment_attendees` | "Meeting Attendee Contact Information Could Be Stolen" | **FIXED BY POLICY DECISION (OPTION 2)** | Per VP Office Decision 2026-01-11: Protocol access restricted to non-sensitive metadata only (name, role). Email/phone blocked. RLS update required. |
 | EXPOSED_SENSITIVE_DATA | `clients` | "Client Personal and Business Data Could Be Exposed" | **FALSE POSITIVE** | RLS is ENABLED. SELECT policy: `is_vp_or_secretary(auth.uid())`. Protocol and anon have NO access. No `USING(true)` policy exists. Scanner misidentified due to heuristic check. |
 
 ### WARNING Findings
@@ -369,24 +369,32 @@ Maintain an immutable record of all significant actions for:
 
 ### High-Risk Item Analysis
 
-#### A) `appointment_attendees` Protocol Access (DECISION REQUIRED)
+#### A) `appointment_attendees` Protocol Access — OPTION 2 ENFORCED
 
-The scanner flagged that Protocol can access attendee email/phone for approved appointments.
+**Decision Owner:** VP Office  
+**Decision Date:** 2026-01-11  
+**Status:** DECIDED (FINAL)
 
-**Current Behavior:** Protocol CAN read all attendee fields (name, email, phone, role) for approved appointments.
+**Binding Policy:** OPTION 2 — PROTOCOL LIMITED VIEW
 
-**Option 1: KEEP CURRENT (Recommended)**
-- **Policy:** Protocol reads full attendee data for approved appointments
-- **Justification:** Day-of execution requires Protocol to contact attendees (phone for delays, email for confirmations)
-- **Phase 1 Reference:** §6 states "Protocol sees names only" but current implementation includes contact details for operational necessity
-- **Risk:** Low. Protocol access is already scoped to approved appointments only
+Protocol role access to `appointment_attendees`:
+- **CAN see:** `id`, `appointment_id`, `name`, `role`, `created_at`
+- **CANNOT see:** `email`, `phone`
 
-**Option 2: RESTRICT CONTACT DETAILS**
-- **Policy:** Protocol sees only `name` and `role`; email/phone hidden
-- **Impact:** Protocol cannot directly contact attendees for day-of coordination
-- **Workaround:** Protocol must request contact info from Secretary for each call
+**Operational Context (documentation only, not system behavior):**
+- Physical check-in happens at the front desk (balie)
+- Protocol prepares based on appointment visibility only
+- No confirmation or status changes occur in VP-Flow
+- Contact with attendees is managed offline by Secretary/VP
 
-**Selected Disposition:** AWAIT USER DECISION
+**Rationale:**
+- Cabinet-level privacy requirement
+- Least-privilege principle for Protocol role
+- Protocol = viewer only, not coordinator
+
+**Implementation Required:**
+- Database: Restrict Protocol access to non-sensitive columns only
+- UI: Ensure attendee cards do not display email/phone to Protocol
 
 #### B) `clients` Table (FALSE POSITIVE - VERIFIED)
 
@@ -401,26 +409,139 @@ The scanner flagged that Protocol can access attendee email/phone for approved a
 
 ---
 
-## Scan Verification Evidence
+---
 
-```sql
--- Verified RLS policies (2026-01-11)
+## Appendix A: Security Scan Evidence (Audit-Grade)
 
--- clients table (VP/Secretary only, NO anon/protocol)
-Policy: "VP/Secretary can view clients" 
-  qual: is_vp_or_secretary(auth.uid())
+### A.1 `clients` Table — FALSE POSITIVE
 
--- appointment_attendees (Protocol for approved only)
-Policy: "Protocol can view attendees for approved"
-  qual: is_protocol(auth.uid()) AND EXISTS(
-    SELECT 1 FROM appointments a 
-    WHERE a.id = appointment_attendees.appointment_id 
-    AND a.status = 'approved'
-  )
-```
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "Client Personal and Business Data Could Be Exposed" |
+| **Severity** | ERROR |
+| **Table** | `public.clients` |
+| **RLS Enabled** | ✓ YES (verified: `rowsecurity = true`) |
+| **Policies Governing SELECT** | `VP/Secretary can view clients` |
+| **Policy Logic** | `USING (public.is_vp_or_secretary(auth.uid()))` |
+| **VP Access** | ✓ SELECT allowed |
+| **Secretary Access** | ✓ SELECT allowed |
+| **Protocol Access** | ✗ BLOCKED (no matching policy) |
+| **Anon Access** | ✗ BLOCKED (RLS enabled, no anon grant, no `USING(true)`) |
+| **Conclusion** | Scanner false positive. RLS correctly restricts to VP/Secretary. |
+
+### A.2 `appointment_attendees` Table — FIXED BY OPTION 2
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "Meeting Attendee Contact Information Could Be Stolen" |
+| **Severity** | ERROR |
+| **Table** | `public.appointment_attendees` |
+| **RLS Enabled** | ✓ YES |
+| **Current Protocol Policy** | `Protocol can view attendees for approved` |
+| **Current Policy Logic** | `is_protocol(auth.uid()) AND appointment.status = 'approved'` |
+| **Columns Currently Exposed** | `id`, `appointment_id`, `name`, `role`, `email`, `phone`, `created_at`, `created_by` |
+| **Decision** | OPTION 2 — Restrict email/phone from Protocol |
+| **Required Fix** | Create restricted VIEW or column-level RLS enforcement |
+| **Post-Fix Protocol Access** | `id`, `appointment_id`, `name`, `role`, `created_at` only |
+| **Post-Fix Email/Phone** | ✗ BLOCKED |
+| **Conclusion** | FIXED by VP Office policy decision 2026-01-11. Implementation pending Phase 5C. |
+
+### A.3 `cases` Table — ACCEPTED (Phase 1 Compliant)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "No DELETE policy" |
+| **Severity** | WARN |
+| **Table** | `public.cases` |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `VP/Secretary can view cases` |
+| **DELETE Policy** | None (intentional) |
+| **Protocol Access** | ✗ BLOCKED (no SELECT, INSERT, UPDATE, DELETE) |
+| **Design Rationale** | Per Phase 1 §7: Cases cannot be deleted. Closed cases are immutable. |
+| **Conclusion** | ACCEPTED. Absence of DELETE is a security feature. |
+
+### A.4 `audit_events` Table — ACCEPTED (Phase 1 Compliant)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "No UPDATE/DELETE policies" |
+| **Severity** | WARN |
+| **Table** | `public.audit_events` |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `VP can view audit events` |
+| **Policies Governing INSERT** | `VP/Secretary can insert audit events` |
+| **UPDATE Policy** | None (intentional) |
+| **DELETE Policy** | None (intentional) |
+| **Design Rationale** | Per Phase 1 §12: Audit logs are immutable (append-only). |
+| **Conclusion** | ACCEPTED. Missing UPDATE/DELETE is a critical security feature. |
+
+### A.5 `reminders` Table — ACCEPTED (Phase 1 Compliant)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "No INSERT/UPDATE/DELETE policies" |
+| **Severity** | WARN |
+| **Table** | `public.reminders` |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `VP/Secretary can view reminders` |
+| **INSERT/UPDATE/DELETE** | None (intentional) |
+| **Design Rationale** | Per Phase 1 §8: Reminders are system-managed via service role. |
+| **Conclusion** | ACCEPTED. User write access is intentionally blocked. |
+
+### A.6 `notifications` Table — ACCEPTED (Phase 1 Compliant)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "No INSERT/DELETE policies" |
+| **Severity** | WARN |
+| **Table** | `public.notifications` |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `Users can view own notifications` |
+| **Policies Governing UPDATE** | `Users can update own notifications` |
+| **INSERT/DELETE** | None (intentional) |
+| **Design Rationale** | Per Phase 1 §11: Notifications are system-created. |
+| **DELETE Note** | DEFERRED as low-priority UX enhancement |
+| **Conclusion** | ACCEPTED. User INSERT/DELETE intentionally blocked. |
+
+### A.7 `protocol_events` Table — ACCEPTED (Phase 1 Compliant)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "No DELETE policy" |
+| **Severity** | WARN |
+| **Table** | `public.protocol_events` |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | Protocol OR VP/Secretary |
+| **DELETE Policy** | None (intentional) |
+| **Design Rationale** | Per Phase 1 §9: Historical record preserved for audit trail. |
+| **Conclusion** | ACCEPTED. DELETE blocked to preserve execution history. |
+
+### A.8 `user_profiles` Table — ACCEPTED (Phase 1 Compliant)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "No DELETE policy" |
+| **Severity** | INFO |
+| **Table** | `public.user_profiles` |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | VP/Secretary: all; Others: own only |
+| **DELETE Policy** | None (intentional) |
+| **Design Rationale** | Per Phase 1 §3: Profiles deactivated, never deleted. |
+| **Conclusion** | ACCEPTED. Missing DELETE policy is intentional. |
+
+### A.9 `documents` Table — DEFERRED
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "No UPDATE policy" |
+| **Severity** | WARN |
+| **Table** | `public.documents` |
+| **v1.0 UI Status** | Feature NOT implemented |
+| **Disposition** | DEFERRED until feature activated |
+| **Proposed Fix** | `CREATE POLICY "VP/Secretary can update documents" ON documents FOR UPDATE USING (is_vp_or_secretary(auth.uid()))` |
 
 ---
 
-**Document Version:** 1.1  
+**Document Version:** 1.2  
 **Updated:** 2026-01-11  
 **Authority:** Devmart / Office of the Vice President
