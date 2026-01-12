@@ -11,7 +11,7 @@ import { isVPOrSecretary } from '@/hooks/useUserRole'
 const AppointmentsPage = () => {
   const navigate = useNavigate()
   const { role, isLoading: authLoading } = useAuthContext()
-  const { data: appointments = [], isLoading, error } = useAppointments()
+  const { data: appointments = [], isLoading, error } = useAppointments(role)
 
   useEffect(() => {
     if (!authLoading && !role) {

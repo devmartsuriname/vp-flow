@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 import type { AppointmentWithClient } from '../types'
-import { useUserRole, isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
+import type { VPFlowRole } from '@/types/auth'
+import { isSecretary, isProtocol } from '@/hooks/useUserRole'
 
-export function useAppointments() {
-  const { role } = useUserRole()
+export function useAppointments(role: VPFlowRole | null) {
 
   return useQuery<AppointmentWithClient[], Error>({
     queryKey: ['appointments', role],

@@ -19,7 +19,7 @@ export default function AuditLogsPage() {
   const navigate = useNavigate()
   const { role, isLoading: authLoading } = useAuthContext()
   const [filters, setFilters] = useState<AuditLogFilters>(INITIAL_FILTERS)
-  const { data: events = [], isLoading: eventsLoading } = useAuditLogs(filters)
+  const { data: events = [], isLoading: eventsLoading } = useAuditLogs(role, filters)
 
   // VP-only access: redirect others
   useEffect(() => {

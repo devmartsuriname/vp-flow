@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 import type { AuditEventWithActor, AuditLogFilters, AuditAction, AuditEvent } from '../types'
-import { useUserRole, isVP } from '@/hooks/useUserRole'
+import type { VPFlowRole } from '@/types/auth'
+import { isVP } from '@/hooks/useUserRole'
 
-export function useAuditLogs(filters?: AuditLogFilters) {
-  const { role } = useUserRole()
+export function useAuditLogs(role: VPFlowRole | null, filters?: AuditLogFilters) {
 
   return useQuery<AuditEventWithActor[], Error>({
     queryKey: ['audit-logs', filters, role],
