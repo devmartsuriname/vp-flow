@@ -230,6 +230,17 @@ The following features are **NOT IN SCOPE** for Phase 4/5:
 
 ---
 
+## Operational Constraints
+
+| Constraint | Limit | Notes |
+|------------|-------|-------|
+| Storage per bucket | 1 GB default | Supabase tier dependent |
+| Audit payload size | 10 KB max | Per event |
+| Attachment file size | 10 MB max | Per file |
+| Notification retention | 90 days | Auto-cleanup (future) |
+
+---
+
 ## Module Dependency
 
 ```
@@ -270,7 +281,7 @@ Authentication
 ## Current Phase Status
 
 **Phase 4:** COMPLETE (2026-01-11)  
-**Phase 5:** NOT AUTHORIZED
+**Phase 5:** ✅ COMPLETE (2026-01-12)
 
 **Protocol Access Note:** Per VP Office decision (2026-01-11), Protocol role access to `appointment_attendees` is restricted to non-sensitive metadata only (Option 2 enforced). Email and phone fields are blocked from Protocol view.
 

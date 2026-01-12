@@ -17,7 +17,7 @@ This document outlines the conceptual backend structure for VP-Flow. It describe
 
 ## Backend Platform
 
-VP-Flow uses **Lovable Cloud** (Supabase) as its backend infrastructure.
+VP-Flow uses **Supabase** as its backend infrastructure.
 
 ### Core Services
 
@@ -47,6 +47,17 @@ VP-Flow uses **Lovable Cloud** (Supabase) as its backend infrastructure.
 - Automatic session refresh
 - Secure logout (token invalidation)
 - Role checked on each protected route
+
+---
+
+## Session and Security Policies
+
+| Policy | Value | Enforcement |
+|--------|-------|-------------|
+| Session Timeout | 24 hours (configurable) | Supabase Auth |
+| Password Policy | Min 8 chars, complexity TBD | Supabase Auth |
+| Notification Retention | 90 days | Database cleanup job (future) |
+| Audit Log Retention | Permanent (append-only) | No deletion permitted |
 
 ```
 ┌─────────────────────────────────────────────────────┐
