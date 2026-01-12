@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardBody, CardHeader, CardTitle } from 'react-bootstrap'
+import { Card, CardBody, CardHeader, CardTitle, Spinner } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
 import { useUserRole, isVP } from '@/hooks/useUserRole'
 import { useAuditLogs } from './hooks'
@@ -39,9 +39,9 @@ export default function AuditLogsPage() {
   if (roleLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
-        <div className="spinner-border text-primary" role="status">
+        <Spinner animation="border" variant="primary" role="status">
           <span className="visually-hidden">Loading...</span>
-        </div>
+        </Spinner>
       </div>
     )
   }

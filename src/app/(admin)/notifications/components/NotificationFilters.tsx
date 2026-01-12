@@ -1,4 +1,4 @@
-import { Form, InputGroup, Button } from 'react-bootstrap'
+import { Form, InputGroup, Button, Spinner } from 'react-bootstrap'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { STATUS_OPTIONS } from '../constants'
 import type { NotificationFilterStatus } from '../types'
@@ -46,7 +46,7 @@ const NotificationFilters = ({
         >
           {isMarkingAll ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true" />
+              <Spinner animation="border" size="sm" className="me-1" />
               Marking...
             </>
           ) : (

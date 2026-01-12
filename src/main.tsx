@@ -7,9 +7,18 @@ import { basePath } from './context/constants.ts'
 // Darkone React Template SCSS (primary styles)
 import './assets/scss/style.scss'
 
+// React Toastify base styles (required for proper toast sizing)
+import 'react-toastify/dist/ReactToastify.css'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename={basePath}>
+    <BrowserRouter 
+      basename={basePath}
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <App />
     </BrowserRouter>
   </StrictMode>,

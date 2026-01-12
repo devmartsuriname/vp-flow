@@ -1,4 +1,4 @@
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Spinner } from 'react-bootstrap'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import type { Client } from '../types'
 import { getClientDisplayName } from '../types'
@@ -44,7 +44,7 @@ export default function DeleteClientModal({
         <Button variant="danger" onClick={onConfirm} disabled={isDeleting}>
           {isDeleting ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
+              <Spinner animation="border" size="sm" className="me-1" />
               Deleting...
             </>
           ) : (

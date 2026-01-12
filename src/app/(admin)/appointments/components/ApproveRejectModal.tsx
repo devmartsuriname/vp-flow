@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button, Form, Spinner } from 'react-bootstrap'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 
 type ApproveRejectModalProps = {
@@ -72,8 +72,8 @@ export default function ApproveRejectModal({
         >
           {isLoading ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
-              {isApprove ? 'Approving...' : 'Rejecting...'}
+            <Spinner animation="border" size="sm" className="me-1" />
+            {isApprove ? 'Approving...' : 'Rejecting...'}
             </>
           ) : (
             <>
