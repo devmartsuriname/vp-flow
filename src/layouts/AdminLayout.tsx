@@ -14,17 +14,13 @@ const AdminLayout = ({ children }: ChildrenType) => {
     <div className="wrapper">
       <Suspense fallback={<LoadingFallback />}>
         <TopNavigationBar />
-      </Suspense>
-      <Suspense fallback={<div />}>
         <VerticalNavigationBar />
       </Suspense>
       <AnimationStar />
       <div className="page-content">
         <Container fluid>
           <ErrorBoundary>
-            <Suspense fallback={<LoadingFallback />}>
-              {children}
-            </Suspense>
+            {children}
           </ErrorBoundary>
         </Container>
         <Footer />

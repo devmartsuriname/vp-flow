@@ -1,33 +1,25 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardBody, Spinner } from 'react-bootstrap'
+import { Card, CardBody } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
 import { AppointmentForm } from '../components'
 import { useCreateAppointment } from '../hooks'
-import { useUserRole, isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
 import type { AppointmentFormData } from '../types'
 
 const CreateAppointmentPage = () => {
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const createAppointment = useCreateAppointment()
 
   useEffect(() => {
-    if (!isRoleLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
+    if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
+  }, [role, authLoading, navigate])
 
-  if (isRoleLoading) {
-    return (
-      <>
-        <PageTitle subName="Appointments" title="Create Appointment" />
-        <Card><CardBody className="text-center py-5"><Spinner animation="border" variant="primary" /><p className="mt-2 text-muted">Loading...</p></CardBody></Card>
-      </>
-    )
-  }
-
-  if (isProtocol(role) || !isVPOrSecretary(role)) return null
+  if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) return null
 
   const handleSubmit = (formData: AppointmentFormData) => {
     createAppointment.mutate(formData, { onSuccess: (data) => navigate(`/appointments/${data.id}`) })

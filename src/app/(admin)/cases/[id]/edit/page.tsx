@@ -5,14 +5,15 @@ import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useCase, useUpdateCase } from '../../hooks'
 import { CaseForm } from '../../components'
-import { useUserRole, isVP, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP, isProtocol } from '@/hooks/useUserRole'
 import { supabase } from '@/integrations/supabase/client'
 import { canEditCase, type CaseFormData } from '../../types'
 
 const EditCasePage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: caseItem, isLoading, error } = useCase(id)
   const updateCase = useUpdateCase()
   const [currentUserId, setCurrentUserId] = useState<string>()
@@ -22,15 +23,21 @@ const EditCasePage = () => {
   }, [])
 
   useEffect(() => {
-    if (!isRoleLoading && !isLoading && caseItem) {
+    if (!authLoading && !isLoading && caseItem) {
       // Only VP can edit, and only non-closed cases
       if (!isVP(role) || !canEditCase(caseItem.status)) {
         navigate(`/cases/${id}`, { replace: true })
       }
     }
-  }, [role, isRoleLoading, isLoading, caseItem, id, navigate])
+  }, [role, authLoading, isLoading, caseItem, id, navigate])
 
-  if (isLoading || isRoleLoading) {
+  useEffect(() => {
+    if (!authLoading && isProtocol(role)) {
+      navigate('/dashboards', { replace: true })
+    }
+  }, [role, authLoading, navigate])
+
+  if (isLoading) {
     return (
       <>
         <PageTitle subName="Cases" title="Edit Case" />
@@ -44,10 +51,7 @@ const EditCasePage = () => {
     )
   }
 
-  if (isProtocol(role)) {
-    navigate('/dashboards', { replace: true })
-    return null
-  }
+  if (!authLoading && isProtocol(role)) return null
 
   if (error || !caseItem) {
     return (

@@ -1,38 +1,25 @@
 import { useEffect } from 'react'
-import { Card, CardBody, Button, Row, Col, Spinner } from 'react-bootstrap'
+import { Card, CardBody, Button, Row, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useCases } from './hooks'
 import { CasesTable } from './components'
-import { useUserRole, isVP, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP, isProtocol } from '@/hooks/useUserRole'
 
 const CasesPage = () => {
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: cases = [], isLoading, error } = useCases()
 
   useEffect(() => {
-    if (!isRoleLoading && isProtocol(role)) {
+    if (!authLoading && isProtocol(role)) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
+  }, [role, authLoading, navigate])
 
-  if (isRoleLoading) {
-    return (
-      <>
-        <PageTitle subName="VP-Flow" title="Cases" />
-        <Card>
-          <CardBody className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-            <p className="mt-2 text-muted">Loading...</p>
-          </CardBody>
-        </Card>
-      </>
-    )
-  }
-
-  if (isProtocol(role)) return null
+  if (!authLoading && isProtocol(role)) return null
 
   if (error) {
     return (

@@ -5,13 +5,14 @@ import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useCase, useUpdateCaseStatus, useCloseCase } from '../hooks'
 import { CaseDetail, CaseActions, CloseModal, CaseTimeline } from '../components'
-import { useUserRole, isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
 import { supabase } from '@/integrations/supabase/client'
 
 const CaseDetailPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: caseItem, isLoading, error } = useCase(id)
   const [currentUserId, setCurrentUserId] = useState<string>()
   const [showCloseModal, setShowCloseModal] = useState(false)
@@ -24,12 +25,12 @@ const CaseDetailPage = () => {
   }, [])
 
   useEffect(() => {
-    if (!isRoleLoading && isProtocol(role)) {
+    if (!authLoading && isProtocol(role)) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
+  }, [role, authLoading, navigate])
 
-  if (isLoading || isRoleLoading) {
+  if (isLoading) {
     return (
       <>
         <PageTitle subName="Cases" title="Case Details" />
@@ -43,7 +44,7 @@ const CaseDetailPage = () => {
     )
   }
 
-  if (isProtocol(role)) return null
+  if (!authLoading && isProtocol(role)) return null
 
   if (error || !caseItem) {
     return (

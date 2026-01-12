@@ -1,32 +1,25 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Row, Col, Spinner } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import Footer from '@/components/layout/Footer'
 import PageTitle from '@/components/PageTitle'
-import { useUserRole, isVP, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP, isProtocol } from '@/hooks/useUserRole'
 import { KPICards, RecentAppointments, RecentCases, RecentClients } from './components'
 
 const DashboardPage = () => {
-  const { role, isLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const navigate = useNavigate()
 
   // Redirect Protocol users away from dashboard
   useEffect(() => {
-    if (!isLoading && isProtocol(role)) {
+    if (!authLoading && isProtocol(role)) {
       navigate('/appointments', { replace: true })
     }
-  }, [role, isLoading, navigate])
-
-  if (isLoading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
-        <Spinner animation="border" variant="primary" />
-      </div>
-    )
-  }
+  }, [role, authLoading, navigate])
 
   // Don't render for Protocol (redirect in useEffect)
-  if (isProtocol(role)) {
+  if (!authLoading && isProtocol(role)) {
     return null
   }
 
