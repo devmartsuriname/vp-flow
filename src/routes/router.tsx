@@ -8,7 +8,13 @@ import { appRoutes, authRoutes } from '@/routes/index'
 import { useAuthContext } from '@/context/useAuthContext'
 
 const AppRouter = (props: RouteProps) => {
-  const { isAuthenticated } = useAuthContext()
+  const { isAuthenticated, isLoading } = useAuthContext()
+
+  // Wait for auth state to hydrate before making routing decisions
+  if (isLoading) {
+    return <LoadingFallback />
+  }
+
   return (
     <ErrorBoundary>
       <Suspense fallback={<LoadingFallback />}>
