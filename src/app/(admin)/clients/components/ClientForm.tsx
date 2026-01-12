@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Form, Button, Row, Col, Card } from 'react-bootstrap'
+import { Form, Button, Row, Col, Card, Spinner } from 'react-bootstrap'
 import Feedback from 'react-bootstrap/esm/Feedback'
 import { clientSchema, ClientSchemaType } from '../schema'
 import { SURINAME_DISTRICTS, type Client, type ClientFormData } from '../types'
@@ -282,7 +282,7 @@ export default function ClientForm({
         <Button type="submit" variant="primary" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
+              <Spinner animation="border" size="sm" className="me-1" />
               {isEditMode ? 'Updating...' : 'Creating...'}
             </>
           ) : (
