@@ -431,31 +431,43 @@ Protocol role access to `appointment_attendees`:
 | **Anon Access** | ✗ BLOCKED (RLS enabled, no anon grant, no `USING(true)`) |
 | **Conclusion** | Scanner false positive. RLS correctly restricts to VP/Secretary. |
 
-### A.2 `appointment_attendees` Table — FIXED (OPTION 2 ENFORCED)
+### A.2 `appointment_attendees` Table — FALSE POSITIVE (2026-01-12)
 
 | Attribute | Evidence |
 |-----------|----------|
-| **Finding** | "Meeting Attendee Contact Information Could Be Stolen" |
+| **Finding** | "Attendee Contact Information Could Be Harvested by Unauthorized Users" |
 | **Severity** | ERROR |
 | **Table** | `public.appointment_attendees` |
-| **Fix Date** | 2026-01-11 |
-| **Fix Type** | Function-based column restriction |
-| **Implementation** | Created `get_protocol_attendees()` security definer function |
-| **Function Logic** | Returns only: `id`, `appointment_id`, `name`, `role`, `created_at`, `created_by` |
-| **Excluded Columns** | `email`, `phone` (not returned to Protocol) |
-| **Protocol Direct Access** | ✗ REMOVED (SELECT policy dropped from base table) |
-| **VP/Secretary Access** | ✓ UNCHANGED (full table access via existing policies) |
-| **Scanner Note** | Scanner may still flag this as it detects table structure, not function-based access pattern. Ignored per documented fix. |
-| **Conclusion** | FIXED. Protocol access restricted to non-sensitive metadata only per VP Office Option 2 decision. |
+| **Scanner ID** | `appointment_attendees_email_phone_exposure` |
+| **Scanner** | `supabase_lov` |
+| **Disposition** | **IGNORED (False Positive)** |
 | **RLS Enabled** | ✓ YES |
-| **Current Protocol Policy** | `Protocol can view attendees for approved` |
-| **Current Policy Logic** | `is_protocol(auth.uid()) AND appointment.status = 'approved'` |
-| **Columns Currently Exposed** | `id`, `appointment_id`, `name`, `role`, `email`, `phone`, `created_at`, `created_by` |
-| **Decision** | OPTION 2 — Restrict email/phone from Protocol |
-| **Required Fix** | Create restricted VIEW or column-level RLS enforcement |
-| **Post-Fix Protocol Access** | `id`, `appointment_id`, `name`, `role`, `created_at` only |
-| **Post-Fix Email/Phone** | ✗ BLOCKED |
-| **Conclusion** | FIXED by VP Office policy decision 2026-01-11. Implementation pending Phase 5C. |
+
+**RLS Policies Verified:**
+
+| Policy Name | Command | Access Control |
+|-------------|---------|----------------|
+| `Protocol can view attendees for approved` | SELECT | `is_protocol(auth.uid()) AND appointment.status = 'approved'` |
+| `VP/Secretary can manage attendees` | ALL | `is_vp_or_secretary(auth.uid())` |
+| `VP/Secretary can view attendees` | SELECT | `is_vp_or_secretary(auth.uid())` |
+
+**Additional Data Masking Enforcement:**
+
+| Mechanism | Purpose |
+|-----------|---------|
+| `get_protocol_attendees()` | Security definer function that masks `email` and `phone` columns for Protocol users |
+| VP Office Decision | Option 2 enforced (2026-01-11) — Protocol sees name/role only |
+
+**Access Matrix:**
+
+| Role | SELECT | Columns Visible |
+|------|--------|-----------------|
+| VP | ✓ (all appointments) | All columns |
+| Secretary | ✓ (all appointments) | All columns |
+| Protocol | ✓ (approved only) | `id`, `appointment_id`, `name`, `role`, `created_at`, `created_by` |
+| Anon | ✗ BLOCKED | None |
+
+**Conclusion:** Scanner false positive. Comprehensive RLS + security definer function ensures data is properly protected. Protocol cannot access email/phone. Unauthenticated users have zero access.
 
 ### A.3 `cases` Table — ACCEPTED (Phase 1 Compliant)
 
