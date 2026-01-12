@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap'
+import { Button, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { isVP, isSecretary } from '@/hooks/useUserRole'
@@ -81,7 +81,7 @@ export default function AppointmentActions({
         >
           {isSubmitting ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
+              <Spinner animation="border" size="sm" className="me-1" />
               Submitting...
             </>
           ) : (
@@ -102,7 +102,7 @@ export default function AppointmentActions({
         >
           {isApproving ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
+              <Spinner animation="border" size="sm" className="me-1" />
               Approving...
             </>
           ) : (
@@ -123,7 +123,7 @@ export default function AppointmentActions({
         >
           {isRejecting ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
+              <Spinner animation="border" size="sm" className="me-1" />
               Rejecting...
             </>
           ) : (
@@ -144,7 +144,7 @@ export default function AppointmentActions({
         >
           {isCompleting ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
+              <Spinner animation="border" size="sm" className="me-1" />
               Completing...
             </>
           ) : (
@@ -165,7 +165,7 @@ export default function AppointmentActions({
         >
           {isCancelling ? (
             <>
-              <span className="spinner-border spinner-border-sm me-1" />
+              <Spinner animation="border" size="sm" className="me-1" />
               Cancelling...
             </>
           ) : (
