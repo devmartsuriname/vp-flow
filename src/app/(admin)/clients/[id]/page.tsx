@@ -5,12 +5,13 @@ import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useClient, useDeleteClient } from '../hooks'
 import { ClientDetail, DeleteClientModal } from '../components'
-import { useUserRole, isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
 
 const ClientDetailPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: client, isLoading, error } = useClient(id)
   const deleteClient = useDeleteClient()
 
@@ -18,13 +19,13 @@ const ClientDetailPage = () => {
 
   // Safe redirect in useEffect (not during render)
   useEffect(() => {
-    if (!isRoleLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
+    if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
+  }, [role, authLoading, navigate])
 
   // Return null after redirect is scheduled
-  if (isProtocol(role) || !isVPOrSecretary(role)) {
+  if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
     return null
   }
 
@@ -46,7 +47,7 @@ const ClientDetailPage = () => {
     setShowDeleteModal(false)
   }
 
-  if (isLoading || isRoleLoading) {
+  if (isLoading) {
     return (
       <>
         <PageTitle subName="Clients" title="Client Details" />

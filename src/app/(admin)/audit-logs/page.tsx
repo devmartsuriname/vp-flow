@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardBody, CardHeader, CardTitle, Spinner } from 'react-bootstrap'
+import { Card, CardBody, CardHeader, CardTitle } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
-import { useUserRole, isVP } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP } from '@/hooks/useUserRole'
 import { useAuditLogs } from './hooks'
 import { AuditLogFiltersComponent, AuditLogsTable } from './components'
 import type { AuditLogFilters } from './types'
@@ -16,16 +17,16 @@ const INITIAL_FILTERS: AuditLogFilters = {
 
 export default function AuditLogsPage() {
   const navigate = useNavigate()
-  const { role, isLoading: roleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const [filters, setFilters] = useState<AuditLogFilters>(INITIAL_FILTERS)
   const { data: events = [], isLoading: eventsLoading } = useAuditLogs(filters)
 
   // VP-only access: redirect others
   useEffect(() => {
-    if (!roleLoading && !isVP(role)) {
+    if (!authLoading && !isVP(role)) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, roleLoading, navigate])
+  }, [role, authLoading, navigate])
 
   const handleFiltersChange = (newFilters: AuditLogFilters) => {
     setFilters(newFilters)
@@ -35,19 +36,8 @@ export default function AuditLogsPage() {
     setFilters(INITIAL_FILTERS)
   }
 
-  // Show loading while checking role
-  if (roleLoading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
-        <Spinner animation="border" variant="primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    )
-  }
-
   // Don't render content for non-VP (redirect is happening)
-  if (!isVP(role)) {
+  if (!authLoading && !isVP(role)) {
     return null
   }
 

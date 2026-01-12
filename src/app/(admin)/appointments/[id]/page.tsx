@@ -5,13 +5,14 @@ import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useAppointment, useSubmitAppointment, useApproveAppointment, useRejectAppointment, useCancelAppointment, useCompleteAppointment } from '../hooks'
 import { AppointmentDetail, AppointmentActions, ApproveRejectModal } from '../components'
-import { useUserRole, isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
 import { supabase } from '@/integrations/supabase/client'
 
 const AppointmentDetailPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: appointment, isLoading, error } = useAppointment(id)
   const [currentUserId, setCurrentUserId] = useState<string>()
   const [modalMode, setModalMode] = useState<'approve' | 'reject' | null>(null)
@@ -27,16 +28,16 @@ const AppointmentDetailPage = () => {
   }, [])
 
   useEffect(() => {
-    if (!isRoleLoading && !isLoading && appointment) {
+    if (!authLoading && !isLoading && appointment) {
       if (isProtocol(role) && appointment.status !== 'approved') {
         navigate('/appointments', { replace: true })
       } else if (isSecretary(role) && appointment.visibility === 'vp_only') {
         navigate('/appointments', { replace: true })
       }
     }
-  }, [role, isRoleLoading, isLoading, appointment, navigate])
+  }, [role, authLoading, isLoading, appointment, navigate])
 
-  if (isLoading || isRoleLoading) {
+  if (isLoading) {
     return (<><PageTitle subName="Appointments" title="Appointment Details" /><Card><CardBody className="text-center py-5"><Spinner animation="border" variant="primary" /><p className="mt-2 text-muted">Loading...</p></CardBody></Card></>)
   }
 

@@ -1,38 +1,25 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardBody, Spinner } from 'react-bootstrap'
+import { Card, CardBody } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
 import { CaseForm } from '../components'
 import { useCreateCase } from '../hooks'
-import { useUserRole, isVP, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP } from '@/hooks/useUserRole'
 import type { CaseFormData } from '../types'
 
 const CreateCasePage = () => {
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const createCase = useCreateCase()
 
   useEffect(() => {
-    if (!isRoleLoading && !isVP(role)) {
+    if (!authLoading && !isVP(role)) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
+  }, [role, authLoading, navigate])
 
-  if (isRoleLoading) {
-    return (
-      <>
-        <PageTitle subName="Cases" title="Create Case" />
-        <Card>
-          <CardBody className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-            <p className="mt-2 text-muted">Loading...</p>
-          </CardBody>
-        </Card>
-      </>
-    )
-  }
-
-  if (!isVP(role)) return null
+  if (!authLoading && !isVP(role)) return null
 
   const handleSubmit = (formData: CaseFormData) => {
     createCase.mutate(formData, {

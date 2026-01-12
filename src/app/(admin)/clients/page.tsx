@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
-import { Card, CardBody, Button, Row, Col, Spinner } from 'react-bootstrap'
+import { Card, CardBody, Button, Row, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useClients, useDeleteClient } from './hooks'
 import { ClientsTable, DeleteClientModal } from './components'
-import { useUserRole, isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
 import type { Client } from './types'
 
 const ClientsPage = () => {
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: clients = [], isLoading, error } = useClients()
   const deleteClient = useDeleteClient()
 
@@ -18,28 +19,13 @@ const ClientsPage = () => {
 
   // Safe redirect in useEffect (not during render)
   useEffect(() => {
-    if (!isRoleLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
+    if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
-
-  // Show loading while role is being determined
-  if (isRoleLoading) {
-    return (
-      <>
-        <PageTitle subName="VP-Flow" title="Clients" />
-        <Card>
-          <CardBody className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-            <p className="mt-2 text-muted">Loading...</p>
-          </CardBody>
-        </Card>
-      </>
-    )
-  }
+  }, [role, authLoading, navigate])
 
   // Return null after redirect is scheduled
-  if (isProtocol(role) || !isVPOrSecretary(role)) {
+  if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
     return null
   }
 
@@ -102,7 +88,7 @@ const ClientsPage = () => {
         <CardBody>
           <ClientsTable
             clients={clients}
-            isLoading={isLoading || isRoleLoading}
+            isLoading={isLoading}
             userRole={role}
             onDelete={handleDeleteClick}
           />

@@ -5,25 +5,26 @@ import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useClient, useUpdateClient } from '../../hooks'
 import { ClientForm } from '../../components'
-import { useUserRole, isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
 import type { ClientFormData } from '../../types'
 
 const EditClientPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: client, isLoading, error } = useClient(id)
   const updateClient = useUpdateClient()
 
   // Safe redirect in useEffect (not during render)
   useEffect(() => {
-    if (!isRoleLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
+    if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
+  }, [role, authLoading, navigate])
 
   // Return null after redirect is scheduled
-  if (isProtocol(role) || !isVPOrSecretary(role)) {
+  if (!authLoading && (isProtocol(role) || !isVPOrSecretary(role))) {
     return null
   }
 
@@ -44,7 +45,7 @@ const EditClientPage = () => {
     navigate(`/clients/${id}`)
   }
 
-  if (isLoading || isRoleLoading) {
+  if (isLoading) {
     return (
       <>
         <PageTitle subName="Clients" title="Edit Client" />

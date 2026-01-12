@@ -1,38 +1,25 @@
 import { useEffect } from 'react'
-import { Card, CardBody, Button, Row, Col, Spinner } from 'react-bootstrap'
+import { Card, CardBody, Button, Row, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useAppointments } from './hooks'
 import { AppointmentsTable } from './components'
-import { useUserRole, isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVPOrSecretary } from '@/hooks/useUserRole'
 
 const AppointmentsPage = () => {
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: appointments = [], isLoading, error } = useAppointments()
 
   useEffect(() => {
-    if (!isRoleLoading && !role) {
+    if (!authLoading && !role) {
       navigate('/dashboards', { replace: true })
     }
-  }, [role, isRoleLoading, navigate])
+  }, [role, authLoading, navigate])
 
-  if (isRoleLoading) {
-    return (
-      <>
-        <PageTitle subName="VP-Flow" title="Appointments" />
-        <Card>
-          <CardBody className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-            <p className="mt-2 text-muted">Loading...</p>
-          </CardBody>
-        </Card>
-      </>
-    )
-  }
-
-  if (!role) return null
+  if (!authLoading && !role) return null
 
   if (error) {
     return (

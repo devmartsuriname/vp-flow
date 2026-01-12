@@ -5,14 +5,15 @@ import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useAppointment, useUpdateAppointment } from '../../hooks'
 import { AppointmentForm } from '../../components'
-import { useUserRole, isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
+import { useAuthContext } from '@/context/useAuthContext'
+import { isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
 import { supabase } from '@/integrations/supabase/client'
 import { canEditAppointment, type AppointmentFormData } from '../../types'
 
 const EditAppointmentPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { role, isLoading: isRoleLoading } = useUserRole()
+  const { role, isLoading: authLoading } = useAuthContext()
   const { data: appointment, isLoading, error } = useAppointment(id)
   const updateAppointment = useUpdateAppointment()
   const [currentUserId, setCurrentUserId] = useState<string>()
@@ -22,16 +23,16 @@ const EditAppointmentPage = () => {
   }, [])
 
   useEffect(() => {
-    if (!isRoleLoading && !isLoading && appointment) {
+    if (!authLoading && !isLoading && appointment) {
       const isCreator = appointment.created_by === currentUserId
       const canEdit = (isVP(role) && canEditAppointment(appointment.status)) || (isSecretary(role) && appointment.status === 'draft' && isCreator)
       if (isProtocol(role) || !canEdit) {
         navigate(`/appointments/${id}`, { replace: true })
       }
     }
-  }, [role, isRoleLoading, isLoading, appointment, currentUserId, id, navigate])
+  }, [role, authLoading, isLoading, appointment, currentUserId, id, navigate])
 
-  if (isLoading || isRoleLoading) {
+  if (isLoading) {
     return (<><PageTitle subName="Appointments" title="Edit Appointment" /><Card><CardBody className="text-center py-5"><Spinner animation="border" variant="primary" /><p className="mt-2 text-muted">Loading...</p></CardBody></Card></>)
   }
 
