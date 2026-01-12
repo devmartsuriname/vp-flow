@@ -1,3 +1,9 @@
+> **DEPRECATED**: This document is a duplicate retained for reference only. 
+> The authoritative version is located at `/Project Docs/Phases/Phase_0/README.md`.
+> Do not modify this file.
+
+---
+
 # Phase 0 – Master PRD (Documentation Only)
 
 ## Project Title
