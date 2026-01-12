@@ -1,224 +1,195 @@
-# VP-Flow — Task Breakdown
+# VP-Flow — Consolidated Task List
 
 **Project:** VP-Flow  
 **Client:** Office of the Vice President of Suriname  
-**Document Type:** Phased Task Identification  
-**Status:** Documentation Only — NO Execution
+**Document Type:** Operational Task List  
+**Status:** Documentation Only — NO Execution Without Authorization
 
 ---
 
 ## Document Purpose
 
-This document provides a structured, phase-gated breakdown of implementation tasks for VP-Flow. Tasks are identified and organized; this document does NOT authorize execution.
+This document is the single operational task list for VP-Flow development. Tasks are organized by version and phase, with explicit execution readiness status.
 
 ---
 
-## Phase 2 — Implementation Planning
+## v1.0 — Closure & Leftovers
 
-### 2.1 Database Schema Design
-- [x] Design `clients` table schema
-- [x] Design `appointments` table schema
-- [x] Design `cases` table schema
-- [x] Design `audit_logs` table schema
-- [x] Design `reminders` table schema
-- [x] Design `notifications` table schema
-- [x] Define all foreign key relationships
-- [x] Document enum types (status fields, priority levels)
+### Phase 6: Deployment & Handover
 
-### 2.2 RLS Policy Implementation Planning
-- [x] Map RLS policies to `clients` table
-- [x] Map RLS policies to `appointments` table
-- [x] Map RLS policies to `cases` table
-- [x] Map RLS policies to `audit_logs` table
-- [x] Define role-based access functions
-- [x] Document Protocol isolation rules
+| Task | Scope | Dependency | Execution Readiness | Blocker |
+|------|-------|------------|---------------------|---------|
+| Production environment configuration | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Secrets management verification | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Database migration scripts finalized | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| VP User Guide | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Secretary User Guide | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Protocol User Guide | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Admin Documentation | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Troubleshooting Guide | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| VP orientation session | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Secretary training session | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
+| Protocol training session | Phase 6 README | Phase 5 COMPLETE | ❌ BLOCKED | VP Office authorization required |
 
-### 2.3 Authentication & Authorization Planning
-- [x] Define user roles in auth system (VP, Secretary, Protocol)
-- [x] Plan role assignment workflow
-- [x] Document session management approach
-
-### 2.4 Edge Function Planning
-- [x] Plan notification dispatch function
-- [x] Plan reminder scheduling function
-- [ ] Plan Google Calendar sync function (optional integration)
-- [x] Plan audit logging helper functions
-
-### 2.5 UI Component Inventory
-- [x] Identify required Darkone components for each module
-- [x] Map components to PRD features
-- [x] Document component customization boundaries (Darkone 1:1 only)
+**v1.0 Status:** All core functionality COMPLETE. Only Phase 6 (Deployment & Handover) remains. Blocked by VP Office authorization.
 
 ---
 
-## Phase 3 — Core Module Implementation
+## v1.1-A — Operational Control
 
-### 3.1 Authentication Module
-- [x] Implement login page
-- [x] Implement role-based routing
-- [x] Implement session persistence
-- [x] Implement logout functionality
+**Documentation:** `/Project Docs/v1.1/v1.1-A/`
 
-### 3.2 Client Management Module
-- [x] Implement client list view
-- [x] Implement client detail view
-- [x] Implement client create/edit forms
-- [x] Implement client search
-- [x] Implement client history timeline
+### Epic: Documents Module
 
-### 3.3 Appointment Management Module
-- [x] Implement appointment list view (with filters)
-- [x] Implement appointment detail view
-- [x] Implement appointment create form (Secretary)
-- [x] Implement appointment edit form (Secretary)
-- [x] Implement appointment approval workflow (VP only)
-- [x] Implement appointment status transitions
-- [x] Implement calendar integration display
+| Task | Scope | Dependency | Execution Readiness | Blocker |
+|------|-------|------------|---------------------|---------|
+| Documents Module UI implementation | v1.1-A Execution Plan | v1.0 Phase 6 COMPLETE | ❌ BLOCKED | v1.0 incomplete, v1.1-A not authorized |
+| Document upload functionality | v1.1-A UI Scope | v1.0 Phase 6 COMPLETE | ❌ BLOCKED | v1.0 incomplete, v1.1-A not authorized |
+| Document list/view in Case detail | v1.1-A UI Scope | v1.0 Phase 6 COMPLETE | ❌ BLOCKED | v1.0 incomplete, v1.1-A not authorized |
+| RLS policy verification for documents | v1.1-A RLS Matrix | v1.0 Phase 6 COMPLETE | ❌ BLOCKED | v1.0 incomplete, v1.1-A not authorized |
 
-### 3.4 Case Management Module
-- [x] Implement case list view (VP, Secretary only)
-- [x] Implement case detail view
-- [x] Implement case creation from appointment (VP only)
-- [x] Implement case status workflow
-- [x] Implement case closure (VP only, FINAL)
-- [x] Implement case assignment
+**Note:** Database table `documents` already exists with RLS policies. Only UI implementation required.
 
-### 3.5 Protocol Dashboard
-- [x] Implement approved appointments list (today's focus)
-- [x] Implement day-of execution tracking
-- [x] Ensure NO case visibility
-- [x] Ensure NO client notes visibility
+### Epic: Case Re-opening
 
-### 3.6 Notification & Reminder System
-- [x] Implement reminder trigger logic
-- [x] Implement notification display
-- [x] Implement escalation rules
-- [x] Implement SLA tracking
-
-### 3.7 Audit Logging
-- [x] Implement audit log writes on critical actions
-- [x] Implement audit log viewer (VP only)
-- [x] Ensure append-only behavior
+| Task | Scope | Dependency | Execution Readiness | Blocker |
+|------|-------|------------|---------------------|---------|
+| Case re-opening workflow implementation | v1.1 Case Re-opening | v1.0 Phase 6 COMPLETE | ❌ BLOCKED | v1.0 incomplete, v1.1-A not authorized |
+| Audit event logging for re-opens | v1.1-A Audit Map | v1.0 Phase 6 COMPLETE | ❌ BLOCKED | v1.0 incomplete, v1.1-A not authorized |
+| VP-only authorization enforcement | v1.1 Case Re-opening | v1.0 Phase 6 COMPLETE | ❌ BLOCKED | v1.0 incomplete, v1.1-A not authorized |
 
 ---
 
-## Phase 4 — Testing & Refinement
+## v1.1-B — Knowledge & Insight
 
-### 4.1 Functional Testing
-- [x] Test all CRUD operations per module
-- [x] Test role-based access (positive and negative cases)
-- [x] Test state transitions (appointments, cases)
-- [x] Test notification delivery
-- [x] Test reminder scheduling
+**Documentation:** `/Project Docs/v1.1/v1.1-B/`
 
-### 4.2 Security Testing
-- [x] Verify RLS policies block unauthorized access
-- [x] Verify Protocol cannot access cases
-- [x] Verify closed cases are immutable
-- [x] Verify audit logs are append-only
+### Epic: Notes Module
 
-### 4.3 Integration Testing
-- [ ] Test Google Calendar sync (if enabled)
-- [x] Test end-to-end appointment-to-case flow
-- [x] Test notification escalation paths
+| Task | Scope | Dependency | Execution Readiness | Blocker |
+|------|-------|------------|---------------------|---------|
+| Notes table schema creation | v1.1-B Database Migration | v1.1-A COMPLETE | ❌ BLOCKED | v1.1-A not complete |
+| Notes RLS policies | v1.1-B RLS Matrix | v1.1-A COMPLETE | ❌ BLOCKED | v1.1-A not complete |
+| Notes UI — create/view/edit | v1.1-B UI Scope | v1.1-A COMPLETE | ❌ BLOCKED | v1.1-A not complete |
+| Notes privacy model enforcement | v1.1-B Notes RLS & Privacy | v1.1-A COMPLETE | ❌ BLOCKED | v1.1-A not complete |
 
-### 4.4 User Acceptance Testing
-- [x] VP workflow validation
-- [x] Secretary workflow validation
-- [x] Protocol workflow validation
+### Epic: Dashboard Widgets
+
+| Task | Scope | Dependency | Execution Readiness | Blocker |
+|------|-------|------------|---------------------|---------|
+| Recent Notes widget | v1.1-B Dashboard Widgets | Notes Module COMPLETE | ❌ BLOCKED | Notes module not complete |
+| Notes statistics widget | v1.1-B Dashboard Widgets | Notes Module COMPLETE | ❌ BLOCKED | Notes module not complete |
 
 ---
 
-## Phase 5 — QA & Hardening
+## v1.1-C — Platform & Experience
 
-**AUTHORIZATION STATUS:** Phase 5C COMPLETE
+**Documentation:** `/Project Docs/v1.1/v1.1-C/`
 
-### Phase 5A: Validation & Hardening
-**Status:** ✅ COMPLETE (2026-01-11)
+### Epic: Progressive Web App (PWA)
 
-- [x] Security scan analysis and disposition
-- [x] RLS verification for all 11 tables
-- [x] Protocol isolation verification (cases, clients, sensitive data blocked)
-- [x] Secretary cannot approve appointments or create cases (verified)
-- [x] Closed case immutability verification (trigger + UI)
-- [x] Audit log append-only verification (no UPDATE/DELETE policies)
-- [x] Workflow enforcement testing (appointment creation, approval, case lifecycle)
-- [x] Security functions verified (SECURITY DEFINER on all 6 functions)
-- [x] Scanner findings addressed (2 marked IGNORED with rationale)
+| Task | Scope | Dependency | Execution Readiness | Blocker |
+|------|-------|------------|---------------------|---------|
+| Service worker implementation | v1.1-C PWA Scope | v1.1-B COMPLETE | ❌ BLOCKED | v1.1-B not complete |
+| Offline capability | v1.1-C Storage & Service Worker | v1.1-B COMPLETE | ❌ BLOCKED | v1.1-B not complete |
+| Install prompt / manifest | v1.1-C PWA Scope | v1.1-B COMPLETE | ❌ BLOCKED | v1.1-B not complete |
 
-**Execution Report:** `/Project Docs/Phase_5A_Execution_Report.md`
+### Epic: Handwriting & Pen Input
 
-### Phase 5B: Controlled Consolidation
-**Status:** ✅ COMPLETE (2026-01-11)
-
-- [x] Unified loading component (`FallbackLoading` → `LoadingFallback`)
-- [x] Removed dead Darkone demo directories (base-ui, forms, tables, maps, apex-chart)
-- [x] Removed unused components (Spinner, Preloader, ComingSoon, from/, VectorMap/)
-- [x] Updated auth forms to use Bootstrap controls (removed `TextFormInput` dependency)
-- [x] EmptyState components: LEFT AS-IS (different interfaces, no safe consolidation)
-- [x] STATUS_BADGE_VARIANTS: LEFT AS-IS (domain-specific per module)
-- [x] Protocol redirects: VERIFIED CONSISTENT (no changes needed)
-
-**Execution Report:** `/Project Docs/Phase_5B_Execution_Report.md`
-
-### Phase 5C: Stabilization & Final Verification
-**Status:** ✅ COMPLETE (2026-01-11)
-
-- [x] System-wide role access verification (VP / Secretary / Protocol)
-- [x] Appointment → Case → Audit integrity verification
-- [x] Notification system sanity check
-- [x] Dashboard data accuracy verification
-- [x] Cross-module consistency checks (navigation, empty states, loading/error states)
-- [x] Confirm no duplicate logic reintroduced
-- [x] Security scan findings dispositioned (2 FALSE POSITIVES marked IGNORED)
-- [x] Documentation finalized
-
-**Execution Report:** `/Project Docs/Phase_5C_Execution_Report.md`
+| Task | Scope | Dependency | Execution Readiness | Blocker |
+|------|-------|------------|---------------------|---------|
+| Handwriting capture UI | v1.1-C Handwriting UI | v1.1-B COMPLETE | ❌ BLOCKED | v1.1-B not complete |
+| Handwriting data storage | v1.1-C Handwriting Data Model | v1.1-B COMPLETE | ❌ BLOCKED | v1.1-B not complete |
+| Pen input integration | v1.1-C Handwriting UI | v1.1-B COMPLETE | ❌ BLOCKED | v1.1-B not complete |
 
 ---
 
-## Phase 6 — Deployment & Handover
+## Explicitly Deferred (Beyond v1.1)
 
-**AUTHORIZATION STATUS:** NOT AUTHORIZED
+These items are documented as out of scope for v1.0 and v1.1:
 
-### 6.1 Deployment Preparation
-- [ ] Production environment configuration
-- [ ] Secrets management verification
-- [ ] Database migration scripts finalized
+| Item | Description | Target |
+|------|-------------|--------|
+| Global Cross-Module Search | Search across appointments, cases, clients, notes | Future (TBD) |
+| External Calendar Integration | Google Calendar sync | Future (TBD) |
+| External Email Integration | Email notifications and imports | Future (TBD) |
+| External Messaging Integration | WhatsApp, SMS integrations | Future (TBD) |
+| OCR / Handwriting-to-Text | Automatic text extraction from handwriting | Future (TBD) |
+| Public/External User Access | Non-staff user accounts | Future (NOT ALLOWED in v1.x) |
+| Custom Theming/Branding | Settings → Branding configuration UI | Future (TBD) |
 
-### 6.2 Documentation Handover
-- [ ] User guides per role
-- [ ] Admin documentation
-- [ ] Troubleshooting guide
+---
 
-### 6.3 Training
-- [ ] VP orientation
-- [ ] Secretary training
-- [ ] Protocol training
+## Application State vs Documentation Alignment
+
+### Partial Implementations Detected
+
+| Module | Database | RLS | UI | Status |
+|--------|----------|-----|-----|--------|
+| Documents | ✅ YES | ✅ YES | ❌ NO | Schema exists, no user-facing feature |
+
+### Not Implemented
+
+| Module | v1.1 Phase | Database | UI |
+|--------|-----------|----------|-----|
+| Case Re-opening | v1.1-A | ❌ NO | ❌ NO |
+| Notes System | v1.1-B | ❌ NO | ❌ NO |
+| Dashboard Widgets | v1.1-B | N/A | ❌ NO |
+| PWA | v1.1-C | N/A | ❌ NO |
+| Handwriting | v1.1-C | ❌ NO | ❌ NO |
+
+### Mismatch Resolution
+
+The `documents` table was created during v1.0 development but the UI was never exposed. This aligns with v1.1-A scope. When v1.1-A is authorized:
+- Documents Module UI will be added
+- No schema changes required
+- RLS policies already in place
+
+---
+
+## Execution Readiness Summary
+
+| Version | Phase | Status | Blocker |
+|---------|-------|--------|---------|
+| v1.0 | Phase 6 | ❌ BLOCKED | VP Office authorization required |
+| v1.1-A | All | ❌ BLOCKED | v1.0 Phase 6 incomplete, v1.1-A not authorized |
+| v1.1-B | All | ❌ BLOCKED | v1.1-A incomplete |
+| v1.1-C | All | ❌ BLOCKED | v1.1-B incomplete |
+
+**Next Required Authorization:** Phase 6 (Deployment & Handover)
 
 ---
 
 ## Task Governance
 
-- Tasks are derived from Phase 0 PRD and Phase 1 Architecture
+- Tasks are derived from Phase 0 PRD, Phase 1 Architecture, and v1.1 documentation
 - NO tasks may be added without explicit authorization
 - Each task must map to documented requirements
 - Execution requires phase gate approval
 
 ---
 
-## Status Legend
+## Completed Phases (Reference)
 
-- [ ] Not Started
-- [~] In Progress
-- [x] Complete
-- [!] Blocked
+### Phase 0–5 Summary
 
-**Current Phase:** Phase 5C COMPLETE  
-**Execution Status:** Phase 6 NOT AUTHORIZED — AWAITING FURTHER AUTHORIZATION
+| Phase | Name | Status | Completion Date |
+|-------|------|--------|-----------------|
+| 0 | Requirements & Scope | ✅ COMPLETE | — |
+| 1 | Architecture & Design | ✅ COMPLETE | — |
+| 2 | Implementation Planning | ✅ COMPLETE | — |
+| 3 | Core Implementation | ✅ COMPLETE | — |
+| 4 | UI Polish & Refinement | ✅ COMPLETE | 2026-01-11 |
+| 5 | Stabilization & Validation | ✅ COMPLETE | 2026-01-11 |
+
+**Execution Reports:**
+- Phase 4: `/Project Docs/Phase_4_Closure.md`
+- Phase 5A: `/Project Docs/Phases/Phase_5/Phase_5A_Execution_Report.md`
+- Phase 5B: `/Project Docs/Phases/Phase_5/Phase_5B_Execution_Report.md`
+- Phase 5C: `/Project Docs/Phases/Phase_5/Phase_5C_Execution_Report.md`
 
 ---
 
-**Document Version:** 1.2  
-**Updated:** 2026-01-11  
+**Document Version:** 2.0  
+**Updated:** 2026-01-12  
 **Authority:** Devmart / Office of the Vice President
