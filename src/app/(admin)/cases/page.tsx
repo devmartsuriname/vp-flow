@@ -11,7 +11,7 @@ import { isVP, isProtocol } from '@/hooks/useUserRole'
 const CasesPage = () => {
   const navigate = useNavigate()
   const { role, isLoading: authLoading } = useAuthContext()
-  const { data: cases = [], isLoading, error } = useCases()
+  const { data: cases = [], isLoading, error } = useCases(role)
 
   useEffect(() => {
     if (!authLoading && isProtocol(role)) {
