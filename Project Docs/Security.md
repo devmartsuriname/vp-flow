@@ -602,7 +602,24 @@ All RLS policies are implemented per Phase 1 Matrix. Phase 5 is validation only 
 
 ---
 
-**Document Version:** 1.3  
-**Updated:** 2026-01-11  
-**Phase Status:** Phase 4 CLOSED, Phase 5 READY  
+## Appendix D: Authorized VP Users
+
+| User ID | Email | Full Name | Role | Assigned Date | Assigned By |
+|---------|-------|-----------|------|---------------|-------------|
+| `df790081-3b6e-4cab-86c3-b5ecde8e37c5` | info@devmart.sr | — | vp | Initial setup | System |
+| `e89f2547-9ff0-426f-ba83-f6b3103b89ea` | gregrusland@gmail.com | Gregory Allan Rusland | vp | 2026-01-13 | info@devmart.sr |
+
+**Total VP Users:** 2
+
+**Notes:**
+- Both users have full administrative access to all VP-Flow modules
+- Role assignment follows standard RLS-based access control
+- No hardcoded email checks — role-based access only
+- All VP actions are logged in `audit_events`
+
+---
+
+**Document Version:** 1.4  
+**Updated:** 2026-01-13  
+**Phase Status:** Phase 5 ACTIVE (Security Scan Complete)  
 **Authority:** Devmart / Office of the Vice President
