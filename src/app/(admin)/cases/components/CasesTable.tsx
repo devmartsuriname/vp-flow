@@ -73,7 +73,7 @@ export default function CasesTable({
             </InputGroup.Text>
             <Form.Control
               type="text"
-              placeholder="Search by title, case number, or client..."
+              placeholder="Search by title, case number, or guest..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -127,7 +127,7 @@ export default function CasesTable({
             <tr>
               <th>Case #</th>
               <th>Title</th>
-              <th>Client</th>
+              <th>Guest</th>
               <th>Priority</th>
               <th>Status</th>
               <th>Deadline</th>

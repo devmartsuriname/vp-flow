@@ -73,7 +73,7 @@ const RecentAppointments = () => {
             <tr>
               <th>Date</th>
               <th>Subject</th>
-              <th>Client</th>
+              <th>Guest</th>
               <th>Status</th>
             </tr>
           </thead>
