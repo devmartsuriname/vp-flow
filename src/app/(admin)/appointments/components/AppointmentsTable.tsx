@@ -67,7 +67,7 @@ export default function AppointmentsTable({
             </InputGroup.Text>
             <Form.Control
               type="text"
-              placeholder="Search by client or subject..."
+              placeholder="Search by guest or subject..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -108,7 +108,7 @@ export default function AppointmentsTable({
             <tr>
               <th>Date & Time</th>
               <th>Subject</th>
-              <th>Client</th>
+              <th>Guest</th>
               <th>Duration</th>
               <th>Status</th>
               <th className="text-end">Actions</th>
