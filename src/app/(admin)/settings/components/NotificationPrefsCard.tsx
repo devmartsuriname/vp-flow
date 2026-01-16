@@ -6,7 +6,7 @@
  */
 
 import { Card, CardBody, CardHeader, Form, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { Icon } from '@iconify/react'
+import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { DEFAULT_NOTIFICATION_PREFS } from '../constants'
 
 export function NotificationPrefsCard() {
@@ -14,7 +14,7 @@ export function NotificationPrefsCard() {
     <Card className="h-100">
       <CardHeader className="border-bottom d-flex justify-content-between align-items-center">
         <h5 className="card-title mb-0">
-          <Icon icon="bx:bell" className="me-2" />
+          <IconifyIcon icon="bx:bell" className="me-2" />
           Notification Preferences
         </h5>
         <Badge bg="secondary">Coming Soon</Badge>

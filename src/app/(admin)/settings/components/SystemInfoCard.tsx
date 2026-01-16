@@ -4,7 +4,7 @@
  */
 
 import { Card, CardBody, CardHeader, ListGroup, Badge } from 'react-bootstrap'
-import { Icon } from '@iconify/react'
+import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { format } from 'date-fns'
 import { APP_INFO } from '../constants'
 import { isVP } from '@/hooks/useUserRole'
@@ -23,7 +23,7 @@ export function SystemInfoCard({ lastLogin, role }: SystemInfoCardProps) {
     <Card className="h-100">
       <CardHeader className="border-bottom">
         <h5 className="card-title mb-0">
-          <Icon icon="bx:info-circle" className="me-2" />
+          <IconifyIcon icon="bx:info-circle" className="me-2" />
           System Information
         </h5>
       </CardHeader>
@@ -64,7 +64,7 @@ export function SystemInfoCard({ lastLogin, role }: SystemInfoCardProps) {
           {isVP(role) && (
             <ListGroup.Item className="d-flex justify-content-between align-items-center bg-light">
               <span className="text-muted">
-                <Icon icon="bx:shield-quarter" className="me-1" />
+                <IconifyIcon icon="bx:shield-quarter" className="me-1" />
                 Admin Access
               </span>
               <Badge bg="primary">Full System Access</Badge>
