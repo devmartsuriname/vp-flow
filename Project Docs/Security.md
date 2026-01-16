@@ -431,7 +431,7 @@ Protocol role access to `appointment_attendees`:
 | **Anon Access** | ✗ BLOCKED (RLS enabled, no anon grant, no `USING(true)`) |
 | **Conclusion** | Scanner false positive. RLS correctly restricts to VP/Secretary. |
 
-### A.2 `appointment_attendees` Table — FALSE POSITIVE (2026-01-12)
+### A.2 `appointment_attendees` Table — FALSE POSITIVE (2026-01-12, Re-validated 2026-01-16)
 
 | Attribute | Evidence |
 |-----------|----------|
