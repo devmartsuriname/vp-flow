@@ -190,6 +190,47 @@ The `documents` table was created during v1.0 development but the UI was never e
 
 ---
 
-**Document Version:** 2.0  
-**Updated:** 2026-01-12  
+## v1.0 Final Technical Verification (2026-01-16)
+
+### Verification Scope
+Final technical verification for v1.0 Phase 5 closure, authorized by VP Office.
+
+### Results
+
+| Category | Status | Notes |
+|----------|--------|-------|
+| Router v7 Compatibility | ✓ VERIFIED | v7_startTransition, v7_relativeSplatPath enabled |
+| Navigation Transitions | ✓ VERIFIED | Minimal latency, single top-level Suspense |
+| Duplicate Loaders | ✓ VERIFIED | Standardized LoadingFallback, no duplicates |
+| Session Persistence | ✓ VERIFIED | localStorage, persistSession, autoRefreshToken |
+| Domain Access (vpflow.app) | ✓ VERIFIED | VP-Flow login displayed, not Lovable platform |
+| Domain Access (Lovable URL) | ✓ VERIFIED | gentle-threads.lovable.app active |
+| Supabase Auth Redirects | ⚠️ MANUAL CHECK | Verify in Supabase Dashboard |
+| Darkone Dependencies | ✓ VERIFIED | All required plugins present |
+| Peer Dependencies | ✓ VERIFIED | No missing dependencies |
+
+### Findings
+- No regressions detected
+- All v7 future flags active and functional
+- Session persistence working correctly across refresh/restart
+- Domain access correct (VP-Flow login, not Lovable platform redirect)
+- All Darkone-required dependencies present and compliant
+- `bun.lockb` confirmed as primary lockfile
+
+### Manual Action Items
+
+| Action | Owner | Status |
+|--------|-------|--------|
+| Verify Supabase redirect URLs include `vpflow.app` | VP Office / Devmart | ⏳ Pending |
+| Connect `www.vpflow.app` subdomain (A record → 185.158.133.1) | VP Office / Devmart | ⏳ Pending |
+
+### Verification Authorization
+- **Authorized by:** VP Office
+- **Executed by:** Lovable AI
+- **Date:** 2026-01-16
+
+---
+
+**Document Version:** 2.1  
+**Updated:** 2026-01-16  
 **Authority:** Devmart / Office of the Vice President
