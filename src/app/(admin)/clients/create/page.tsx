@@ -39,7 +39,7 @@ const CreateClientPage = () => {
 
   return (
     <>
-      <PageTitle subName="Clients" title="Create Client" />
+      <PageTitle subName="Guests" title="Create Guest" />
 
       <Card>
         <CardBody>

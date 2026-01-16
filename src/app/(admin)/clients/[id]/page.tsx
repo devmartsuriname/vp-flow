@@ -50,11 +50,11 @@ const ClientDetailPage = () => {
   if (isLoading) {
     return (
       <>
-        <PageTitle subName="Clients" title="Client Details" />
+        <PageTitle subName="Guests" title="Guest Details" />
         <Card>
           <CardBody className="text-center py-5">
             <Spinner animation="border" variant="primary" />
-            <p className="mt-2 text-muted">Loading client...</p>
+            <p className="mt-2 text-muted">Loading guest...</p>
           </CardBody>
         </Card>
       </>
@@ -64,16 +64,16 @@ const ClientDetailPage = () => {
   if (error || !client) {
     return (
       <>
-        <PageTitle subName="Clients" title="Client Not Found" />
+        <PageTitle subName="Guests" title="Guest Not Found" />
         <Card>
           <CardBody className="text-center py-5">
             <IconifyIcon icon="bx:error-circle" className="text-danger fs-1 mb-3" />
-            <h5>Client Not Found</h5>
+            <h5>Guest Not Found</h5>
             <p className="text-muted">
-              {error?.message || 'The client you are looking for does not exist.'}
+              {error?.message || 'The guest you are looking for does not exist.'}
             </p>
             <Button variant="primary" onClick={() => navigate('/clients')}>
-              Back to Clients
+              Back to Guests
             </Button>
           </CardBody>
         </Card>
@@ -83,7 +83,7 @@ const ClientDetailPage = () => {
 
   return (
     <>
-      <PageTitle subName="Clients" title="Client Details" />
+      <PageTitle subName="Guests" title="Guest Details" />
 
       <ClientDetail
         client={client}

@@ -92,12 +92,12 @@ export const authRoutes: RoutesProps[] = [
   },
 ]
 
-// Clients Routes
+// Guests Routes (formerly Clients)
 const clientsRoutes: RoutesProps[] = [
-  { path: '/clients', name: 'Clients', element: <ClientsList /> },
-  { path: '/clients/create', name: 'Create Client', element: <ClientCreate /> },
-  { path: '/clients/:id', name: 'Client Detail', element: <ClientDetail /> },
-  { path: '/clients/:id/edit', name: 'Edit Client', element: <ClientEdit /> },
+  { path: '/clients', name: 'Guests', element: <ClientsList /> },
+  { path: '/clients/create', name: 'Create Guest', element: <ClientCreate /> },
+  { path: '/clients/:id', name: 'Guest Detail', element: <ClientDetail /> },
+  { path: '/clients/:id/edit', name: 'Edit Guest', element: <ClientEdit /> },
 ]
 
 // Appointments Routes

@@ -149,12 +149,12 @@ export default function ClientDetail({
                     className="btn btn-primary"
                   >
                     <IconifyIcon icon="bx:edit" className="me-2" />
-                    Edit Client
+                    Edit Guest
                   </Link>
                   {isVP(userRole) && onDelete && (
                     <Button variant="outline-danger" onClick={onDelete}>
                       <IconifyIcon icon="bx:trash" className="me-2" />
-                      Delete Client
+                      Delete Guest
                     </Button>
                   )}
                 </Card.Body>

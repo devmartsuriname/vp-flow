@@ -30,7 +30,7 @@ export default function DeleteClientModal({
       </Modal.Header>
       <Modal.Body>
         <p className="mb-0">
-          Are you sure you want to delete the client{' '}
+          Are you sure you want to delete the guest{' '}
           <strong>{getClientDisplayName(client)}</strong>?
         </p>
         <p className="text-muted small mt-2 mb-0">

@@ -119,7 +119,7 @@ export default function CaseDetail({
                       {formatDate(caseItem.appointments.scheduled_date)}
                     </div>
                     <span className="text-muted">
-                      Client: {getClientDisplayName(caseItem.appointments)}
+                      Guest: {getClientDisplayName(caseItem.appointments)}
                     </span>
                   </div>
                   <Link

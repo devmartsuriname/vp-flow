@@ -23,7 +23,7 @@ const KPICards = ({ role }: KPICardsProps) => {
 
   const kpiCards: KPICardData[] = [
     {
-      title: 'Total Clients',
+      title: 'Total Guests',
       count: stats.totalClients,
       icon: 'bx:group',
       color: 'primary',

@@ -33,7 +33,7 @@ export default function ClientAppointmentHistory({ clientId }: ClientAppointment
     return (
       <div className="text-center py-4">
         <IconifyIcon icon="bx:calendar-x" className="fs-1 text-muted mb-2 d-block" />
-        <p className="text-muted mb-0">No appointments found for this client.</p>
+        <p className="text-muted mb-0">No appointments found for this guest.</p>
       </div>
     )
   }
