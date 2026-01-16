@@ -431,7 +431,9 @@ Protocol role access to `appointment_attendees`:
 | **Anon Access** | ✗ BLOCKED (RLS enabled, no anon grant, no `USING(true)`) |
 | **Conclusion** | Scanner false positive. RLS correctly restricts to VP/Secretary. |
 
-### A.2 `appointment_attendees` Table — FALSE POSITIVE (2026-01-12, Re-validated 2026-01-16)
+### A.2 `appointment_attendees` Table — FALSE POSITIVE (Re-validated 2026-01-16)
+
+> **Re-Disposition Note (2026-01-16):** Security scan reset caused this finding to reappear. RLS and security-definer function verified as correctly configured. Marked as IGNORED via security management tool.
 
 | Attribute | Evidence |
 |-----------|----------|
@@ -485,7 +487,9 @@ Protocol role access to `appointment_attendees`:
 | **Design Rationale** | All SELECT policies require authenticated users with role verification via `is_vp()`, `is_secretary()`, or `is_protocol()` security-definer functions. |
 | **Conclusion** | Scanner false positive. RLS correctly restricts access to authorized roles only. |
 
-### A.4 `cases` Table — INTENTIONAL (2026-01-16)
+### A.4 `cases` Table — INTENTIONAL (Re-validated 2026-01-16)
+
+> **Re-Disposition Note (2026-01-16):** Security scan reset caused this finding to reappear. Missing DELETE policy is intentional per Phase 1 governance for audit integrity. Marked as IGNORED via security management tool.
 
 | Attribute | Evidence |
 |-----------|----------|
