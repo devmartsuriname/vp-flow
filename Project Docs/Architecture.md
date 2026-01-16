@@ -301,9 +301,18 @@ Authentication
 - End users on vpflow.app do not see this selector
 - No application code changes required
 
+**Demo Data Cleanup (2026-01-16):**
+- Deleted unused Darkone demo files:
+  - `src/helpers/data.ts`
+  - `src/assets/data/other.ts`
+  - `src/assets/data/social.ts`
+  - `src/assets/data/topbar.ts`
+- Preserved: `src/assets/data/menu-items.ts` (active navigation)
+- Types cleanup: NOT performed (no build pressure)
+
 ---
 
-**Document Version:** 1.2  
+**Document Version:** 1.3  
 **Created:** 2026-01-10  
 **Updated:** 2026-01-16  
 **Authority:** Devmart / Office of the Vice President
