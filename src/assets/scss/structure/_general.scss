@@ -8,6 +8,12 @@
      position: relative;
 }
 
+// Layout Wrapper - ensures sidebar full height in condensed mode
+.wrapper {
+     position: relative;
+     min-height: 100vh;
+}
+
 // Main Content
 .page-content {
      position: relative;
