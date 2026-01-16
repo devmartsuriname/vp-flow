@@ -3,18 +3,21 @@ import { Link } from 'react-router-dom'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import type { Client } from '../types'
 import { getClientDisplayName } from '../types'
+import ClientAppointmentHistory from './ClientAppointmentHistory'
 import { isVP } from '@/hooks/useUserRole'
 import type { VPFlowRole } from '@/types/auth'
 import { format } from 'date-fns'
 
 type ClientDetailProps = {
   client: Client
+  clientId: string
   userRole: VPFlowRole | null
   onDelete?: () => void
 }
 
 export default function ClientDetail({ 
   client, 
+  clientId,
   userRole,
   onDelete 
 }: ClientDetailProps) {
@@ -187,10 +190,7 @@ export default function ClientDetail({
               </h5>
             </Card.Header>
             <Card.Body>
-              <p className="text-muted mb-0">
-                <IconifyIcon icon="bx:info-circle" className="me-1" />
-                Appointment history will be displayed here once the Appointments module is implemented.
-              </p>
+              <ClientAppointmentHistory clientId={clientId} />
             </Card.Body>
           </Card>
         </Tab.Pane>
