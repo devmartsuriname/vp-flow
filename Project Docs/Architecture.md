@@ -289,7 +289,21 @@ Authentication
 
 ---
 
-**Document Version:** 1.1  
+## v1.0 UI Cleanup (2026-01-16)
+
+**Profile Dropdown Cleanup:**
+- Removed "Pricing" menu item (demo content, not VP-Flow functionality)
+- Removed "Help" menu item (demo content, not VP-Flow functionality)
+- Retained: My Account, Lock screen, Logout
+
+**Route Dropdown Clarification:**
+- The route selector visible in preview mode is Lovable platform UI, not application code
+- End users on vpflow.app do not see this selector
+- No application code changes required
+
+---
+
+**Document Version:** 1.2  
 **Created:** 2026-01-10  
-**Updated:** 2026-01-11  
+**Updated:** 2026-01-16  
 **Authority:** Devmart / Office of the Vice President
