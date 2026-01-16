@@ -231,6 +231,37 @@ Final technical verification for v1.0 Phase 5 closure, authorized by VP Office.
 
 ---
 
-**Document Version:** 2.1  
+## v1.0 Route Hygiene + Profile Menu Cleanup (2026-01-16)
+
+### Completed Tasks
+
+| Task | Status | Date |
+|------|--------|------|
+| Profile dropdown: Remove "Pricing" | ✅ COMPLETE | 2026-01-16 |
+| Profile dropdown: Remove "Help" | ✅ COMPLETE | 2026-01-16 |
+| Route dropdown investigation | ✅ COMPLETE | 2026-01-16 |
+| Restore point created | ✅ COMPLETE | 2026-01-16 |
+| Documentation updated | ✅ COMPLETE | 2026-01-16 |
+
+### Route Dropdown Clarification
+
+**Finding:** The route selector dropdown visible in the Lovable preview is **Lovable platform UI**, not application code.
+
+**Evidence:**
+- No `cmdk`, `CommandPalette`, or route selector components found in `/src`
+- No route registry or command palette pattern in codebase
+- Routes in `src/routes/index.tsx` contain only VP-Flow paths
+
+**Implication:** End users on `vpflow.app` do not see this selector. No code changes required.
+
+### Files Modified
+- `src/components/layout/TopNavigationBar/components/ProfileDropdown.tsx`
+- `Project Docs/Architecture.md`
+- `Project Docs/Backend.md`
+- `Project Docs/Restore Points/Restore_Point_v1.0_ProfileMenu_Cleanup.md`
+
+---
+
+**Document Version:** 2.2  
 **Updated:** 2026-01-16  
 **Authority:** Devmart / Office of the Vice President

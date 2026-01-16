@@ -2,7 +2,6 @@ import avatar1 from '@/assets/images/users/avatar-1.jpg'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useAuthContext } from '@/context/useAuthContext'
 import { Dropdown, DropdownHeader, DropdownItem, DropdownMenu, DropdownToggle } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 
 const ProfileDropdown = () => {
   const { signOut } = useAuthContext()
@@ -31,14 +30,6 @@ const ProfileDropdown = () => {
         <DropdownItem href="">
           <IconifyIcon icon="solar:user-outline" className="align-middle me-2 fs-18" />
           <span className="align-middle">My Account</span>
-        </DropdownItem>
-        <DropdownItem href="">
-          <IconifyIcon icon="solar:wallet-outline" className="align-middle me-2 fs-18" />
-          <span className="align-middle">Pricing</span>
-        </DropdownItem>
-        <DropdownItem href="">
-          <IconifyIcon icon="solar:help-outline" className="align-middle me-2 fs-18" />
-          <span className="align-middle">Help</span>
         </DropdownItem>
         <DropdownItem href="/auth/lock-screen">
           <IconifyIcon icon="solar:lock-keyhole-outline" className="align-middle me-2 fs-18" />
