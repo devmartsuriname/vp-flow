@@ -87,6 +87,7 @@ const ClientDetailPage = () => {
 
       <ClientDetail
         client={client}
+        clientId={client.id}
         userRole={role}
         onDelete={handleDeleteClick}
       />
