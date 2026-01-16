@@ -23,8 +23,8 @@ export const UsersTable = ({ users, currentUserId }: UsersTableProps) => {
 
   return (
     <div className="table-responsive">
-      <Table className="table-nowrap mb-0">
-        <thead className="table-light">
+      <Table className="table-centered mb-0">
+        <thead className="bg-light bg-opacity-50">
           <tr>
             <th>Name</th>
             <th>Role</th>

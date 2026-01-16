@@ -29,8 +29,8 @@ const NotificationsTable = ({
 
   return (
     <div className="table-responsive">
-      <Table className="table-hover mb-0">
-        <thead className="bg-light">
+      <Table className="table-centered mb-0">
+        <thead className="bg-light bg-opacity-50">
           <tr>
             <th style={{ width: 40 }}>Status</th>
             <th>Title</th>

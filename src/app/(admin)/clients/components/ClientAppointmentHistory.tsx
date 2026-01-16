@@ -40,8 +40,8 @@ export default function ClientAppointmentHistory({ clientId }: ClientAppointment
 
   return (
     <div className="table-responsive">
-      <Table hover className="mb-0">
-        <thead className="table-light">
+      <Table className="table-centered mb-0">
+        <thead className="bg-light bg-opacity-50">
           <tr>
             <th>Date &amp; Time</th>
             <th>Subject</th>

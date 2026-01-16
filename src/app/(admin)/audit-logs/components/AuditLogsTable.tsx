@@ -45,8 +45,8 @@ export function AuditLogsTable({ events, isLoading }: AuditLogsTableProps) {
 
   return (
     <>
-      <Table responsive hover className="mb-0">
-        <thead className="table-light">
+      <Table className="table-centered mb-0">
+        <thead className="bg-light bg-opacity-50">
           <tr>
             <th>Timestamp</th>
             <th>Actor</th>

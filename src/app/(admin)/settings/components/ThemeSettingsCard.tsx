@@ -4,7 +4,7 @@
  */
 
 import { Card, CardBody, CardHeader, Form, Button, Row, Col } from 'react-bootstrap'
-import { Icon } from '@iconify/react'
+import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { useLayoutContext } from '@/context/useLayoutContext'
 
 export function ThemeSettingsCard() {
@@ -22,11 +22,11 @@ export function ThemeSettingsCard() {
     <Card className="h-100">
       <CardHeader className="border-bottom d-flex justify-content-between align-items-center">
         <h5 className="card-title mb-0">
-          <Icon icon="bx:palette" className="me-2" />
+          <IconifyIcon icon="bx:palette" className="me-2" />
           Theme Preferences
         </h5>
         <Button variant="soft-secondary" size="sm" onClick={resetSettings}>
-          <Icon icon="bx:reset" className="me-1" />
+          <IconifyIcon icon="bx:reset" className="me-1" />
           Reset
         </Button>
       </CardHeader>

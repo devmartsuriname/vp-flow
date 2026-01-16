@@ -1,5 +1,5 @@
 import { Card, CardBody } from 'react-bootstrap'
-import { Icon } from '@iconify/react'
+import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { Link } from 'react-router-dom'
 import type { KPICardData } from '../types'
 
@@ -14,7 +14,7 @@ const KPICard = ({ title, count, icon, color, link }: KPICardProps) => {
             <div
               className={`avatar-sm rounded bg-${color} bg-opacity-10 d-flex align-items-center justify-content-center`}
             >
-              <Icon icon={icon} width={24} height={24} className={`text-${color}`} />
+              <IconifyIcon icon={icon} width={24} height={24} className={`text-${color}`} />
             </div>
           </div>
           <div className="flex-grow-1">

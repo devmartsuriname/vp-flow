@@ -4,7 +4,7 @@
  */
 
 import { Card, CardBody, CardHeader, Badge, ListGroup, Spinner } from 'react-bootstrap'
-import { Icon } from '@iconify/react'
+import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { format } from 'date-fns'
 import type { UserProfileData } from '../types'
 import { ROLE_DISPLAY_NAMES } from '../constants'
@@ -21,7 +21,7 @@ export function ProfileCard({ profile, isLoading, error }: ProfileCardProps) {
       <Card className="h-100">
         <CardHeader className="border-bottom">
           <h5 className="card-title mb-0">
-            <Icon icon="bx:user" className="me-2" />
+            <IconifyIcon icon="bx:user" className="me-2" />
             Profile Information
           </h5>
         </CardHeader>
@@ -37,7 +37,7 @@ export function ProfileCard({ profile, isLoading, error }: ProfileCardProps) {
       <Card className="h-100">
         <CardHeader className="border-bottom">
           <h5 className="card-title mb-0">
-            <Icon icon="bx:user" className="me-2" />
+            <IconifyIcon icon="bx:user" className="me-2" />
             Profile Information
           </h5>
         </CardHeader>
@@ -53,7 +53,7 @@ export function ProfileCard({ profile, isLoading, error }: ProfileCardProps) {
       <Card className="h-100">
         <CardHeader className="border-bottom">
           <h5 className="card-title mb-0">
-            <Icon icon="bx:user" className="me-2" />
+            <IconifyIcon icon="bx:user" className="me-2" />
             Profile Information
           </h5>
         </CardHeader>
@@ -70,7 +70,7 @@ export function ProfileCard({ profile, isLoading, error }: ProfileCardProps) {
     <Card className="h-100">
       <CardHeader className="border-bottom">
         <h5 className="card-title mb-0">
-          <Icon icon="bx:user" className="me-2" />
+          <IconifyIcon icon="bx:user" className="me-2" />
           Profile Information
         </h5>
       </CardHeader>
