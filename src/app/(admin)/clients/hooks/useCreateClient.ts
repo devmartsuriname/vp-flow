@@ -41,10 +41,10 @@ export function useCreateClient() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['clients'] })
-      toast.success('Client created successfully')
+      toast.success('Guest created successfully')
     },
     onError: (error) => {
-      toast.error(`Failed to create client: ${error.message}`)
+      toast.error(`Failed to create guest: ${error.message}`)
     },
   })
 }

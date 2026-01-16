@@ -43,7 +43,7 @@ export default function ClientsTable({
     return (
       <div className="text-center py-5">
         <Spinner animation="border" variant="primary" />
-        <p className="mt-2 text-muted">Loading clients...</p>
+        <p className="mt-2 text-muted">Loading guests...</p>
       </div>
     )
   }
@@ -75,7 +75,7 @@ export default function ClientsTable({
 
       {/* Results count */}
       <div className="mb-2 text-muted small">
-        Showing {filteredClients.length} of {clients.length} clients
+        Showing {filteredClients.length} of {clients.length} guests
       </div>
 
       {/* Table */}
@@ -95,7 +95,7 @@ export default function ClientsTable({
             {filteredClients.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center py-4 text-muted">
-                  {searchTerm ? 'No clients found matching your search' : 'No clients yet'}
+                  {searchTerm ? 'No guests found matching your search' : 'No guests yet'}
                 </td>
               </tr>
             ) : (

@@ -3,7 +3,7 @@ import * as yup from 'yup'
 export const appointmentSchema = yup.object({
   client_id: yup
     .string()
-    .required('Client is required'),
+    .required('Guest is required'),
   subject: yup
     .string()
     .max(200, 'Subject must be 200 characters or less')

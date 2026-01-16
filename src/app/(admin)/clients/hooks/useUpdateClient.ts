@@ -44,10 +44,10 @@ export function useUpdateClient() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['clients'] })
       queryClient.invalidateQueries({ queryKey: ['client', data.id] })
-      toast.success('Client updated successfully')
+      toast.success('Guest updated successfully')
     },
     onError: (error) => {
-      toast.error(`Failed to update client: ${error.message}`)
+      toast.error(`Failed to update guest: ${error.message}`)
     },
   })
 }

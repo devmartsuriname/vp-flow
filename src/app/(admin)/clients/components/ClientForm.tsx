@@ -53,10 +53,10 @@ export default function ClientForm({
 
   return (
     <Form onSubmit={handleSubmit(handleFormSubmit)}>
-      {/* Client Type Selection */}
+      {/* Guest Type Selection */}
       <Card className="mb-3">
         <Card.Header>
-          <h5 className="mb-0">Client Type</h5>
+          <h5 className="mb-0">Guest Type</h5>
         </Card.Header>
         <Card.Body>
           <Controller
@@ -264,7 +264,7 @@ export default function ClientForm({
             <Form.Control
               as="textarea"
               rows={4}
-              placeholder="Add any internal notes about this client..."
+              placeholder="Add any internal notes about this guest..."
               {...register('notes')}
             />
             <Form.Text className="text-muted">
@@ -288,7 +288,7 @@ export default function ClientForm({
           ) : (
             <>
               <IconifyIcon icon={isEditMode ? 'bx:check' : 'bx:plus'} className="me-1" />
-              {isEditMode ? 'Update Client' : 'Create Client'}
+              {isEditMode ? 'Update Guest' : 'Create Guest'}
             </>
           )}
         </Button>

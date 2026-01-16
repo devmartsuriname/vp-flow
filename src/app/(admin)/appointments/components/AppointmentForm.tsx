@@ -56,14 +56,14 @@ export default function AppointmentForm({
 
   return (
     <Form onSubmit={handleSubmit(handleFormSubmit)}>
-      {/* Client Selection */}
+      {/* Guest Selection */}
       <Card className="mb-3">
         <Card.Header>
-          <h5 className="mb-0">Client</h5>
+          <h5 className="mb-0">Guest</h5>
         </Card.Header>
         <Card.Body>
           <Form.Group>
-            <Form.Label>Select Client <span className="text-danger">*</span></Form.Label>
+            <Form.Label>Select Guest <span className="text-danger">*</span></Form.Label>
             <Controller
               name="client_id"
               control={control}

@@ -50,11 +50,11 @@ const ClientsPage = () => {
   if (error) {
     return (
       <>
-        <PageTitle subName="VP-Flow" title="Clients" />
+        <PageTitle subName="VP-Flow" title="Guests" />
         <Card>
           <CardBody className="text-center py-5">
             <IconifyIcon icon="bx:error-circle" className="text-danger fs-1 mb-3" />
-            <h5>Error Loading Clients</h5>
+            <h5>Error Loading Guests</h5>
             <p className="text-muted">{error.message}</p>
             <Button variant="primary" onClick={() => window.location.reload()}>
               Try Again
@@ -67,18 +67,18 @@ const ClientsPage = () => {
 
   return (
     <>
-      <PageTitle subName="VP-Flow" title="Clients" />
+      <PageTitle subName="VP-Flow" title="Guests" />
 
       <Row className="mb-3">
         <Col>
           <div className="d-flex justify-content-between align-items-center">
             <div>
-              <h5 className="mb-1">Client Registry</h5>
-              <p className="text-muted mb-0">Manage internal clients and contacts</p>
+              <h5 className="mb-1">Guest Registry</h5>
+              <p className="text-muted mb-0">Manage internal guests and contacts</p>
             </div>
             <Link to="/clients/create" className="btn btn-primary">
               <IconifyIcon icon="bx:plus" className="me-1" />
-              Add Client
+              Add Guest
             </Link>
           </div>
         </Col>

@@ -11,7 +11,7 @@ const RecentClients = () => {
     return (
       <Card>
         <CardHeader>
-          <h5 className="card-title mb-0">Recent Clients</h5>
+          <h5 className="card-title mb-0">Recent Guests</h5>
         </CardHeader>
         <CardBody className="text-center py-5">
           <Spinner animation="border" variant="primary" />
@@ -23,8 +23,8 @@ const RecentClients = () => {
   if (error) {
     return (
       <EmptyState
-        title="Error Loading Clients"
-        message="Unable to fetch recent clients."
+        title="Error Loading Guests"
+        message="Unable to fetch recent guests."
         icon="bx:error-circle"
       />
     )
@@ -33,8 +33,8 @@ const RecentClients = () => {
   if (!clients || clients.length === 0) {
     return (
       <EmptyState
-        title="No Clients"
-        message="No clients have been registered yet."
+        title="No Guests"
+        message="No guests have been registered yet."
         icon="bx:group"
       />
     )
@@ -50,7 +50,7 @@ const RecentClients = () => {
   return (
     <Card>
       <CardHeader className="d-flex justify-content-between align-items-center">
-        <h5 className="card-title mb-0">Recent Clients</h5>
+        <h5 className="card-title mb-0">Recent Guests</h5>
         <Link to="/clients" className="btn btn-sm btn-soft-primary">
           View All
         </Link>

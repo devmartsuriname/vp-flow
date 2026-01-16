@@ -25,7 +25,7 @@ export default function ClientSelector({
       disabled={disabled || isLoading}
     >
       <option value="">
-        {isLoading ? 'Loading clients...' : 'Select a client'}
+        {isLoading ? 'Loading guests...' : 'Select a guest'}
       </option>
       {clients.map((client) => (
         <option key={client.id} value={client.id}>

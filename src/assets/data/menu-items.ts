@@ -14,7 +14,7 @@ export const MENU_ITEMS: MenuItemType[] = [
   },
   {
     key: 'clients',
-    label: 'Clients',
+    label: 'Guests',
     icon: 'bx:user',
     url: '/clients',
   },
