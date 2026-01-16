@@ -323,11 +323,12 @@ VP → Close Case → Update Status (FINAL) → Audit Log Entry
 
 **UI Cleanup (No Backend Impact):**
 - Profile dropdown: Removed demo items (Pricing, Help)
+- Demo data files: Removed 4 unused mock data files
 - No backend or RLS changes required
 
 ---
 
-**Document Version:** 1.1  
+**Document Version:** 1.2  
 **Created:** 2026-01-10  
 **Updated:** 2026-01-16  
 **Authority:** Devmart / Office of the Vice President
