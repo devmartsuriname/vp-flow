@@ -6,6 +6,8 @@
 ## Status
 Documentation only. No implementation authorized.
 
+> **Note (2026-01-16):** Orphaned Darkone demo types and unused EmailContext have been removed from the codebase during v1.0 Final Hygiene cleanup. See `Project Docs/Tasks.md` for details.
+
 ---
 
 ## 1. Mandatory Challenge (Architecture-Level)
