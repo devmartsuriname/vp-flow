@@ -469,19 +469,40 @@ Protocol role access to `appointment_attendees`:
 
 **Conclusion:** Scanner false positive. Comprehensive RLS + security definer function ensures data is properly protected. Protocol cannot access email/phone. Unauthenticated users have zero access.
 
-### A.3 `cases` Table — ACCEPTED (Phase 1 Compliant)
+### A.3 `appointments` Table — FALSE POSITIVE (2026-01-16)
 
 | Attribute | Evidence |
 |-----------|----------|
-| **Finding** | "No DELETE policy" |
+| **Finding** | "Confidential Meeting Details Accessible Without Authentication" |
+| **Severity** | ERROR |
+| **Table** | `public.appointments` |
+| **Scanner ID** | `appointments_public_exposure` |
+| **Scanner** | `supabase_lov` |
+| **Disposition** | **IGNORED (False Positive)** |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | VP/Secretary/Protocol role-based policies |
+| **Anon Access** | ✗ BLOCKED (no anon grant, default-deny) |
+| **Design Rationale** | All SELECT policies require authenticated users with role verification via `is_vp()`, `is_secretary()`, or `is_protocol()` security-definer functions. |
+| **Conclusion** | Scanner false positive. RLS correctly restricts access to authorized roles only. |
+
+### A.4 `cases` Table — INTENTIONAL (2026-01-16)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "Case Records Cannot Be Deleted by Any User" |
 | **Severity** | WARN |
 | **Table** | `public.cases` |
+| **Scanner ID** | `cases_missing_delete_policy` |
+| **Scanner** | `supabase_lov` |
+| **Disposition** | **IGNORED (Intentional by Design)** |
 | **RLS Enabled** | ✓ YES |
 | **Policies Governing SELECT** | `VP/Secretary can view cases` |
 | **DELETE Policy** | None (intentional) |
 | **Protocol Access** | ✗ BLOCKED (no SELECT, INSERT, UPDATE, DELETE) |
-| **Design Rationale** | Per Phase 1 §7: Cases cannot be deleted. Closed cases are immutable. |
-| **Conclusion** | ACCEPTED. Absence of DELETE is a security feature. |
+| **Design Rationale** | Per Phase 1 §7 and Master PRD: Cases cannot be deleted. Closed cases are immutable. Audit trail preservation is mandatory. |
+| **Conclusion** | ACCEPTED. Absence of DELETE policy is a critical security and governance feature. |
+
+### A.5 `audit_events` Table — ACCEPTED (Phase 1 Compliant)
 
 ### A.4 `audit_events` Table — ACCEPTED (Phase 1 Compliant)
 
