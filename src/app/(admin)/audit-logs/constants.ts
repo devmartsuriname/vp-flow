@@ -14,6 +14,11 @@ export const ACTION_BADGE_VARIANTS: Record<AuditAction, string> = {
   document_viewed: 'secondary',
   document_downloaded: 'secondary',
   document_deactivated: 'warning',
+  note_created: 'success',
+  note_updated: 'info',
+  note_deleted: 'warning',
+  note_linked: 'primary',
+  note_unlinked: 'secondary',
 }
 
 export const ACTION_LABELS: Record<AuditAction, string> = {
@@ -30,6 +35,11 @@ export const ACTION_LABELS: Record<AuditAction, string> = {
   document_viewed: 'Document Viewed',
   document_downloaded: 'Document Downloaded',
   document_deactivated: 'Document Deactivated',
+  note_created: 'Note Created',
+  note_updated: 'Note Updated',
+  note_deleted: 'Note Deleted',
+  note_linked: 'Note Linked',
+  note_unlinked: 'Note Unlinked',
 }
 
 export const ENTITY_TYPE_OPTIONS = [
@@ -56,4 +66,9 @@ export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
   { value: 'document_viewed', label: 'Document Viewed' },
   { value: 'document_downloaded', label: 'Document Downloaded' },
   { value: 'document_deactivated', label: 'Document Deactivated' },
+  { value: 'note_created', label: 'Note Created' },
+  { value: 'note_updated', label: 'Note Updated' },
+  { value: 'note_deleted', label: 'Note Deleted' },
+  { value: 'note_linked', label: 'Note Linked' },
+  { value: 'note_unlinked', label: 'Note Unlinked' },
 ]

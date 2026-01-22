@@ -382,6 +382,68 @@ export type Database = {
         }
         Relationships: []
       }
+      note_links: {
+        Row: {
+          created_at: string
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["note_entity_type"]
+          id: string
+          note_id: string
+        }
+        Insert: {
+          created_at?: string
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["note_entity_type"]
+          id?: string
+          note_id: string
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string
+          entity_type?: Database["public"]["Enums"]["note_entity_type"]
+          id?: string
+          note_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "note_links_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: true
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notes: {
+        Row: {
+          content: string
+          created_at: string
+          deleted_at: string | null
+          id: string
+          owner_user_id: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          owner_user_id: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          owner_user_id?: string
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string
@@ -598,6 +660,11 @@ export type Database = {
         | "document_viewed"
         | "document_downloaded"
         | "document_deactivated"
+        | "note_created"
+        | "note_updated"
+        | "note_deleted"
+        | "note_linked"
+        | "note_unlinked"
       case_priority: "high" | "medium" | "low"
       case_status:
         | "draft"
@@ -608,6 +675,7 @@ export type Database = {
         | "reopened"
       client_type: "person" | "organization"
       document_entity_type: "case" | "guest" | "appointment" | "none"
+      note_entity_type: "guest" | "appointment" | "case"
       protocol_status:
         | "expected"
         | "arrived"
@@ -768,6 +836,11 @@ export const Constants = {
         "document_viewed",
         "document_downloaded",
         "document_deactivated",
+        "note_created",
+        "note_updated",
+        "note_deleted",
+        "note_linked",
+        "note_unlinked",
       ],
       case_priority: ["high", "medium", "low"],
       case_status: [
@@ -780,6 +853,7 @@ export const Constants = {
       ],
       client_type: ["person", "organization"],
       document_entity_type: ["case", "guest", "appointment", "none"],
+      note_entity_type: ["guest", "appointment", "case"],
       protocol_status: [
         "expected",
         "arrived",
