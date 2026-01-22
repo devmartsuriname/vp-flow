@@ -3,7 +3,7 @@ import { Card, CardBody, Button, Row, Col, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
-import { useDocuments, useDeactivateDocument } from './hooks'
+import { useDocuments, useDeactivateDocument, useDocumentAudit } from './hooks'
 import { DocumentsTable, DeactivateModal } from './components'
 import { ENTITY_TYPE_OPTIONS } from './constants'
 import { useAuthContext } from '@/context/useAuthContext'
@@ -24,6 +24,7 @@ const DocumentsPage = () => {
   })
 
   const deactivateDocument = useDeactivateDocument()
+  const documentAudit = useDocumentAudit()
 
   // Redirect Protocol users - they cannot access documents
   useEffect(() => {
@@ -41,6 +42,8 @@ const DocumentsPage = () => {
         .createSignedUrl(doc.file_path, 3600) // 1 hour expiry
 
       if (data?.signedUrl) {
+        // Log document_viewed audit event
+        documentAudit.mutate({ document: doc, action: 'document_viewed' })
         window.open(data.signedUrl, '_blank')
       }
     } catch (err) {
@@ -55,6 +58,8 @@ const DocumentsPage = () => {
         .createSignedUrl(doc.file_path, 60, { download: doc.file_name })
 
       if (data?.signedUrl) {
+        // Log document_downloaded audit event
+        documentAudit.mutate({ document: doc, action: 'document_downloaded' })
         const link = document.createElement('a')
         link.href = data.signedUrl
         link.download = doc.file_name
