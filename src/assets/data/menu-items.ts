@@ -37,6 +37,12 @@ export const MENU_ITEMS: MenuItemType[] = [
     url: '/documents',
   },
   {
+    key: 'notes',
+    label: 'Notes',
+    icon: 'bx:notepad',
+    url: '/notes',
+  },
+  {
     key: 'audit-logs',
     label: 'Audit Logs',
     icon: 'bx:history',
