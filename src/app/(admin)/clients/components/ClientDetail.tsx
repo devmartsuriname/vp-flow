@@ -8,6 +8,7 @@ import { isVP } from '@/hooks/useUserRole'
 import type { VPFlowRole } from '@/types/auth'
 import { format } from 'date-fns'
 import { LinkedDocuments } from '@/app/(admin)/documents/components'
+import { LinkedNotes } from '@/app/(admin)/notes/components'
 
 type ClientDetailProps = {
   client: Client
@@ -205,6 +206,12 @@ export default function ClientDetail({
         {/* Documents Tab */}
         <Tab.Pane eventKey="documents">
           <LinkedDocuments
+            entityType="guest"
+            entityId={clientId}
+            entityName={getClientDisplayName(client)}
+            userRole={userRole}
+          />
+          <LinkedNotes
             entityType="guest"
             entityId={clientId}
             entityName={getClientDisplayName(client)}

@@ -6,6 +6,7 @@ import { getClientDisplayName, type AppointmentWithClient } from '../types'
 import { isVP, isProtocol } from '@/hooks/useUserRole'
 import type { VPFlowRole } from '@/types/auth'
 import { LinkedDocuments } from '@/app/(admin)/documents/components'
+import { LinkedNotes } from '@/app/(admin)/notes/components'
 
 type AppointmentDetailProps = {
   appointment: AppointmentWithClient
@@ -122,6 +123,14 @@ export default function AppointmentDetail({
               userRole={userRole}
             />
           )}
+
+          {/* VP Notes Section (VP-only) */}
+          <LinkedNotes
+            entityType="appointment"
+            entityId={appointment.id}
+            entityName={appointment.subject}
+            userRole={userRole}
+          />
 
           {/* Rejection Details (if rejected) */}
           {appointment.status === 'rejected' && appointment.rejection_reason && (

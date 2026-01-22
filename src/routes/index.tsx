@@ -27,6 +27,12 @@ const AuditLogsList = lazy(() => import('@/app/(admin)/audit-logs/page'))
 // Documents Module (VP/Secretary access, Protocol blocked)
 const DocumentsList = lazy(() => import('@/app/(admin)/documents/page'))
 
+// Notes Module (VP-only)
+const NotesList = lazy(() => import('@/app/(admin)/notes/page'))
+const NoteDetail = lazy(() => import('@/app/(admin)/notes/[id]/page'))
+const NoteCreate = lazy(() => import('@/app/(admin)/notes/create/page'))
+const NoteEdit = lazy(() => import('@/app/(admin)/notes/[id]/edit/page'))
+
 // Notifications Module (all authenticated users)
 const NotificationsList = lazy(() => import('@/app/(admin)/notifications/page'))
 
@@ -129,6 +135,14 @@ const documentsRoutes: RoutesProps[] = [
   { path: '/documents', name: 'Documents', element: <DocumentsList /> },
 ]
 
+// Notes Routes (VP-only)
+const notesRoutes: RoutesProps[] = [
+  { path: '/notes', name: 'Notes', element: <NotesList /> },
+  { path: '/notes/create', name: 'Create Note', element: <NoteCreate /> },
+  { path: '/notes/:id', name: 'Note Detail', element: <NoteDetail /> },
+  { path: '/notes/:id/edit', name: 'Edit Note', element: <NoteEdit /> },
+]
+
 // Notifications Routes (all authenticated users)
 const notificationsRoutes: RoutesProps[] = [
   { path: '/notifications', name: 'Notifications', element: <NotificationsList /> },
@@ -152,6 +166,7 @@ export const appRoutes = [
   ...casesRoutes,
   ...auditLogsRoutes,
   ...documentsRoutes,
+  ...notesRoutes,
   ...notificationsRoutes,
   ...usersRoutes,
   ...settingsRoutes,

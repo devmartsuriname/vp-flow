@@ -7,6 +7,7 @@ import { getClientDisplayName, type CaseWithAppointment } from '../types'
 import { isVP } from '@/hooks/useUserRole'
 import type { VPFlowRole } from '@/types/auth'
 import { LinkedDocuments } from '@/app/(admin)/documents/components'
+import { LinkedNotes } from '@/app/(admin)/notes/components'
 
 type CaseDetailProps = {
   caseItem: CaseWithAppointment
@@ -148,6 +149,15 @@ export default function CaseDetail({
 
           {/* Documents Section */}
           <LinkedDocuments
+            entityType="case"
+            entityId={caseItem.id}
+            entityName={caseItem.title}
+            userRole={userRole}
+            readOnly={isClosed && caseItem.status !== 'reopened'}
+          />
+
+          {/* VP Notes Section */}
+          <LinkedNotes
             entityType="case"
             entityId={caseItem.id}
             entityName={caseItem.title}
