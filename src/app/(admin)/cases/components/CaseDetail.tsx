@@ -6,6 +6,7 @@ import { formatDate, formatDateTime, isOverdue } from '../constants'
 import { getClientDisplayName, type CaseWithAppointment } from '../types'
 import { isVP } from '@/hooks/useUserRole'
 import type { VPFlowRole } from '@/types/auth'
+import { LinkedDocuments } from '@/app/(admin)/documents/components'
 
 type CaseDetailProps = {
   caseItem: CaseWithAppointment
@@ -144,6 +145,15 @@ export default function CaseDetail({
               </Card.Body>
             </Card>
           )}
+
+          {/* Documents Section */}
+          <LinkedDocuments
+            entityType="case"
+            entityId={caseItem.id}
+            entityName={caseItem.title}
+            userRole={userRole}
+            readOnly={isClosed && caseItem.status !== 'reopened'}
+          />
 
           {/* Resolution Summary (if closed) */}
           {isClosed && caseItem.resolution_summary && (

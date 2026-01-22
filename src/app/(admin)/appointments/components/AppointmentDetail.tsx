@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 import AppointmentStatusBadge from './AppointmentStatusBadge'
 import { formatDate, formatTime, formatDuration, VISIBILITY_LABELS } from '../constants'
 import { getClientDisplayName, type AppointmentWithClient } from '../types'
-import { isVP } from '@/hooks/useUserRole'
+import { isVP, isProtocol } from '@/hooks/useUserRole'
 import type { VPFlowRole } from '@/types/auth'
+import { LinkedDocuments } from '@/app/(admin)/documents/components'
 
 type AppointmentDetailProps = {
   appointment: AppointmentWithClient
@@ -111,6 +112,16 @@ export default function AppointmentDetail({
               </div>
             </Card.Body>
           </Card>
+
+          {/* Documents Section (VP/Secretary only - Protocol blocked) */}
+          {!isProtocol(userRole) && (
+            <LinkedDocuments
+              entityType="appointment"
+              entityId={appointment.id}
+              entityName={appointment.subject}
+              userRole={userRole}
+            />
+          )}
 
           {/* Rejection Details (if rejected) */}
           {appointment.status === 'rejected' && appointment.rejection_reason && (
