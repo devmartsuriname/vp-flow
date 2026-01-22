@@ -29,7 +29,7 @@ export default function DeleteNoteModal({
           Are you sure you want to delete the note <strong>"{noteTitle}"</strong>?
         </p>
         <p className="text-muted mb-0 mt-2">
-          This action cannot be undone. The note will be permanently removed.
+          This action will archive the note. It will no longer appear in your notes list.
         </p>
       </Modal.Body>
       <Modal.Footer>
