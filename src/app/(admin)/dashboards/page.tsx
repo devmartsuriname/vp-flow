@@ -5,7 +5,14 @@ import Footer from '@/components/layout/Footer'
 import PageTitle from '@/components/PageTitle'
 import { useAuthContext } from '@/context/useAuthContext'
 import { isVP, isProtocol } from '@/hooks/useUserRole'
-import { KPICards, RecentAppointments, RecentCases, RecentClients } from './components'
+import { 
+  KPICards, 
+  RecentAppointments, 
+  RecentCases, 
+  RecentClients,
+  RecentNotes,
+  TodayNotes,
+} from './components'
 
 const DashboardPage = () => {
   const { role, isLoading: authLoading } = useAuthContext()
@@ -39,6 +46,18 @@ const DashboardPage = () => {
           {isVP(role) ? <RecentCases /> : <RecentClients />}
         </Col>
       </Row>
+
+      {/* VP-Only Notes Widgets */}
+      {isVP(role) && (
+        <Row>
+          <Col xl={6} className="mb-4">
+            <RecentNotes />
+          </Col>
+          <Col xl={6} className="mb-4">
+            <TodayNotes />
+          </Col>
+        </Row>
+      )}
       
       <Footer />
     </>

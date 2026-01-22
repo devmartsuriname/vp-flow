@@ -32,3 +32,16 @@ export interface RecentAppointment extends Appointment {
 export interface RecentCase extends Case {}
 
 export interface RecentClient extends Client {}
+
+export interface RecentNote {
+  id: string
+  title: string | null
+  updated_at: string
+  note_link?: {
+    entity_type: string
+  } | null
+}
+
+export interface TodayNote extends RecentNote {
+  appointment_subject?: string
+}
