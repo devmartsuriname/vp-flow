@@ -1,6 +1,70 @@
-# VP-Flow v1.0 CHANGELOG
+# VP-Flow CHANGELOG
 
 All notable changes to VP-Flow are documented in this file.
+
+---
+
+## [1.1-A] - 2026-01-22
+
+### 🎉 Documents Module & Case Re-opening
+
+v1.1-A introduces the Documents Module for file management and enables VP-controlled case re-opening for closed cases.
+
+---
+
+### Added
+
+#### Case Re-opening
+- **Re-open Closed Cases** — VP can re-open closed cases with justification
+- **Reopened Status** — New case status with distinct badge styling
+- **Re-close Capability** — VP can close reopened cases with new resolution
+- **Reopen Edit Tracking** — Edits during reopened state are audit-logged
+
+#### Documents Module
+- **Standalone Library** — Document management page at `/documents`
+- **Upload Documents** — Attach files to Cases, Appointments, or Guests
+- **View Documents** — Open files in new browser tab
+- **Download Documents** — Save files locally
+- **Deactivate Documents** — VP-only soft-delete capability
+- **Entity Filtering** — Filter documents by type (Case/Appointment/Guest)
+
+#### Integration
+- **Case Detail** — Documents section with upload/view/download
+- **Appointment Detail** — Documents section (VP/Secretary only)
+- **Guest Detail** — New "Documents" tab with full functionality
+- **Sidebar Navigation** — Documents menu item added
+
+#### Audit Events
+- `case_reopened` — Logged when VP re-opens closed case
+- `case_reopen_edit` — Logged when reopened case is modified
+- `case_reclosed` — Logged when reopened case is closed again
+- `document_viewed` — Logged when document is opened
+- `document_downloaded` — Logged when document is downloaded
+- `document_deactivated` — Logged when VP deactivates document
+
+---
+
+### Security
+
+| Area | Implementation |
+|------|----------------|
+| Documents Storage | Private bucket with VP/Secretary RLS |
+| Protocol Isolation | Strictly blocked from all document access |
+| Closed Cases | Read-only (uploads blocked) |
+| Reopened Cases | Full edit access restored |
+| VP-only Actions | Re-open, deactivate, re-close |
+
+---
+
+### Known Limitations
+
+| Limitation | Reason |
+|------------|--------|
+| No document editing | Deferred to future version |
+| No document versioning | Deferred to future version |
+| Single file upload | Multiple file upload deferred |
+
+---
 
 ## [1.0.0] - 2026-01-22
 
