@@ -53,5 +53,7 @@ export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
   { value: 'case_reopen_edit', label: 'Reopen Edit' },
   { value: 'case_reclosed', label: 'Case Re-closed' },
   { value: 'document_linked', label: 'Document Linked' },
+  { value: 'document_viewed', label: 'Document Viewed' },
+  { value: 'document_downloaded', label: 'Document Downloaded' },
   { value: 'document_deactivated', label: 'Document Deactivated' },
 ]
