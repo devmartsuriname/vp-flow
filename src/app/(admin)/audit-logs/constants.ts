@@ -37,6 +37,8 @@ export const ENTITY_TYPE_OPTIONS = [
   { value: 'appointments', label: 'Appointments' },
   { value: 'cases', label: 'Cases' },
   { value: 'clients', label: 'Clients' },
+  { value: 'documents', label: 'Documents' },
+  { value: 'document_links', label: 'Document Links' },
 ]
 
 export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
@@ -47,4 +49,9 @@ export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
   { value: 'pdf_generate', label: 'PDF Generated' },
   { value: 'priority_change', label: 'Priority Change' },
   { value: 'deadline_change', label: 'Deadline Change' },
+  { value: 'case_reopened', label: 'Case Reopened' },
+  { value: 'case_reopen_edit', label: 'Reopen Edit' },
+  { value: 'case_reclosed', label: 'Case Re-closed' },
+  { value: 'document_linked', label: 'Document Linked' },
+  { value: 'document_deactivated', label: 'Document Deactivated' },
 ]
