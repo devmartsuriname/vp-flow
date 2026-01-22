@@ -7,6 +7,13 @@ export const ACTION_BADGE_VARIANTS: Record<AuditAction, string> = {
   pdf_generate: 'secondary',
   priority_change: 'warning',
   deadline_change: 'warning',
+  case_reopened: 'info',
+  case_reopen_edit: 'info',
+  case_reclosed: 'success',
+  document_linked: 'primary',
+  document_viewed: 'secondary',
+  document_downloaded: 'secondary',
+  document_deactivated: 'warning',
 }
 
 export const ACTION_LABELS: Record<AuditAction, string> = {
@@ -16,6 +23,13 @@ export const ACTION_LABELS: Record<AuditAction, string> = {
   pdf_generate: 'PDF Generated',
   priority_change: 'Priority Change',
   deadline_change: 'Deadline Change',
+  case_reopened: 'Case Reopened',
+  case_reopen_edit: 'Reopen Edit',
+  case_reclosed: 'Case Re-closed',
+  document_linked: 'Document Linked',
+  document_viewed: 'Document Viewed',
+  document_downloaded: 'Document Downloaded',
+  document_deactivated: 'Document Deactivated',
 }
 
 export const ENTITY_TYPE_OPTIONS = [

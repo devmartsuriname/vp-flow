@@ -7,6 +7,7 @@ export const STATUS_BADGE_VARIANTS: Record<CaseStatus, string> = {
   in_progress: 'info',
   parked: 'warning',
   closed: 'success',
+  reopened: 'info',
 }
 
 // Human-readable status labels
@@ -16,6 +17,7 @@ export const STATUS_LABELS: Record<CaseStatus, string> = {
   in_progress: 'In Progress',
   parked: 'Parked',
   closed: 'Closed',
+  reopened: 'Reopened',
 }
 
 // Bootstrap badge variants for priority
