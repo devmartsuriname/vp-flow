@@ -18,7 +18,6 @@ import { useUserProfile } from './hooks'
 import {
   ProfileCard,
   ThemeSettingsCard,
-  NotificationPrefsCard,
   SystemInfoCard,
 } from './components'
 
@@ -75,11 +74,6 @@ const SettingsPage = () => {
         {/* Theme Preferences - All roles */}
         <Col lg={6}>
           <ThemeSettingsCard />
-        </Col>
-
-        {/* Notification Preferences - All roles (UI scaffold) */}
-        <Col lg={6}>
-          <NotificationPrefsCard />
         </Col>
 
         {/* System Information - All roles (VP sees extra info) */}

@@ -19,11 +19,3 @@ export interface SystemInfo {
   currentDate: string
   lastLogin: string | null
 }
-
-export interface NotificationPreference {
-  id: string
-  label: string
-  description: string
-  enabled: boolean
-  disabled: boolean // UI scaffold - all disabled in v1.0
-}
