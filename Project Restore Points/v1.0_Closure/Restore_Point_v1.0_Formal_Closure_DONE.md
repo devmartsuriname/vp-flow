@@ -16,13 +16,13 @@
 
 | Document | Path | Status |
 |----------|------|--------|
-| BEFORE Restore Point | `Project Docs/Restore Points/Restore_Point_v1.0_Formal_Closure_START.md` | ✅ Created |
-| Backend Documentation | `docs/backend.md` | ✅ Created |
-| Architecture Documentation | `docs/architecture.md` | ✅ Created |
-| Changelog | `CHANGELOG.md` | ✅ Created |
-| Release Notes | `RELEASE_NOTES_v1.0.md` | ✅ Created |
+| BEFORE Restore Point | `Project Restore Points/v1.0_Closure/Restore_Point_v1.0_Formal_Closure_START.md` | ✅ Created |
+| Backend Documentation | `Project Docs/Architecture/backend.md` | ✅ Created |
+| Architecture Documentation | `Project Docs/Architecture/architecture.md` | ✅ Created |
+| Changelog | `Project Docs/Releases/CHANGELOG.md` | ✅ Created |
+| Release Notes | `Project Docs/Releases/RELEASE_NOTES_v1.0.md` | ✅ Created |
 | README | `README.md` | ✅ Updated |
-| AFTER Restore Point | `Project Docs/Restore Points/Restore_Point_v1.0_Formal_Closure_DONE.md` | ✅ Created |
+| AFTER Restore Point | `Project Restore Points/v1.0_Closure/Restore_Point_v1.0_Formal_Closure_DONE.md` | ✅ Created |
 
 ---
 
