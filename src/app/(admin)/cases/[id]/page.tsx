@@ -3,8 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Card, CardBody, Spinner, Button } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
-import { useCase, useUpdateCaseStatus, useCloseCase } from '../hooks'
+import { useCase, useUpdateCaseStatus, useCloseCase, useReopenCase } from '../hooks'
 import { CaseDetail, CaseActions, CloseModal, CaseTimeline } from '../components'
+import ReopenModal from '../components/ReopenModal'
 import { useAuthContext } from '@/context/useAuthContext'
 import { isVP, isSecretary, isProtocol } from '@/hooks/useUserRole'
 import { supabase } from '@/integrations/supabase/client'
@@ -16,9 +17,11 @@ const CaseDetailPage = () => {
   const { data: caseItem, isLoading, error } = useCase(id)
   const [currentUserId, setCurrentUserId] = useState<string>()
   const [showCloseModal, setShowCloseModal] = useState(false)
+  const [showReopenModal, setShowReopenModal] = useState(false)
 
   const updateCaseStatus = useUpdateCaseStatus()
   const closeCase = useCloseCase()
+  const reopenCase = useReopenCase()
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setCurrentUserId(data.user?.id))
@@ -68,6 +71,9 @@ const CaseDetailPage = () => {
   const handleCloseConfirm = (resolutionSummary: string) => {
     closeCase.mutate({ id: caseItem.id, resolutionSummary }, { onSuccess: () => setShowCloseModal(false) })
   }
+  const handleReopenConfirm = (justification: string) => {
+    reopenCase.mutate({ id: caseItem.id, justification }, { onSuccess: () => setShowReopenModal(false) })
+  }
 
   return (
     <>
@@ -90,7 +96,8 @@ const CaseDetailPage = () => {
             onPark={handlePark}
             onResume={handleResume}
             onClose={() => setShowCloseModal(true)}
-            isUpdating={updateCaseStatus.isPending || closeCase.isPending}
+            onReopen={() => setShowReopenModal(true)}
+            isUpdating={updateCaseStatus.isPending || closeCase.isPending || reopenCase.isPending}
           />
         </CardBody>
       </Card>
@@ -99,6 +106,13 @@ const CaseDetailPage = () => {
         onHide={() => setShowCloseModal(false)}
         onConfirm={handleCloseConfirm}
         isLoading={closeCase.isPending}
+        caseTitle={caseItem.title}
+      />
+      <ReopenModal
+        show={showReopenModal}
+        onHide={() => setShowReopenModal(false)}
+        onConfirm={handleReopenConfirm}
+        isLoading={reopenCase.isPending}
         caseTitle={caseItem.title}
       />
     </>
