@@ -299,37 +299,84 @@ export type Database = {
         }
         Relationships: []
       }
+      document_links: {
+        Row: {
+          document_id: string
+          entity_id: string | null
+          entity_type: Database["public"]["Enums"]["document_entity_type"]
+          id: string
+          linked_at: string
+          linked_by: string | null
+        }
+        Insert: {
+          document_id: string
+          entity_id?: string | null
+          entity_type: Database["public"]["Enums"]["document_entity_type"]
+          id?: string
+          linked_at?: string
+          linked_by?: string | null
+        }
+        Update: {
+          document_id?: string
+          entity_id?: string | null
+          entity_type?: Database["public"]["Enums"]["document_entity_type"]
+          id?: string
+          linked_at?: string
+          linked_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_links_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       documents: {
         Row: {
+          description: string | null
           entity_id: string
           entity_type: Database["public"]["Enums"]["document_entity_type"]
           file_name: string
           file_path: string
           file_size: number | null
           id: string
+          is_active: boolean
           mime_type: string | null
+          owner_role: string | null
+          title: string | null
           uploaded_at: string
           uploaded_by: string | null
         }
         Insert: {
+          description?: string | null
           entity_id: string
           entity_type?: Database["public"]["Enums"]["document_entity_type"]
           file_name: string
           file_path: string
           file_size?: number | null
           id?: string
+          is_active?: boolean
           mime_type?: string | null
+          owner_role?: string | null
+          title?: string | null
           uploaded_at?: string
           uploaded_by?: string | null
         }
         Update: {
+          description?: string | null
           entity_id?: string
           entity_type?: Database["public"]["Enums"]["document_entity_type"]
           file_name?: string
           file_path?: string
           file_size?: number | null
           id?: string
+          is_active?: boolean
           mime_type?: string | null
+          owner_role?: string | null
+          title?: string | null
           uploaded_at?: string
           uploaded_by?: string | null
         }
@@ -544,10 +591,23 @@ export type Database = {
         | "pdf_generate"
         | "priority_change"
         | "deadline_change"
+        | "case_reopened"
+        | "case_reopen_edit"
+        | "case_reclosed"
+        | "document_linked"
+        | "document_viewed"
+        | "document_downloaded"
+        | "document_deactivated"
       case_priority: "high" | "medium" | "low"
-      case_status: "draft" | "open" | "in_progress" | "parked" | "closed"
+      case_status:
+        | "draft"
+        | "open"
+        | "in_progress"
+        | "parked"
+        | "closed"
+        | "reopened"
       client_type: "person" | "organization"
-      document_entity_type: "case"
+      document_entity_type: "case" | "guest" | "appointment" | "none"
       protocol_status:
         | "expected"
         | "arrived"
@@ -701,11 +761,25 @@ export const Constants = {
         "pdf_generate",
         "priority_change",
         "deadline_change",
+        "case_reopened",
+        "case_reopen_edit",
+        "case_reclosed",
+        "document_linked",
+        "document_viewed",
+        "document_downloaded",
+        "document_deactivated",
       ],
       case_priority: ["high", "medium", "low"],
-      case_status: ["draft", "open", "in_progress", "parked", "closed"],
+      case_status: [
+        "draft",
+        "open",
+        "in_progress",
+        "parked",
+        "closed",
+        "reopened",
+      ],
       client_type: ["person", "organization"],
-      document_entity_type: ["case"],
+      document_entity_type: ["case", "guest", "appointment", "none"],
       protocol_status: [
         "expected",
         "arrived",

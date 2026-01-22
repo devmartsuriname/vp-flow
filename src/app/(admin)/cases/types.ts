@@ -55,7 +55,7 @@ export function getClientDisplayName(
 }
 
 // Statuses that allow editing (anything except closed)
-export const EDITABLE_STATUSES: CaseStatus[] = ['draft', 'open', 'in_progress', 'parked']
+export const EDITABLE_STATUSES: CaseStatus[] = ['draft', 'open', 'in_progress', 'parked', 'reopened']
 
 // Terminal status (no further actions)
 export const TERMINAL_STATUSES: CaseStatus[] = ['closed']
