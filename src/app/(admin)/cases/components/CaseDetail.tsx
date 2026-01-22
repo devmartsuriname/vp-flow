@@ -41,7 +41,19 @@ export default function CaseDetail({
           <Card.Body className="d-flex align-items-center gap-2 bg-success bg-opacity-10">
             <Badge bg="success">CLOSED</Badge>
             <span className="text-success fw-medium">
-              This case is closed and cannot be modified.
+              This case is closed. Only VP can re-open if needed.
+            </span>
+          </Card.Body>
+        </Card>
+      )}
+
+      {/* Reopened State Warning Banner */}
+      {caseItem.status === 'reopened' && (
+        <Card className="mb-3 border-warning">
+          <Card.Body className="d-flex align-items-center gap-2 bg-warning bg-opacity-10">
+            <Badge bg="warning" text="dark">REOPENED</Badge>
+            <span className="text-warning fw-medium">
+              This case has been re-opened for additional work. Close again when complete.
             </span>
           </Card.Body>
         </Card>

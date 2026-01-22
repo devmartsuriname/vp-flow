@@ -24,6 +24,9 @@ const CaseEdit = lazy(() => import('@/app/(admin)/cases/[id]/edit/page'))
 // Audit Logs Module (VP-only)
 const AuditLogsList = lazy(() => import('@/app/(admin)/audit-logs/page'))
 
+// Documents Module (VP/Secretary access, Protocol blocked)
+const DocumentsList = lazy(() => import('@/app/(admin)/documents/page'))
+
 // Notifications Module (all authenticated users)
 const NotificationsList = lazy(() => import('@/app/(admin)/notifications/page'))
 
@@ -121,6 +124,11 @@ const auditLogsRoutes: RoutesProps[] = [
   { path: '/audit-logs', name: 'Audit Logs', element: <AuditLogsList /> },
 ]
 
+// Documents Routes (VP/Secretary, Protocol blocked)
+const documentsRoutes: RoutesProps[] = [
+  { path: '/documents', name: 'Documents', element: <DocumentsList /> },
+]
+
 // Notifications Routes (all authenticated users)
 const notificationsRoutes: RoutesProps[] = [
   { path: '/notifications', name: 'Notifications', element: <NotificationsList /> },
@@ -143,6 +151,7 @@ export const appRoutes = [
   ...appointmentsRoutes,
   ...casesRoutes,
   ...auditLogsRoutes,
+  ...documentsRoutes,
   ...notificationsRoutes,
   ...usersRoutes,
   ...settingsRoutes,

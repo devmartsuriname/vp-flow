@@ -13,6 +13,7 @@ type CaseActionsProps = {
   onPark?: () => void
   onResume?: () => void
   onClose?: () => void
+  onReopen?: () => void
   isUpdating?: boolean
 }
 
@@ -24,19 +25,35 @@ export default function CaseActions({
   onPark,
   onResume,
   onClose,
+  onReopen,
   isUpdating,
 }: CaseActionsProps) {
   const status = caseItem.status
   const isClosed = status === 'closed'
+  const isReopened = status === 'reopened'
 
-  // Only VP can perform actions
-  if (!isVP(userRole) || isClosed) {
+  // Only VP can perform actions on non-closed cases, or re-open closed cases
+  if (!isVP(userRole)) {
     return null
   }
 
+  // For closed cases, only show Re-open button
+  if (isClosed) {
+    return (
+      <div className="d-flex flex-wrap gap-2">
+        {onReopen && (
+          <Button variant="warning" onClick={onReopen} disabled={isUpdating}>
+            <IconifyIcon icon="bx:folder-open" className="me-1" />
+            Re-open Case
+          </Button>
+        )}
+      </div>
+    )
+  }
+
   const canOpen = status === 'draft'
-  const canStartWork = status === 'open'
-  const canPark = status === 'open' || status === 'in_progress'
+  const canStartWork = status === 'open' || status === 'reopened'
+  const canPark = status === 'open' || status === 'in_progress' || status === 'reopened'
   const canResume = status === 'parked'
   const canClose = status !== 'draft'
 
