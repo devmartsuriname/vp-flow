@@ -7,6 +7,7 @@ import ClientAppointmentHistory from './ClientAppointmentHistory'
 import { isVP } from '@/hooks/useUserRole'
 import type { VPFlowRole } from '@/types/auth'
 import { format } from 'date-fns'
+import { LinkedDocuments } from '@/app/(admin)/documents/components'
 
 type ClientDetailProps = {
   client: Client
@@ -35,6 +36,12 @@ export default function ClientDetail({
           <Nav.Link eventKey="history">
             <IconifyIcon icon="bx:history" className="me-1" />
             History
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="documents">
+            <IconifyIcon icon="bx:file" className="me-1" />
+            Documents
           </Nav.Link>
         </Nav.Item>
       </Nav>
@@ -193,6 +200,16 @@ export default function ClientDetail({
               <ClientAppointmentHistory clientId={clientId} />
             </Card.Body>
           </Card>
+        </Tab.Pane>
+
+        {/* Documents Tab */}
+        <Tab.Pane eventKey="documents">
+          <LinkedDocuments
+            entityType="guest"
+            entityId={clientId}
+            entityName={getClientDisplayName(client)}
+            userRole={userRole}
+          />
         </Tab.Pane>
       </Tab.Content>
     </Tab.Container>
