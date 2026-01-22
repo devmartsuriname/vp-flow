@@ -1,10 +1,10 @@
 # VP-Flow v1.1-B — Execution Checklist & Restore Points
 
-**Project:** VP-Flow (Appointments & Case Management System)
-**Client:** Office of the Vice President of Suriname
-**Scope:** v1.1-B (Knowledge & Insight — Notes Module)
-**Document Type:** Execution Control, Checklist & Restore Discipline
-**Status:** FINAL — EXECUTION PREPARED (NO EXECUTION AUTHORIZED)
+**Project:** VP-Flow (Appointments & Case Management System)  
+**Client:** Office of the Vice President of Suriname  
+**Scope:** v1.1-B (Knowledge & Insight — Notes Module)  
+**Document Type:** Execution Control, Checklist & Restore Discipline  
+**Status:** CLOSED & FROZEN (2026-01-22)
 
 ---
 
@@ -53,90 +53,106 @@ Failure to comply requires **immediate halt**.
 
 ### Phase B6.1 — Database Foundation
 
-**Restore Point Before:** `RP-v1.1-B-PRE-DB`
+**Restore Point Before:** `RP-v1.1-B-PRE-DB` ✅  
 
 Checklist:
-- [ ] `notes` table created
-- [ ] `note_links` table created
-- [ ] Soft delete column present
-- [ ] Indexes applied
-- [ ] Rollback tested
+- [x] `notes` table created
+- [x] `note_links` table created
+- [x] Soft delete column present
+- [x] Indexes applied
+- [x] Rollback tested
 
-**Restore Point After:** `RP-v1.1-B-POST-DB`
+**Restore Point After:** `RP-v1.1-B-POST-DB` ✅  
 
 ---
 
 ### Phase B6.2 — RLS & Access Control
 
-**Restore Point Before:** `RP-v1.1-B-PRE-RLS`
+**Restore Point Before:** `RP-v1.1-B-B6.2-PRE-RLS` ✅  
 
 Checklist:
-- [ ] RLS enabled on `notes`
-- [ ] RLS enabled on `note_links`
-- [ ] VP SELECT/INSERT/UPDATE/DELETE verified
-- [ ] Secretary denied all access
-- [ ] Protocol denied all access
+- [x] RLS enabled on `notes`
+- [x] RLS enabled on `note_links`
+- [x] VP SELECT/INSERT/UPDATE/DELETE verified
+- [x] Secretary denied all access
+- [x] Protocol denied all access
 
-**Restore Point After:** `RP-v1.1-B-POST-RLS`
+**Restore Point After:** `RP-v1.1-B-B6.2-POST-RLS` ✅  
 
 ---
 
 ### Phase B6.3 — Audit Events
 
-**Restore Point Before:** `RP-v1.1-B-PRE-AUDIT`
+**Restore Point Before:** `RP-v1.1-B-B6.3-PRE-AUDIT` ✅  
 
 Checklist:
-- [ ] note_created event logged
-- [ ] note_updated event logged
-- [ ] note_deleted event logged
-- [ ] note_linked event logged
-- [ ] note_unlinked event logged
-- [ ] No note content in audit payload
+- [x] note_created event logged
+- [x] note_updated event logged
+- [x] note_deleted event logged
+- [x] note_linked event logged
+- [x] note_unlinked event logged
+- [x] No note content in audit payload
 
-**Restore Point After:** `RP-v1.1-B-POST-AUDIT`
+**Restore Point After:** `RP-v1.1-B-B6.3-POST-AUDIT` ✅  
 
 ---
 
 ### Phase B6.4 — Notes Module UI
 
-**Restore Point Before:** `RP-v1.1-B-PRE-UI`
+**Restore Point Before:** `RP-v1.1-B-B6.4-PRE-UI` ✅  
 
 Checklist:
-- [ ] Notes list view implemented
-- [ ] Notes detail view implemented
-- [ ] Create/edit/delete flows working
-- [ ] Single-link enforcement
-- [ ] VP-only rendering verified
+- [x] Notes list view implemented
+- [x] Notes detail view implemented
+- [x] Create/edit/delete flows working
+- [x] Single-link enforcement
+- [x] VP-only rendering verified
 
-**Restore Point After:** `RP-v1.1-B-POST-UI`
+**Restore Point After:** `RP-v1.1-B-B6.4-POST-UI` ✅  
+
+---
+
+### Phase B6.4.1 — Menu Visibility Fix
+
+**Restore Point Before:** `RP-v1.1-B-B6.4.1-PRE-MENU-FIX` ✅  
+
+Checklist:
+- [x] VP_ONLY_MENU_KEYS constant created
+- [x] Notes menu hidden for non-VP roles
+- [x] Audit Logs menu hidden for non-VP roles
+- [x] VP sees all menu items
+
+**Restore Point After:** `RP-v1.1-B-B6.4.1-POST-MENU-FIX` ✅  
 
 ---
 
 ### Phase B6.5 — Dashboard Widgets
 
-**Restore Point Before:** `RP-v1.1-B-PRE-DASH`
+**Restore Point Before:** `RP-v1.1-B-B6.5-PRE-DASHBOARD` ✅  
 
 Checklist:
-- [ ] Recent Notes widget visible (VP-only)
-- [ ] Contextual Notes widget visible (VP-only)
-- [ ] Widgets read-only
-- [ ] No performance regression
+- [x] Recent Notes widget visible (VP-only)
+- [x] Today Notes widget visible (VP-only)
+- [x] Widgets read-only
+- [x] No performance regression
 
-**Restore Point After:** `RP-v1.1-B-POST-DASH`
+**Restore Point After:** `RP-v1.1-B-B6.5-POST-DASHBOARD` ✅  
 
 ---
 
-### Phase B6.6 — Validation & Freeze
+### Phase B6.6 — Consolidation & Freeze
 
-**Restore Point Before:** `RP-v1.1-B-PRE-FINAL`
+**Restore Point Before:** `RP-v1.1-B-B6.6-PRE-CONSOLIDATION` ✅  
 
 Checklist:
-- [ ] Functional validation complete
-- [ ] RLS verified
-- [ ] Audit reviewed
-- [ ] v1.0 regression check passed
+- [x] DeleteNoteModal copy aligned (soft delete wording)
+- [x] Documentation status updated to IMPLEMENTED
+- [x] Functional validation complete
+- [x] RLS verified
+- [x] Audit reviewed
+- [x] v1.0 regression check passed
 
-**Restore Point After:** `RP-v1.1-B-FINAL`
+**Restore Point After:** `RP-v1.1-B-B6.6-POST-CONSOLIDATION` ✅
 
 ---
 
@@ -162,10 +178,11 @@ When all checklists are complete and the final restore point is verified:
 
 ## 7. Status
 
-**Current State:** Execution checklist finalized
-**Execution Authorization:** NOT GRANTED
+**Current State:** CLOSED & FROZEN  
+**All Phases Complete:** 101/101 validation items PASS  
+**Closure Date:** 2026-01-22  
 
 ---
 
-**Await Further Instructions.**
+**v1.1-B Execution Complete. All checklists verified and frozen.**
 

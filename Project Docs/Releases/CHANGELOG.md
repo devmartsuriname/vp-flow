@@ -4,6 +4,69 @@ All notable changes to VP-Flow are documented in this file.
 
 ---
 
+## [1.1-B] - 2026-01-22
+
+### 🎉 Notes Module (Knowledge & Insight)
+
+v1.1-B introduces the VP-exclusive Notes Module for personal annotations, executive memory, and contextual insights linked to Guests, Appointments, and Cases.
+
+---
+
+### Added
+
+#### Notes Module
+- **Notes Library** — Full CRUD at `/notes` (VP-only)
+- **Note Creation** — Title + content with optional entity linking
+- **Note Editing** — Update notes with link management
+- **Soft Delete** — Notes are archived, not permanently removed
+- **Entity Linking** — Link notes to Guest, Appointment, or Case
+- **Entity Unlinking** — Remove links from notes
+
+#### Dashboard Widgets
+- **Recent Notes** — 5 most recently updated notes (VP-only)
+- **Today's Appointment Notes** — Notes linked to today's appointments (VP-only)
+
+#### Entity Integrations
+- **Guest Detail** — LinkedNotes section in Documents tab (VP-only)
+- **Appointment Detail** — LinkedNotes section (VP-only)
+- **Case Detail** — LinkedNotes section with readOnly for closed cases (VP-only)
+
+#### Audit Events
+- `note_created` — Logged when note is created
+- `note_updated` — Logged when note is modified
+- `note_deleted` — Logged when note is soft-deleted
+- `note_linked` — Logged when note is linked to entity
+- `note_unlinked` — Logged when note is unlinked from entity
+
+**Critical:** Note title and content are EXCLUDED from audit payloads to protect sensitive information.
+
+---
+
+### Security
+
+| Area | Implementation |
+|------|----------------|
+| Notes Access | VP-only (Secretary/Protocol blocked) |
+| Note Links | Ownership enforced via parent note |
+| Menu Visibility | Notes hidden from non-VP navigation |
+| Dashboard Widgets | VP-only conditional rendering |
+| Audit Content | Title/content excluded from logs |
+
+---
+
+### Known Limitations (By Design)
+
+| Limitation | Reason |
+|------------|--------|
+| No search/filter | Deferred to future version |
+| No rich text | Plain text only |
+| No attachments | Notes are text-only |
+| No note sharing | VP-only in v1.1-B |
+| No note export | Deferred to future version |
+| Retention period TBD | Requires separate approval |
+
+---
+
 ## [1.1-A] - 2026-01-22
 
 ### 🎉 Documents Module & Case Re-opening
@@ -150,9 +213,9 @@ Created comprehensive documentation pack:
 ## Future Versions
 
 See `/Project Docs/v1.1/` for planned enhancements:
-- **v1.1-A**: Documents Module, Case Re-opening
-- **v1.1-B**: Notes System, Dashboard Widgets
-- **v1.1-C**: PWA Support, Handwriting Input
+- **v1.1-A**: Documents Module, Case Re-opening — CLOSED
+- **v1.1-B**: Notes Module, Dashboard Widgets — CLOSED
+- **v1.1-C**: TBD (awaiting authorization)
 
 ---
 

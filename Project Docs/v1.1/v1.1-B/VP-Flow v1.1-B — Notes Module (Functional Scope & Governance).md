@@ -1,10 +1,10 @@
 # VP-Flow v1.1-B — Notes Module (Functional Scope & Governance)
 
-**Project:** VP-Flow (Appointments & Case Management System)
-**Client:** Office of the Vice President of Suriname
-**Scope:** v1.1-B (Knowledge & Insight)
-**Document Type:** Live Functional & Governance Specification
-**Status:** DRAFT — DOCUMENTATION ONLY (NO EXECUTION)
+**Project:** VP-Flow (Appointments & Case Management System)  
+**Client:** Office of the Vice President of Suriname  
+**Scope:** v1.1-B (Knowledge & Insight)  
+**Document Type:** Functional & Governance Specification  
+**Status:** CLOSED & FROZEN (2026-01-22)
 
 ---
 
@@ -156,11 +156,11 @@ These require separate approval.
 
 ## 12. Status
 
-**Current State:** IMPLEMENTED
-**Implementation Complete:** Phase B6.1-B6.6
-**Frozen:** Pending v1.1-B closure
+**Current State:** CLOSED & FROZEN  
+**Implementation Complete:** Phase B6.1-B6.6  
+**Closure Date:** 2026-01-22  
 
 ---
 
-**Phase B6.6 Complete. Notes Module Consolidated.**
+**v1.1-B is CLOSED. No further modifications permitted.**
 
