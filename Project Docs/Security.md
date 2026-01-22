@@ -644,7 +644,76 @@ All RLS policies are implemented per Phase 1 Matrix. Phase 5 is validation only 
 
 ---
 
-**Document Version:** 1.4  
-**Updated:** 2026-01-13  
-**Phase Status:** Phase 5 ACTIVE (Security Scan Complete)  
+**Document Version:** 1.5  
+**Updated:** 2026-01-22  
+**Phase Status:** v1.0 COMPLETE — Security Findings Dispositioned  
 **Authority:** Devmart / Office of the Vice President
+
+---
+
+## Appendix E: Security Re-Disposition Log (2026-01-22)
+
+### E.1 `clients` Table — FALSE POSITIVE (Re-validated 2026-01-22)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "Client Contact Information Could Be Stolen by Competitors" |
+| **Severity** | ERROR |
+| **Table** | `public.clients` |
+| **Scanner ID** | `clients_public_exposure` |
+| **Scanner** | `supabase_lov` |
+| **Disposition** | **IGNORED (False Positive)** |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `VP/Secretary can view clients` |
+| **Policy Logic** | `USING (public.is_vp_or_secretary(auth.uid()))` |
+| **Anon Access** | ✗ BLOCKED (RLS default-deny, no anon grant) |
+| **Conclusion** | Scanner false positive. RLS correctly restricts to VP/Secretary. |
+
+### E.2 `cases` Table — FALSE POSITIVE (Re-validated 2026-01-22)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "Confidential Case Information Exposed to Public" |
+| **Severity** | ERROR |
+| **Table** | `public.cases` |
+| **Scanner ID** | `cases_public_exposure` |
+| **Scanner** | `supabase_lov` |
+| **Disposition** | **IGNORED (False Positive)** |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `VP/Secretary can view cases` |
+| **Policy Logic** | `USING (public.is_vp_or_secretary(auth.uid()))` |
+| **Anon Access** | ✗ BLOCKED (RLS default-deny, no anon grant) |
+| **Protocol Access** | ✗ BLOCKED (no matching SELECT policy) |
+| **Conclusion** | Scanner false positive. RLS correctly restricts to VP/Secretary. |
+
+### E.3 `user_profiles` Table — FALSE POSITIVE (Re-validated 2026-01-22)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "Employee Personal Information Exposed to Unauthenticated Users" |
+| **Severity** | ERROR |
+| **Table** | `public.user_profiles` |
+| **Scanner ID** | `user_profiles_public_exposure` |
+| **Scanner** | `supabase_lov` |
+| **Disposition** | **IGNORED (False Positive)** |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `Users can view own profile`, `VP/Secretary can view all profiles` |
+| **Policy Logic** | `USING (id = auth.uid())`, `USING (is_vp_or_secretary(auth.uid()))` |
+| **Anon Access** | ✗ BLOCKED (auth.uid() = NULL evaluates to FALSE) |
+| **Conclusion** | Scanner false positive. USING clauses require authenticated user with matching ID or role. |
+
+### E.4 `reminders` Table — INTENTIONAL (Re-confirmed 2026-01-22)
+
+| Attribute | Evidence |
+|-----------|----------|
+| **Finding** | "Reminder System Lacks Write Protection" |
+| **Severity** | WARN |
+| **Table** | `public.reminders` |
+| **Scanner ID** | `reminders_no_modification_policies` |
+| **Scanner** | `supabase_lov` |
+| **Disposition** | **IGNORED (Intentional by Design)** |
+| **RLS Enabled** | ✓ YES |
+| **Policies Governing SELECT** | `VP/Secretary can view reminders` |
+| **INSERT/UPDATE/DELETE** | None (intentional) |
+| **Design Rationale** | Per Phase 1 §8: Reminders are system-managed via service role. |
+| **Conclusion** | ACCEPTED. User write access intentionally blocked. System uses service role for CRUD.
