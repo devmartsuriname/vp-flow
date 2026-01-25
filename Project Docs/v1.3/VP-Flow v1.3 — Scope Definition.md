@@ -7,7 +7,7 @@
 | **Project** | VP-Flow |
 | **Document Type** | Scope Definition (Planning Only) |
 | **Version** | v1.3 |
-| **Status** | APPROVED — AWAITING EXECUTION AUTHORIZATION |
+| **Status** | ACTIVE — v1.3-A CLOSED & FROZEN |
 | **Created** | 2026-01-25 |
 | **Approved** | 2026-01-25 |
 | **Authority** | Office of the Vice President of Suriname |
@@ -414,7 +414,7 @@ Recommended execution order:
 
 | Phase | Status |
 |-------|--------|
-| v1.3-A (Documents Expansion) | AWAITING AUTHORIZATION |
+| v1.3-A (Documents Expansion) | **CLOSED & FROZEN** |
 | v1.3-B (Case Re-opening Enhancement) | AWAITING AUTHORIZATION |
 | v1.3-C (Notifications Deepening) | AWAITING AUTHORIZATION |
 
@@ -423,4 +423,4 @@ Recommended execution order:
 **End of v1.3 Scope Definition**
 
 **Document Status:** APPROVED — 2026-01-25
-**Execution Status:** AWAITING AUTHORIZATION
+**Execution Status:** v1.3-A CLOSED — 2026-01-25

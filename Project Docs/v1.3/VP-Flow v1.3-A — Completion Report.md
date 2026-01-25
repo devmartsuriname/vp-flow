@@ -5,7 +5,7 @@
 |-------|-------|
 | **Phase** | v1.3-A |
 | **Scope** | Documents Lifecycle & Versioning |
-| **Status** | ✅ COMPLETED |
+| **Status** | ✅ CLOSED & FROZEN |
 | **Date** | 2026-01-25 |
 
 ---
@@ -67,12 +67,18 @@
 | UI components | ✅ COMPLETED |
 | Darkone compliance | ✅ COMPLIANT |
 
-**v1.3-A: COMPLETED**
+**v1.3-A: CLOSED & FROZEN**
 
 ---
 
-## HARD STOP
+## Closure Status
 
-v1.3-A execution complete. Awaiting authorization for:
-- v1.3-B (Case Re-opening Enhancement)
-- v1.3-C (Notifications Deepening)
+| Item | Status |
+|------|--------|
+| Phase Status | CLOSED & FROZEN |
+| Closure Date | 2026-01-25 |
+| Verified By | Source of Truth Verification |
+| Next Phase | v1.3-B (Awaiting Authorization) |
+
+**v1.3-A is formally CLOSED and FROZEN.**
+No further modifications permitted without explicit new authorization.
