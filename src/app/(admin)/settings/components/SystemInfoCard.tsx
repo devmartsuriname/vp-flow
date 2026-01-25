@@ -15,9 +15,21 @@ interface SystemInfoCardProps {
   role: VPFlowRole | null
 }
 
+/**
+ * Detect if app is running as installed PWA
+ */
+const isPWAInstalled = (): boolean => {
+  // Check display-mode media query (standard)
+  if (window.matchMedia('(display-mode: standalone)').matches) return true
+  // iOS Safari standalone check
+  if ((window.navigator as any).standalone === true) return true
+  return false
+}
+
 export function SystemInfoCard({ lastLogin, role }: SystemInfoCardProps) {
   const currentDate = format(new Date(), 'EEEE, MMMM d, yyyy')
   const currentTime = format(new Date(), 'h:mm a')
+  const pwaInstalled = isPWAInstalled()
 
   return (
     <Card className="h-100">
@@ -44,6 +56,21 @@ export function SystemInfoCard({ lastLogin, role }: SystemInfoCardProps) {
             <Badge bg="soft-success" className="text-success">
               {APP_INFO.environment}
             </Badge>
+          </ListGroup.Item>
+          <ListGroup.Item className="d-flex justify-content-between align-items-center">
+            <span className="text-muted">
+              <IconifyIcon icon="bx:mobile-alt" className="me-1" />
+              PWA Status
+            </span>
+            {pwaInstalled ? (
+              <Badge bg="soft-success" className="text-success">
+                Installed
+              </Badge>
+            ) : (
+              <Badge bg="soft-secondary" className="text-secondary">
+                Browser
+              </Badge>
+            )}
           </ListGroup.Item>
           <ListGroup.Item className="d-flex justify-content-between align-items-center">
             <span className="text-muted">Current Date</span>
