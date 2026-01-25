@@ -19,6 +19,8 @@ export const ACTION_BADGE_VARIANTS: Record<AuditAction, string> = {
   note_deleted: 'warning',
   note_linked: 'primary',
   note_unlinked: 'secondary',
+  notification_created: 'info',
+  notification_read: 'secondary',
 }
 
 export const ACTION_LABELS: Record<AuditAction, string> = {
@@ -40,6 +42,8 @@ export const ACTION_LABELS: Record<AuditAction, string> = {
   note_deleted: 'Note Deleted',
   note_linked: 'Note Linked',
   note_unlinked: 'Note Unlinked',
+  notification_created: 'Notification Created',
+  notification_read: 'Notification Read',
 }
 
 export const ENTITY_TYPE_OPTIONS = [
@@ -49,6 +53,7 @@ export const ENTITY_TYPE_OPTIONS = [
   { value: 'clients', label: 'Clients' },
   { value: 'documents', label: 'Documents' },
   { value: 'document_links', label: 'Document Links' },
+  { value: 'notifications', label: 'Notifications' },
 ]
 
 export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
@@ -71,4 +76,6 @@ export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
   { value: 'note_deleted', label: 'Note Deleted' },
   { value: 'note_linked', label: 'Note Linked' },
   { value: 'note_unlinked', label: 'Note Unlinked' },
+  { value: 'notification_created', label: 'Notification Created' },
+  { value: 'notification_read', label: 'Notification Read' },
 ]
