@@ -623,6 +623,7 @@ export type Database = {
           role: string
         }[]
       }
+      get_vp_user_id: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -665,6 +666,8 @@ export type Database = {
         | "note_deleted"
         | "note_linked"
         | "note_unlinked"
+        | "notification_created"
+        | "notification_read"
       case_priority: "high" | "medium" | "low"
       case_status:
         | "draft"
@@ -841,6 +844,8 @@ export const Constants = {
         "note_deleted",
         "note_linked",
         "note_unlinked",
+        "notification_created",
+        "notification_read",
       ],
       case_priority: ["high", "medium", "low"],
       case_status: [
