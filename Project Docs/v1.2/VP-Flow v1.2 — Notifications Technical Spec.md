@@ -7,7 +7,7 @@
 | **Document Type** | Technical Specification |
 | **Module** | Notifications |
 | **Version** | v1.2 |
-| **Status** | APPROVED |
+| **Status** | IMPLEMENTED — CLOSED & FROZEN |
 | **Created** | 2026-01-25 |
 
 ---
@@ -23,7 +23,7 @@
 | UI (NotificationsPage with filters) | EXISTS |
 | Mark as read | EXISTS |
 | Mark all as read | EXISTS |
-| Trigger-based generation | NOT IMPLEMENTED |
+| Trigger-based generation | ✓ IMPLEMENTED (v1.2-A) |
 
 ---
 
@@ -328,13 +328,13 @@ ALTER TYPE audit_action ADD VALUE IF NOT EXISTS 'notification_read';
 
 | Task | Phase | Status |
 |------|-------|--------|
-| Create `notify_case_status_change` trigger | v1.2-A | PENDING |
-| Create `notify_case_reopened` trigger | v1.2-A | PENDING |
-| Create `notify_appointment_status_change` trigger | v1.2-A | PENDING |
-| Create `notify_document_uploaded` trigger | v1.2-A | PENDING |
-| Add audit action enum values | v1.2-A | PENDING |
-| Create notification audit triggers | v1.2-A | PENDING |
-| Validate existing UI compatibility | v1.2-A | PENDING |
+| Create `notify_case_status_change` trigger | v1.2-A | ✓ COMPLETE |
+| Create `notify_case_reopened` trigger | v1.2-A | ✓ COMPLETE |
+| Create `notify_appointment_status_change` trigger | v1.2-A | ✓ COMPLETE |
+| Create `notify_document_uploaded` trigger | v1.2-A | ✓ COMPLETE |
+| Add audit action enum values | v1.2-A | ✓ COMPLETE |
+| Create notification audit triggers | v1.2-A | ✓ COMPLETE |
+| Validate existing UI compatibility | v1.2-A | ✓ VERIFIED |
 
 ---
 
