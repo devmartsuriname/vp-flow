@@ -4,7 +4,45 @@ import { Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row, Spinner
 import { Link, useNavigate } from 'react-router-dom'
 import { useNotifications, useMarkAsRead, useMarkAllAsRead, useUnreadCount } from '@/app/(admin)/notifications/hooks'
 import { formatRelativeTime, truncateMessage } from '@/app/(admin)/notifications/constants'
-import type { Notification } from '@/app/(admin)/notifications/types'
+import type { Notification, NotificationCategory } from '@/app/(admin)/notifications/types'
+
+/**
+ * Get category-specific icon for notification display
+ */
+const getCategoryIcon = (category: NotificationCategory | string | null): string => {
+  switch (category) {
+    case 'case':
+      return 'bx:briefcase'
+    case 'appointment':
+      return 'bx:calendar'
+    case 'document':
+      return 'bx:file'
+    case 'system':
+      return 'bx:cog'
+    default:
+      return 'bx:bell'
+  }
+}
+
+/**
+ * Get category-specific CSS class for styling
+ */
+const getCategoryColorClass = (category: NotificationCategory | string | null, isRead: boolean): string => {
+  if (isRead) return 'bg-soft-secondary text-secondary'
+  
+  switch (category) {
+    case 'case':
+      return 'bg-soft-primary text-primary'
+    case 'appointment':
+      return 'bg-soft-info text-info'
+    case 'document':
+      return 'bg-soft-success text-success'
+    case 'system':
+      return 'bg-soft-secondary text-secondary'
+    default:
+      return 'bg-soft-primary text-primary'
+  }
+}
 
 interface NotificationItemProps {
   notification: Notification
@@ -23,6 +61,9 @@ const NotificationItem = ({ notification, onMarkAsRead }: NotificationItemProps)
     }
   }
 
+  const categoryIcon = getCategoryIcon(notification.category)
+  const colorClass = getCategoryColorClass(notification.category, notification.is_read)
+
   return (
     <DropdownItem 
       className={`py-3 border-bottom text-wrap ${!notification.is_read ? 'bg-light' : ''}`}
@@ -31,8 +72,8 @@ const NotificationItem = ({ notification, onMarkAsRead }: NotificationItemProps)
       <div className="d-flex">
         <div className="flex-shrink-0">
           <div className="avatar-sm me-2">
-            <span className={`avatar-title ${!notification.is_read ? 'bg-soft-primary text-primary' : 'bg-soft-secondary text-secondary'} fs-20 rounded-circle`}>
-              <IconifyIcon icon="bx:bell" />
+            <span className={`avatar-title ${colorClass} fs-20 rounded-circle`}>
+              <IconifyIcon icon={categoryIcon} />
             </span>
           </div>
         </div>

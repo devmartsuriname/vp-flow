@@ -2,8 +2,9 @@ import { Table, Button, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import NotificationStatusIndicator from './NotificationStatusIndicator'
+import NotificationCategoryBadge from './NotificationCategoryBadge'
 import { formatRelativeTime, truncateMessage } from '../constants'
-import type { Notification } from '../types'
+import type { Notification, NotificationCategory } from '../types'
 
 interface NotificationsTableProps {
   notifications: Notification[]
@@ -33,6 +34,7 @@ const NotificationsTable = ({
         <thead className="bg-light bg-opacity-50">
           <tr>
             <th style={{ width: 40 }}>Status</th>
+            <th style={{ width: 100 }}>Category</th>
             <th>Title</th>
             <th>Message</th>
             <th style={{ width: 150 }}>Time</th>
@@ -44,6 +46,9 @@ const NotificationsTable = ({
             <tr key={notification.id} className={!notification.is_read ? 'table-light' : ''}>
               <td className="align-middle text-center">
                 <NotificationStatusIndicator isRead={notification.is_read} />
+              </td>
+              <td className="align-middle">
+                <NotificationCategoryBadge category={notification.category as NotificationCategory | null} />
               </td>
               <td className="align-middle fw-semibold">
                 {notification.link ? (
