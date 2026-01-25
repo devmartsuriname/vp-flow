@@ -188,6 +188,9 @@ export type Database = {
           id: string
           opened_at: string | null
           priority: Database["public"]["Enums"]["case_priority"]
+          reopen_reason: string | null
+          reopened_at: string | null
+          reopened_by: string | null
           resolution_summary: string | null
           status: Database["public"]["Enums"]["case_status"]
           title: string
@@ -207,6 +210,9 @@ export type Database = {
           id?: string
           opened_at?: string | null
           priority?: Database["public"]["Enums"]["case_priority"]
+          reopen_reason?: string | null
+          reopened_at?: string | null
+          reopened_by?: string | null
           resolution_summary?: string | null
           status?: Database["public"]["Enums"]["case_status"]
           title: string
@@ -226,6 +232,9 @@ export type Database = {
           id?: string
           opened_at?: string | null
           priority?: Database["public"]["Enums"]["case_priority"]
+          reopen_reason?: string | null
+          reopened_at?: string | null
+          reopened_by?: string | null
           resolution_summary?: string | null
           status?: Database["public"]["Enums"]["case_status"]
           title?: string

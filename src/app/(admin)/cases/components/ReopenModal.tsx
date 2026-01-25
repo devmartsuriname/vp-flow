@@ -10,6 +10,8 @@ type ReopenModalProps = {
   caseTitle: string
 }
 
+const MIN_CHARS = 10
+
 export default function ReopenModal({
   show,
   onHide,
@@ -19,7 +21,12 @@ export default function ReopenModal({
 }: ReopenModalProps) {
   const [justification, setJustification] = useState('')
 
+  const trimmedLength = justification.trim().length
+  const isValid = trimmedLength >= MIN_CHARS
+  const showError = justification.length > 0 && !isValid
+
   const handleConfirm = () => {
+    if (!isValid) return
     onConfirm(justification)
     setJustification('')
   }
@@ -52,17 +59,25 @@ export default function ReopenModal({
           You are about to re-open: <strong>{caseTitle}</strong>
         </p>
         <Form.Group className="mb-3">
-          <Form.Label>Justification (optional)</Form.Label>
+          <Form.Label>
+            Justification <span className="text-danger">*</span>
+          </Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
             value={justification}
             onChange={(e) => setJustification(e.target.value)}
-            placeholder="Enter reason for re-opening this case..."
+            placeholder="Enter reason for re-opening this case (minimum 10 characters)..."
             disabled={isLoading}
+            className={showError ? 'is-invalid' : ''}
           />
-          <Form.Text className="text-muted">
-            This will be recorded in the audit log.
+          {showError && (
+            <div className="invalid-feedback d-block">
+              Minimum {MIN_CHARS} characters required
+            </div>
+          )}
+          <Form.Text className={isValid ? 'text-success' : 'text-muted'}>
+            {trimmedLength}/{MIN_CHARS} characters (required)
           </Form.Text>
         </Form.Group>
       </Modal.Body>
@@ -70,7 +85,7 @@ export default function ReopenModal({
         <Button variant="outline-secondary" onClick={handleHide} disabled={isLoading}>
           Cancel
         </Button>
-        <Button variant="warning" onClick={handleConfirm} disabled={isLoading}>
+        <Button variant="warning" onClick={handleConfirm} disabled={isLoading || !isValid}>
           {isLoading ? (
             <>
               <span className="spinner-border spinner-border-sm me-1" />
