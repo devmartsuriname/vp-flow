@@ -136,12 +136,8 @@ All v1.2-A objectives achieved:
 
 ## HARD STOP
 
-v1.2-A is COMPLETE and FROZEN.
+v1.2-A is COMPLETE and FROZEN as part of v1.2 baseline.
 
-**Do NOT proceed to:**
-- Settings UI (v1.2-B)
-- Documents enhancements
-- Case Re-opening enhancements
-- Any other feature work
+**v1.2 has been formally CLOSED per v1.2-C Documentation Freeze.**
 
-**Await explicit v1.2-B authorization.**
+No further changes to v1.2-A artifacts are permitted.

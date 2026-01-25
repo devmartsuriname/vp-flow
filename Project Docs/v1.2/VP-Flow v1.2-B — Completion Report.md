@@ -115,12 +115,8 @@ const isPWAInstalled = (): boolean => {
 
 ## HARD STOP
 
-Execution halted per governance protocol.
+v1.2-B is COMPLETE and FROZEN as part of v1.2 baseline.
 
-**Do NOT proceed to:**
-- v1.2-C (Documentation Freeze)
-- Documents Module Expansion
-- Case Re-opening logic
-- Any v1.3 work
+**v1.2 has been formally CLOSED per v1.2-C Documentation Freeze.**
 
-**Awaiting explicit next authorization.**
+No further changes to v1.2-B artifacts are permitted.

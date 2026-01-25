@@ -7,7 +7,7 @@
 | **Document Type** | Technical Specification |
 | **Module** | Settings |
 | **Version** | v1.2 |
-| **Status** | APPROVED |
+| **Status** | IMPLEMENTED — CLOSED & FROZEN |
 | **Created** | 2026-01-25 |
 
 ---
@@ -176,10 +176,10 @@ environment: 'Production',  // Hardcoded; no runtime detection
 
 | Task | File | Status |
 |------|------|--------|
-| Update version to `1.2.0` | `src/app/(admin)/settings/constants.ts` | PENDING |
-| Add PWA detection utility | `src/app/(admin)/settings/utils/` | PENDING |
-| Add PWA indicator to SystemInfoCard | `src/app/(admin)/settings/components/SystemInfoCard.tsx` | PENDING |
-| Verify Darkone styling compatibility | — | PENDING |
+| Update version to `1.2.0` | `src/app/(admin)/settings/constants.ts` | ✓ COMPLETE |
+| Add PWA detection utility | `src/app/(admin)/settings/components/SystemInfoCard.tsx` | ✓ COMPLETE |
+| Add PWA indicator to SystemInfoCard | `src/app/(admin)/settings/components/SystemInfoCard.tsx` | ✓ COMPLETE |
+| Verify Darkone styling compatibility | — | ✓ VERIFIED |
 
 ---
 
