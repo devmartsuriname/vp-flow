@@ -52,7 +52,13 @@ export default defineConfig(({ mode }) => ({
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api/, /^\/rest/],
         // No runtime caching of API responses (READ-ONLY offline enforcement)
-        runtimeCaching: []
+        runtimeCaching: [],
+        // C2: Enhanced cache management
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+        // C2: Size limit to prevent accidental large file caching
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024
       }
     })
   ].filter(Boolean),
