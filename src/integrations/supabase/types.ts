@@ -481,6 +481,7 @@ export type Database = {
       }
       notifications: {
         Row: {
+          category: Database["public"]["Enums"]["notification_category"] | null
           created_at: string
           id: string
           is_read: boolean
@@ -491,6 +492,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          category?: Database["public"]["Enums"]["notification_category"] | null
           created_at?: string
           id?: string
           is_read?: boolean
@@ -501,6 +503,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          category?: Database["public"]["Enums"]["notification_category"] | null
           created_at?: string
           id?: string
           is_read?: boolean
@@ -658,6 +661,7 @@ export type Database = {
           role: string
         }[]
       }
+      get_secretary_user_ids: { Args: never; Returns: string[] }
       get_vp_user_id: { Args: never; Returns: string }
       has_role: {
         Args: {
@@ -717,6 +721,7 @@ export type Database = {
       document_entity_type: "case" | "guest" | "appointment" | "none"
       document_status: "draft" | "final" | "archived"
       note_entity_type: "guest" | "appointment" | "case"
+      notification_category: "case" | "appointment" | "document" | "system"
       protocol_status:
         | "expected"
         | "arrived"
@@ -900,6 +905,7 @@ export const Constants = {
       document_entity_type: ["case", "guest", "appointment", "none"],
       document_status: ["draft", "final", "archived"],
       note_entity_type: ["guest", "appointment", "case"],
+      notification_category: ["case", "appointment", "document", "system"],
       protocol_status: [
         "expected",
         "arrived",

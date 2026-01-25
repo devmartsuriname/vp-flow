@@ -2,3 +2,4 @@ export { default as NotificationStatusIndicator } from './NotificationStatusIndi
 export { default as NotificationFilters } from './NotificationFilters'
 export { default as EmptyState } from './EmptyState'
 export { default as NotificationsTable } from './NotificationsTable'
+export { default as NotificationCategoryBadge } from './NotificationCategoryBadge'
