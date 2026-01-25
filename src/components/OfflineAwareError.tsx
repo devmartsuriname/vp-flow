@@ -37,7 +37,7 @@ const OfflineAwareError = ({
             {entityName} cannot be loaded while offline. Please check your internet connection.
           </p>
           <Button 
-            variant="outline-primary" 
+            variant="primary" 
             onClick={handleRetry}
             disabled={isOffline}
           >
@@ -60,7 +60,7 @@ const OfflineAwareError = ({
           />
           <h5>Error Loading {entityName}</h5>
           <p className="text-muted mb-3">{error.message}</p>
-          <Button variant="outline-primary" onClick={handleRetry}>
+          <Button variant="primary" onClick={handleRetry}>
             <IconifyIcon icon="bx:refresh" className="me-1" />
             Try Again
           </Button>
