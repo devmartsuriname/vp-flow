@@ -1,18 +1,26 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import type { Document, DocumentEntityType } from '../types'
+import type { Document, DocumentEntityType, DocumentStatus } from '../types'
 
 type UseDocumentsOptions = {
   entityType?: DocumentEntityType | ''
   entityId?: string
   activeOnly?: boolean
+  currentVersionOnly?: boolean
+  status?: DocumentStatus | ''
 }
 
 export function useDocuments(options: UseDocumentsOptions = {}) {
-  const { entityType, entityId, activeOnly = true } = options
+  const { 
+    entityType, 
+    entityId, 
+    activeOnly = true, 
+    currentVersionOnly = true,
+    status 
+  } = options
 
   return useQuery<Document[], Error>({
-    queryKey: ['documents', entityType, entityId, activeOnly],
+    queryKey: ['documents', entityType, entityId, activeOnly, currentVersionOnly, status],
     queryFn: async () => {
       let query = supabase
         .from('documents')
@@ -32,6 +40,16 @@ export function useDocuments(options: UseDocumentsOptions = {}) {
       // Filter active only
       if (activeOnly) {
         query = query.eq('is_active', true)
+      }
+
+      // Filter current versions only (default: true)
+      if (currentVersionOnly) {
+        query = query.eq('is_current_version', true)
+      }
+
+      // Filter by status if specified
+      if (status) {
+        query = query.eq('status', status)
       }
 
       const { data, error } = await query
