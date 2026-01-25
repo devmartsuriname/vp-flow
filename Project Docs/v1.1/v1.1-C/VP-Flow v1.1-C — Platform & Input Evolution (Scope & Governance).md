@@ -4,7 +4,9 @@
 **Client:** Office of the Vice President of Suriname
 **Scope:** v1.1-C
 **Document Type:** Functional Scope & Governance Definition
-**Status:** DRAFT — DOCUMENTATION ONLY (NO EXECUTION)
+**Status:** IMPLEMENTED (Option B — PWA Only)
+**Completion Date:** 2026-01-25
+**Note:** Epic 1 (Handwriting) and Epic 3 (Device-First UX) remain DEFERRED to future version.
 
 ---
 
