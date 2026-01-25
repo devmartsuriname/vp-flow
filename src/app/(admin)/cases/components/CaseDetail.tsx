@@ -1,5 +1,6 @@
 import { Card, Row, Col, Badge } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import CaseStatusBadge from './CaseStatusBadge'
 import CasePriorityBadge from './CasePriorityBadge'
 import { formatDate, formatDateTime, isOverdue } from '../constants'
@@ -57,6 +58,28 @@ export default function CaseDetail({
             <span className="text-warning fw-medium">
               This case has been re-opened for additional work. Close again when complete.
             </span>
+          </Card.Body>
+        </Card>
+      )}
+
+      {/* Reopen History Indicator (VP only, when case has been reopened) */}
+      {caseItem.reopened_at && isVP(userRole) && (
+        <Card className="mb-3 border-info">
+          <Card.Body className="d-flex align-items-start gap-2 bg-info bg-opacity-10">
+            <IconifyIcon icon="bx:revision" className="fs-5 mt-1 text-info" />
+            <div>
+              <strong className="text-info">Re-open History</strong>
+              <p className="mb-0 small mt-1">
+                <span className="text-muted">Re-opened on:</span>{' '}
+                {formatDateTime(caseItem.reopened_at)}
+              </p>
+              {caseItem.reopen_reason && (
+                <p className="mb-0 small">
+                  <span className="text-muted">Reason:</span>{' '}
+                  {caseItem.reopen_reason}
+                </p>
+              )}
+            </div>
           </Card.Body>
         </Card>
       )}

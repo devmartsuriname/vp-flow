@@ -5,7 +5,7 @@ import type { Case } from '../types'
 
 type ReopenCaseParams = {
   id: string
-  justification?: string
+  justification: string // Required - minimum 10 characters
 }
 
 export function useReopenCase() {
@@ -13,10 +13,16 @@ export function useReopenCase() {
 
   return useMutation<Case, Error, ReopenCaseParams>({
     mutationFn: async ({ id, justification }: ReopenCaseParams) => {
+      // Client-side validation (DB trigger enforces server-side)
+      const trimmedJustification = justification?.trim() || ''
+      if (trimmedJustification.length < 10) {
+        throw new Error('Reopen reason is required (minimum 10 characters)')
+      }
+
       // First verify case is closed
       const { data: existingCase, error: fetchError } = await supabase
         .from('cases')
-        .select('status')
+        .select('status, vp_notes')
         .eq('id', id)
         .single()
 
@@ -28,30 +34,23 @@ export function useReopenCase() {
         throw new Error('Only closed cases can be re-opened')
       }
 
-      // Prepare update data - transition to reopened status
-      const updateData: Record<string, unknown> = {
-        status: 'reopened',
-      }
+      // Prepare reopen note for vp_notes (backward compatibility)
+      const timestamp = new Date().toISOString()
+      const reopenNote = `[Re-opened ${timestamp}]: ${trimmedJustification}`
+      const existingNotes = existingCase?.vp_notes || ''
+      const appendedNotes = existingNotes 
+        ? `${existingNotes}\n\n${reopenNote}` 
+        : reopenNote
 
-      // If justification provided, append to vp_notes
-      if (justification?.trim()) {
-        const { data: currentCase } = await supabase
-          .from('cases')
-          .select('vp_notes')
-          .eq('id', id)
-          .single()
-
-        const timestamp = new Date().toISOString()
-        const reopenNote = `[Re-opened ${timestamp}]: ${justification.trim()}`
-        const existingNotes = currentCase?.vp_notes || ''
-        updateData.vp_notes = existingNotes 
-          ? `${existingNotes}\n\n${reopenNote}` 
-          : reopenNote
-      }
-
+      // Update case with reopened status and reopen_reason
+      // Note: reopened_at and reopened_by are auto-populated by DB trigger
       const { data, error } = await supabase
         .from('cases')
-        .update(updateData)
+        .update({
+          status: 'reopened' as const,
+          reopen_reason: trimmedJustification,
+          vp_notes: appendedNotes, // Backward compatibility
+        })
         .eq('id', id)
         .select()
         .single()
