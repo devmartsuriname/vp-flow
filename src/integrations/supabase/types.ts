@@ -344,11 +344,17 @@ export type Database = {
           file_size: number | null
           id: string
           is_active: boolean
+          is_current_version: boolean
           mime_type: string | null
           owner_role: string | null
+          parent_document_id: string | null
+          status: Database["public"]["Enums"]["document_status"]
+          status_changed_at: string | null
+          status_changed_by: string | null
           title: string | null
           uploaded_at: string
           uploaded_by: string | null
+          version_number: number
         }
         Insert: {
           description?: string | null
@@ -359,11 +365,17 @@ export type Database = {
           file_size?: number | null
           id?: string
           is_active?: boolean
+          is_current_version?: boolean
           mime_type?: string | null
           owner_role?: string | null
+          parent_document_id?: string | null
+          status?: Database["public"]["Enums"]["document_status"]
+          status_changed_at?: string | null
+          status_changed_by?: string | null
           title?: string | null
           uploaded_at?: string
           uploaded_by?: string | null
+          version_number?: number
         }
         Update: {
           description?: string | null
@@ -374,13 +386,27 @@ export type Database = {
           file_size?: number | null
           id?: string
           is_active?: boolean
+          is_current_version?: boolean
           mime_type?: string | null
           owner_role?: string | null
+          parent_document_id?: string | null
+          status?: Database["public"]["Enums"]["document_status"]
+          status_changed_at?: string | null
+          status_changed_by?: string | null
           title?: string | null
           uploaded_at?: string
           uploaded_by?: string | null
+          version_number?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "documents_parent_document_id_fkey"
+            columns: ["parent_document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       note_links: {
         Row: {
@@ -668,6 +694,8 @@ export type Database = {
         | "note_unlinked"
         | "notification_created"
         | "notification_read"
+        | "document_status_changed"
+        | "document_version_created"
       case_priority: "high" | "medium" | "low"
       case_status:
         | "draft"
@@ -678,6 +706,7 @@ export type Database = {
         | "reopened"
       client_type: "person" | "organization"
       document_entity_type: "case" | "guest" | "appointment" | "none"
+      document_status: "draft" | "final" | "archived"
       note_entity_type: "guest" | "appointment" | "case"
       protocol_status:
         | "expected"
@@ -846,6 +875,8 @@ export const Constants = {
         "note_unlinked",
         "notification_created",
         "notification_read",
+        "document_status_changed",
+        "document_version_created",
       ],
       case_priority: ["high", "medium", "low"],
       case_status: [
@@ -858,6 +889,7 @@ export const Constants = {
       ],
       client_type: ["person", "organization"],
       document_entity_type: ["case", "guest", "appointment", "none"],
+      document_status: ["draft", "final", "archived"],
       note_entity_type: ["guest", "appointment", "case"],
       protocol_status: [
         "expected",

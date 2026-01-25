@@ -11,10 +11,33 @@ export type DocumentLinkInsert = Database['public']['Tables']['document_links'][
 
 // Enums
 export type DocumentEntityType = Database['public']['Enums']['document_entity_type']
+export type DocumentStatus = Database['public']['Enums']['document_status']
 
 // Document with entity information for display
 export interface DocumentWithEntity extends Document {
   entity_name?: string
+}
+
+// Status transition rules
+export const STATUS_TRANSITIONS: Record<DocumentStatus, DocumentStatus[]> = {
+  draft: ['final'],
+  final: ['archived'],
+  archived: [],
+}
+
+// Status display configuration
+export const STATUS_CONFIG: Record<DocumentStatus, { label: string; variant: string; icon: string }> = {
+  draft: { label: 'Draft', variant: 'warning', icon: 'bx:edit' },
+  final: { label: 'Final', variant: 'success', icon: 'bx:check-circle' },
+  archived: { label: 'Archived', variant: 'secondary', icon: 'bx:archive' },
+}
+
+// Upload version form data
+export interface UploadVersionData {
+  parentDocument: Document
+  file: File
+  title?: string
+  description?: string
 }
 
 // Upload form data

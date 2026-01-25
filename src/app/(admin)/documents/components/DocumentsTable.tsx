@@ -1,11 +1,12 @@
-import { Table, Spinner, Badge } from 'react-bootstrap'
+import { useState } from 'react'
+import { Table, Spinner, Badge, Dropdown } from 'react-bootstrap'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
-import { formatFileSize, getFileExtension, getFileIcon } from '../types'
+import { formatFileSize, getFileExtension, getFileIcon, type Document, type DocumentStatus } from '../types'
 import { formatDateTime } from '../constants'
-import type { Document } from '../types'
 import type { VPFlowRole } from '@/types/auth'
-import { isVP } from '@/hooks/useUserRole'
+import { isVP, isSecretary } from '@/hooks/useUserRole'
 import EntityTypeBadge from './EntityTypeBadge'
+import DocumentStatusBadge from './DocumentStatusBadge'
 
 type DocumentsTableProps = {
   documents: Document[]
@@ -14,6 +15,9 @@ type DocumentsTableProps = {
   onView?: (doc: Document) => void
   onDownload?: (doc: Document) => void
   onDeactivate?: (doc: Document) => void
+  onChangeStatus?: (doc: Document) => void
+  onUploadVersion?: (doc: Document) => void
+  onShowVersionHistory?: (doc: Document) => void
 }
 
 export default function DocumentsTable({
@@ -23,8 +27,13 @@ export default function DocumentsTable({
   onView,
   onDownload,
   onDeactivate,
+  onChangeStatus,
+  onUploadVersion,
+  onShowVersionHistory,
 }: DocumentsTableProps) {
   const canDeactivate = isVP(userRole)
+  const canChangeStatus = isVP(userRole) || isSecretary(userRole)
+  const canUploadVersion = isVP(userRole) || isSecretary(userRole)
 
   if (isLoading) {
     return (
@@ -52,9 +61,10 @@ export default function DocumentsTable({
             <th>Document</th>
             <th>Type</th>
             <th>Size</th>
+            <th>Version</th>
+            <th>Status</th>
             <th>Linked To</th>
             <th>Uploaded</th>
-            <th>Status</th>
             <th className="text-end">Actions</th>
           </tr>
         </thead>
@@ -79,17 +89,27 @@ export default function DocumentsTable({
               </td>
               <td>{formatFileSize(doc.file_size)}</td>
               <td>
+                <Badge 
+                  bg={doc.is_current_version ? 'primary' : 'secondary'}
+                  className="cursor-pointer"
+                  onClick={() => onShowVersionHistory?.(doc)}
+                  title="View version history"
+                  style={{ cursor: 'pointer' }}
+                >
+                  v{doc.version_number ?? 1}
+                  {doc.is_current_version && (
+                    <IconifyIcon icon="bx:check" className="ms-1" />
+                  )}
+                </Badge>
+              </td>
+              <td>
+                <DocumentStatusBadge status={doc.status as DocumentStatus} />
+              </td>
+              <td>
                 <EntityTypeBadge entityType={doc.entity_type} />
               </td>
               <td>
                 <small>{formatDateTime(doc.uploaded_at)}</small>
-              </td>
-              <td>
-                {doc.is_active ? (
-                  <Badge bg="success">Active</Badge>
-                ) : (
-                  <Badge bg="danger">Deactivated</Badge>
-                )}
               </td>
               <td>
                 <div className="d-flex justify-content-end gap-1">
@@ -113,15 +133,48 @@ export default function DocumentsTable({
                       <IconifyIcon icon="bx:download" />
                     </button>
                   )}
-                  {doc.is_active && canDeactivate && onDeactivate && (
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-soft-danger"
-                      onClick={() => onDeactivate(doc)}
-                      title="Deactivate"
-                    >
-                      <IconifyIcon icon="bx:trash" />
-                    </button>
+                  
+                  {doc.is_active && (canChangeStatus || canUploadVersion || canDeactivate) && (
+                    <Dropdown>
+                      <Dropdown.Toggle
+                        variant="soft-dark"
+                        size="sm"
+                        id={`doc-actions-${doc.id}`}
+                        className="btn-icon"
+                      >
+                        <IconifyIcon icon="bx:dots-vertical-rounded" />
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu align="end">
+                        {canChangeStatus && onChangeStatus && doc.status !== 'archived' && (
+                          <Dropdown.Item onClick={() => onChangeStatus(doc)}>
+                            <IconifyIcon icon="bx:transfer" className="me-2" />
+                            Change Status
+                          </Dropdown.Item>
+                        )}
+                        {canUploadVersion && onUploadVersion && doc.is_current_version && doc.status !== 'archived' && (
+                          <Dropdown.Item onClick={() => onUploadVersion(doc)}>
+                            <IconifyIcon icon="bx:revision" className="me-2" />
+                            Upload New Version
+                          </Dropdown.Item>
+                        )}
+                        {onShowVersionHistory && (
+                          <Dropdown.Item onClick={() => onShowVersionHistory(doc)}>
+                            <IconifyIcon icon="bx:history" className="me-2" />
+                            Version History
+                          </Dropdown.Item>
+                        )}
+                        {(canChangeStatus || canUploadVersion) && canDeactivate && <Dropdown.Divider />}
+                        {canDeactivate && onDeactivate && (
+                          <Dropdown.Item 
+                            onClick={() => onDeactivate(doc)}
+                            className="text-danger"
+                          >
+                            <IconifyIcon icon="bx:trash" className="me-2" />
+                            Deactivate
+                          </Dropdown.Item>
+                        )}
+                      </Dropdown.Menu>
+                    </Dropdown>
                   )}
                 </div>
               </td>
