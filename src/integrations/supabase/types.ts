@@ -650,6 +650,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_and_notify_deadlines: { Args: never; Returns: undefined }
       get_protocol_attendees: {
         Args: { p_appointment_id?: string }
         Returns: {
