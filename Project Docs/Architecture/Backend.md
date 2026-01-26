@@ -148,17 +148,23 @@ VP-Flow uses **Supabase** as its backend infrastructure.
 
 ## Storage Structure
 
-### Buckets (Planned)
+### Buckets (Current)
 
-| Bucket | Purpose | Access |
-|--------|---------|--------|
-| `attachments` | Appointment/case documents | Role-based |
-| `client-files` | Client-related files | VP, Secretary |
+| Bucket | Purpose | Access | Status |
+|--------|---------|--------|--------|
+| `documents` | Case/appointment/guest documents | VP, Secretary | ✅ ACTIVE |
+
+### Buckets (Planned — Priority 3-A)
+
+| Bucket | Purpose | Access | Status |
+|--------|---------|--------|--------|
+| `note-handwriting` | Handwriting artifacts for Notes | VP only | ⏳ PLANNED |
 
 ### Storage Policies
 - RLS applied to storage buckets
-- Files linked to parent records
-- Protocol excluded from client files
+- Files linked to parent records via entity_id
+- Protocol excluded from all file access
+- VP-only access for handwriting artifacts (Priority 3-A)
 
 ---
 
@@ -328,7 +334,21 @@ VP → Close Case → Update Status (FINAL) → Audit Log Entry
 
 ---
 
-**Document Version:** 1.2  
+## Priority 3 Planning Notes (2026-01-26)
+
+**Handwriting & Pen Input (Priority 3-A) — PLANNING ONLY:**
+- Canvas library selected: `perfect-freehand`
+- Rendering approach: Native HTML5 `<canvas>` with perfect-freehand stroke generation
+- Storage strategy: Vector stroke data (JSON) in Supabase Storage bucket
+- New table planned: `note_handwriting` (VP-only RLS)
+- New bucket planned: `note-handwriting` (private, VP-only)
+- Status: **NOT AUTHORIZED FOR EXECUTION**
+
+**Reference:** See `/Project Docs/Priority-3/` for complete specifications.
+
+---
+
+**Document Version:** 1.3  
 **Created:** 2026-01-10  
-**Updated:** 2026-01-16  
+**Updated:** 2026-01-26  
 **Authority:** Devmart / Office of the Vice President

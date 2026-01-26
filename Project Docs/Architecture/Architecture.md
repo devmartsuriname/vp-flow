@@ -312,7 +312,54 @@ Authentication
 
 ---
 
-**Document Version:** 1.3  
+## Priority 3 Architecture Notes (2026-01-26)
+
+**Handwriting & Pen Input (Priority 3-A) — PLANNING ONLY:**
+
+### Planned Architecture Extension
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    NOTES MODULE (v1.1-B)                     │
+│  ┌─────────────────┐                                        │
+│  │      notes      │──────────────────┐                     │
+│  │   (VP-only)     │                  │                     │
+│  └─────────────────┘                  │                     │
+│           │                           │                     │
+│           ▼                           ▼                     │
+│  ┌─────────────────┐         ┌─────────────────┐           │
+│  │   note_links    │         │ note_handwriting│ ◄─ NEW    │
+│  │  (entity links) │         │   (VP-only)     │           │
+│  └─────────────────┘         └────────┬────────┘           │
+│                                       │                     │
+│                                       ▼                     │
+│                              ┌─────────────────┐           │
+│                              │  Storage Bucket │ ◄─ NEW    │
+│                              │ note-handwriting│           │
+│                              │   (Private)     │           │
+│                              └─────────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Technical Decisions (Locked)
+
+| Decision | Value |
+|----------|-------|
+| Canvas Library | `perfect-freehand` |
+| Rendering | Native HTML5 `<canvas>` |
+| Storage Format | Vector stroke data (JSON) |
+| Fallback | Raster PNG (if vector fails) |
+| Access Control | VP-only (RLS enforced) |
+
+### Status
+
+**EXECUTION NOT AUTHORIZED** — Planning documentation only.
+
+**Reference:** See `/Project Docs/Priority-3/` for complete specifications.
+
+---
+
+**Document Version:** 1.4  
 **Created:** 2026-01-10  
-**Updated:** 2026-01-16  
+**Updated:** 2026-01-26  
 **Authority:** Devmart / Office of the Vice President
