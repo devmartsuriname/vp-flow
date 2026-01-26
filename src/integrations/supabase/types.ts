@@ -417,6 +417,50 @@ export type Database = {
           },
         ]
       }
+      note_handwriting: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: string
+          note_id: string
+          owner_user_id: string
+          storage_ref: string
+          storage_type: string
+          stroke_count: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          note_id: string
+          owner_user_id: string
+          storage_ref: string
+          storage_type?: string
+          stroke_count?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          note_id?: string
+          owner_user_id?: string
+          storage_ref?: string
+          storage_type?: string
+          stroke_count?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "note_handwriting_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: false
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       note_links: {
         Row: {
           created_at: string
@@ -710,6 +754,9 @@ export type Database = {
         | "notification_read"
         | "document_status_changed"
         | "document_version_created"
+        | "handwriting_created"
+        | "handwriting_updated"
+        | "handwriting_deleted"
       case_priority: "high" | "medium" | "low"
       case_status:
         | "draft"
@@ -892,6 +939,9 @@ export const Constants = {
         "notification_read",
         "document_status_changed",
         "document_version_created",
+        "handwriting_created",
+        "handwriting_updated",
+        "handwriting_deleted",
       ],
       case_priority: ["high", "medium", "low"],
       case_status: [

@@ -43,3 +43,70 @@ export const ENTITY_TYPE_LABELS: Record<NoteEntityType, string> = {
 export function getNoteDisplayTitle(note: Note): string {
   return note.title?.trim() || 'Untitled Note'
 }
+
+// ============================================
+// Handwriting Types (Priority 3-A)
+// ============================================
+
+// Single stroke point from perfect-freehand
+export interface StrokePoint {
+  x: number
+  y: number
+  pressure?: number
+}
+
+// A complete stroke (collection of points)
+export interface StrokeData {
+  points: StrokePoint[]
+  size: number // pen size used
+  color: string // pen color used
+  timestamp: number // when stroke was drawn
+}
+
+// Complete handwriting canvas data (stored as JSON)
+export interface HandwritingCanvasData {
+  version: 1 // schema version for future compatibility
+  canvasWidth: number
+  canvasHeight: number
+  strokes: StrokeData[]
+  createdAt: string // ISO timestamp
+  updatedAt: string // ISO timestamp
+}
+
+// Note handwriting record from database
+export interface NoteHandwriting {
+  id: string
+  note_id: string
+  owner_user_id: string
+  storage_type: 'vector' | 'raster'
+  storage_ref: string
+  stroke_count: number
+  created_at: string
+  updated_at: string
+  deleted_at: string | null
+}
+
+// Insert type for creating handwriting records
+export interface NoteHandwritingInsert {
+  note_id: string
+  owner_user_id: string
+  storage_type?: 'vector' | 'raster'
+  storage_ref: string
+  stroke_count?: number
+}
+
+// Update type for updating handwriting records
+export interface NoteHandwritingUpdate {
+  storage_ref?: string
+  stroke_count?: number
+  deleted_at?: string | null
+}
+
+// Pen size presets
+export const PEN_SIZES = {
+  thin: 2,
+  medium: 4,
+  thick: 8,
+} as const
+
+export type PenSize = keyof typeof PEN_SIZES

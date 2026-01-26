@@ -7,6 +7,8 @@ import type { NoteWithLink, NoteLink, NoteEntityType } from '../types'
 import { getNoteDisplayTitle, ENTITY_TYPE_LABELS } from '../types'
 import { useUnlinkNote } from '../hooks'
 import { supabase } from '@/integrations/supabase/client'
+import HandwritingSection from './HandwritingSection'
+import { useAuthContext } from '@/context/useAuthContext'
 
 type NoteDetailProps = {
   note: NoteWithLink
@@ -28,6 +30,7 @@ export default function NoteDetail({ note, onDelete, readOnly = false }: NoteDet
   const unlinkMutation = useUnlinkNote()
   const [linkedEntityName, setLinkedEntityName] = useState<string | null>(null)
   const [loadingEntity, setLoadingEntity] = useState(false)
+  const { user } = useAuthContext()
 
   // Fetch linked entity display name
   useEffect(() => {
@@ -130,6 +133,14 @@ export default function NoteDetail({ note, onDelete, readOnly = false }: NoteDet
           </Card.Body>
         </Card>
 
+        {/* Handwriting Section (Priority 3-A) */}
+        {user?.id && (
+          <HandwritingSection
+            noteId={note.id}
+            userId={user.id}
+            readOnly={readOnly}
+          />
+        )}
         {/* Linked Entity Card */}
         {link && (
           <Card className="mb-3">
