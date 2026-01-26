@@ -23,6 +23,9 @@ export const ACTION_BADGE_VARIANTS: Record<AuditAction, string> = {
   note_unlinked: 'secondary',
   notification_created: 'info',
   notification_read: 'secondary',
+  handwriting_created: 'success',
+  handwriting_updated: 'info',
+  handwriting_deleted: 'warning',
 }
 
 export const ACTION_LABELS: Record<AuditAction, string> = {
@@ -48,6 +51,9 @@ export const ACTION_LABELS: Record<AuditAction, string> = {
   note_unlinked: 'Note Unlinked',
   notification_created: 'Notification Created',
   notification_read: 'Notification Read',
+  handwriting_created: 'Handwriting Created',
+  handwriting_updated: 'Handwriting Updated',
+  handwriting_deleted: 'Handwriting Deleted',
 }
 
 export const ENTITY_TYPE_OPTIONS = [
@@ -58,6 +64,7 @@ export const ENTITY_TYPE_OPTIONS = [
   { value: 'documents', label: 'Documents' },
   { value: 'document_links', label: 'Document Links' },
   { value: 'notifications', label: 'Notifications' },
+  { value: 'note_handwriting', label: 'Handwriting' },
 ]
 
 export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
@@ -84,4 +91,7 @@ export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
   { value: 'note_unlinked', label: 'Note Unlinked' },
   { value: 'notification_created', label: 'Notification Created' },
   { value: 'notification_read', label: 'Notification Read' },
+  { value: 'handwriting_created', label: 'Handwriting Created' },
+  { value: 'handwriting_updated', label: 'Handwriting Updated' },
+  { value: 'handwriting_deleted', label: 'Handwriting Deleted' },
 ]
