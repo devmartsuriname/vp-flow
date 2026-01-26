@@ -3,9 +3,19 @@
 **Project:** VP-Flow (Appointments & Case Management System)  
 **Client:** Office of the Vice President of Suriname  
 **Document Type:** Execution-Ready Specification — DOCUMENTATION ONLY  
-**Status:** PLANNING COMPLETE — NOT AUTHORIZED FOR EXECUTION  
+**Status:** PLANNING COMPLETE — FORMALLY CLOSED  
+**Execution:** NOT AUTHORIZED  
 **Date:** 2026-01-26  
+**Closed:** 2026-01-26  
 **Baseline:** v1.0-v1.3 + Priority 1-2 COMPLETE & FROZEN
+
+---
+
+## EXECUTION GATE (MANDATORY)
+
+> **No code, schema, storage, RLS, or UI changes are permitted without explicit authorization for Priority 3-A execution.**
+
+This document is **LOCKED** and **AUTHORITATIVE**.
 
 ---
 
