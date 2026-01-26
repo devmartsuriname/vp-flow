@@ -167,12 +167,21 @@ Priority 3 represents a **controlled expansion** of VP-Flow's operational capabi
 
 ---
 
-**Document Status:** PLANNING COMPLETE  
+**Document Status:** PLANNING COMPLETE — FORMALLY CLOSED  
 **Execution Status:** NOT AUTHORIZED  
 **Next Step:** Await explicit authorization for Priority 3-A execution
 
 ---
 
+## EXECUTION GATE (MANDATORY)
+
+> **No code, schema, storage, RLS, or UI changes are permitted without explicit authorization for Priority 3-A execution.**
+
+This document is **LOCKED** and **AUTHORITATIVE**. Any modification requires formal governance approval.
+
+---
+
 **Document Version:** 1.0  
 **Created:** 2026-01-26  
+**Closed:** 2026-01-26  
 **Authority:** Devmart / Office of the Vice President
