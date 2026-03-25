@@ -236,7 +236,7 @@ The following table provides a complete inventory of all features that were expl
 | Background Sync | v1.1-C | KILLED | Critical security risk: potential RLS bypass | Permanently excluded |
 | Offline Write Access | v1.1-C | KILLED | Critical security risk: audit integrity compromise | Permanently excluded |
 | Device-First UX | v1.1-C | DEFERRED | PWA stability prioritized | v1.4+ consideration |
-| Global Search | v1.2+ | DEFERRED | Cross-module architecture required | v1.4+ consideration |
+| Global Search | v1.2+ | IMPLEMENTED (Priority 1) | Delivered as read-only cross-module search | Complete |
 | Document Templates | v1.3-A | DEFERRED | Implementation complexity | v1.4+ consideration |
 | Email Notifications | v1.2+ | DEFERRED | External communication channel out of v1.x scope | v2.0+ consideration |
 | OCR/Text Extraction | v1.3+ | DEFERRED | Third-party service integration required | Not planned |
