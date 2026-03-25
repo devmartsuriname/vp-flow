@@ -71,7 +71,7 @@ Wallet-sized reference card for daily role-based access verification.
 | Guests | ● | ● | ○ | Full registry management |
 | Appointments | ● | ● | ◐ | Protocol: Day-of execution view |
 | Cases | ● | ◐ | ○ | Secretary: Read-only |
-| Documents | ● | ◐ | ○ | Secretary: Read-only |
+| Documents | ● | ◐ | ○ | Secretary: Upload & View |
 | Notes | ● | ○ | ○ | VP-exclusive |
 | Handwriting | ● | ○ | ○ | VP-exclusive, Notes module extension |
 | Incoming Post | ● | ◐ | ◐ | Secretary: Register+Process; Protocol: Invitation metadata only |
