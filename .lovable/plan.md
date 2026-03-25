@@ -1,155 +1,202 @@
-# v2.0 Phase 0: Scope Definition & Prioritization (CORRECTED)
+# v2.0 Phase 1: Architecture & Implementation Plan
 
-## Correction Applied
+## Scope
 
-OCR/Text Extraction removed from v2.0 scope and moved to Permanently Excluded. It is already listed as permanently excluded in `v2.0_Scope_Intake.md` Section 2, making its inclusion in v2.0 scope inconsistent.
+Create `Project Docs/v2.0/v2.0_Architecture_and_Execution_Plan.md` with full module breakdown, database impact, service design, sequencing, and risk controls. Restore point discipline enforced.
 
-## Deliverable
+## Findings from Codebase Exploration
 
-**File:** `Project Docs/v2.0/v2.0_Scope_Definition.md`
+**Current state relevant to v2.0:**
+
+- **Notifications module exists** (`src/app/(admin)/notifications/`) — in-app notifications with `notifications` table, RLS, unread count, mark-as-read. Categories: case, appointment, document, system. Triggers generate notifications on status changes.
+- **No service worker** — no push notification infrastructure exists.
+- **No Edge Functions** — `supabase/functions/` is empty.
+- **No email sending** — no email integration of any kind.
+- **Notes module** (`src/app/(admin)/notes/`) — plain text only, no rich text editor.
+- **Documents module** (`src/app/(admin)/documents/`) — has status workflow (draft/final/archived), version chain.
+- **Incoming Post module** (`src/app/(admin)/incoming-post/`) — 9-status state machine.
+- **Cases module** — has reopen logic but no reopen count limits.
+- **11 existing tables** with full RLS and audit triggers.
+
+## Deliverables
+
+### File 1: `Project Restore Points/v2.0/RP-v2.0-Phase1-PRE.md`
+
+Pre-execution snapshot: no architecture doc exists, no code/schema changes planned.
+
+### File 2: `Project Docs/v2.0/v2.0_Architecture_and_Execution_Plan.md`
+
+Contents:
+
+**1. Module Breakdown (8 modules)**
+
+
+| Module                   | Description                                             | Affected Existing Modules                         |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------------- |
+| Push Notifications       | Browser push via service worker + Web Push API          | notifications (extends), settings (permission UI) |
+| Email Notifications      | Email delivery for critical events via Edge Functions   | notifications (extends), no existing module       |
+| Notification Preferences | Per-user channel/category preferences                   | notifications (extends), settings                 |
+| Device-First UX          | Responsive improvements for mobile/tablet               | All UI modules (CSS/layout only)                  |
+| Rich Text Notes          | Replace plain text with rich text editor (e.g., Tiptap) | notes                                             |
+| Document Templates       | Predefined document templates for standardized creation | documents                                         |
+| Category Filtering       | Advanced filtering by category across modules           | cases, appointments, incoming-post                |
+| Reopen Count Limits      | VP-configurable max reopen count per case               | cases, settings                                   |
+
+
+**2. Database Impact Analysis**
+
+
+| Module                   | New Tables                                                                                  | Existing Tables Impacted                                     | RLS Implications                          | Migration Type                         |
+| ------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------- | -------------------------------------- |
+| Push Notifications       | `push_subscriptions` (user_id, endpoint, keys, created_at)                                  | None                                                         | Owner-only RLS (user_id = auth.uid())     | Additive                               |
+| Email Notifications      | None (uses Lovable email infra tables)                                                      | None                                                         | N/A (Edge Function with service role)     | Additive                               |
+| Notification Preferences | `notification_preferences` (user_id, category, push_enabled, email_enabled, in_app_enabled) | None                                                         | Owner-only RLS                            | Additive                               |
+| Device-First UX          | None                                                                                        | None                                                         | None                                      | No schema change                       |
+| Rich Text Notes          | None                                                                                        | `notes` (content column: text→text, format stays compatible) | No RLS change                             | Additive (add `content_format` column) |
+| Document Templates       | `document_templates` (id, name, description, entity_type, file_path, created_by)            | None                                                         | VP: full; Secretary: read; Protocol: none | Additive                               |
+| Category Filtering       | None                                                                                        | None                                                         | None                                      | No schema change (UI-only)             |
+| Reopen Count Limits      | None                                                                                        | `cases` (add `reopen_count` column, default 0)               | No RLS change                             | Additive (column + trigger update)     |
+
+
+**3. Service Layer Design**
+
+- **Push Notifications**: Service worker registration (`public/sw.js`), Web Push API, Edge Function `send-push-notification` to call Web Push endpoints. Requires VAPID key pair (stored as Supabase secrets).
+- **Email Notifications**: Lovable email infrastructure (setup_email_infra + scaffold). Edge Function `send-transactional-email` with templates for: case deadline, appointment approved/rejected, document finalized, incoming post status change. Uses existing notification triggers as event source.
+- **Notification Preferences**: Queried by push/email delivery logic before sending. No external dependency.
+- **All others**: No service layer needed (UI-only or simple DB changes).
+
+**4. Execution Sequencing**
+
+```text
+Phase 1A — Core Notifications (P1)
+  ├── Step 1: Push Notifications infrastructure (service worker, VAPID, Edge Function)
+  ├── Step 2: Email Notifications (Lovable email setup, templates, Edge Function wiring)
+  └── Dependency: None (extends existing notification triggers)
+
+Phase 1B — Notification Preferences (P2)
+  ├── Step 1: Preferences table + RLS
+  ├── Step 2: Settings UI for preferences
+  ├── Step 3: Wire preferences into push/email delivery logic
+  └── Dependency: Phase 1A (push + email must exist first)
+
+Phase 1C — UX Improvements (P2)
+  ├── Step 1: Rich Text Notes (Tiptap editor integration)
+  ├── Step 2: Device-First UX (responsive audit across all modules)
+  └── Dependency: None (independent of 1A/1B)
+
+Phase 1D — System Extensions (P2/P3)
+  ├── Step 1: Document Templates
+  ├── Step 2: Category Filtering (UI-only)
+  ├── Step 3: Reopen Count Limits
+  └── Dependency: None (independent)
+```
+
+**5. Risk Control Plan (P1 Items)**
+
+
+| Item                | RLS Risk Mitigation                                                                                        | Rollback Strategy                                                               | Failure Scenarios                                                                                                  |
+| ------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Push Notifications  | New `push_subscriptions` table: owner-only RLS. No v1.x table changes.                                     | Drop `push_subscriptions` table, remove service worker. Restore point per step. | Service worker registration fails → graceful fallback to in-app only. VAPID key rotation → re-subscribe flow.      |
+| Email Notifications | No new RLS on v1.x tables. Edge Function uses service role. Email infra tables managed by Lovable tooling. | Remove Edge Functions, disable email domain.                                    | Email delivery failure → queue retry (pgmq). Domain not verified → emails queued but not sent until DNS completes. |
+
+
+**6. Phase Breakdown Summary**
+
+
+| Phase | Scope                          | Priority | Dependencies | Estimated Complexity |
+| ----- | ------------------------------ | -------- | ------------ | -------------------- |
+| 1A    | Push + Email Notifications     | P1       | None         | High                 |
+| 1B    | Notification Preferences       | P2       | 1A           | Medium               |
+| 1C    | Rich Text Notes + Device UX    | P2       | None         | Medium               |
+| 1D    | Templates + Filtering + Limits | P2/P3    | None         | Low-Medium           |
+
+
+### File 3: `Project Restore Points/v2.0/RP-v2.0-Phase1-POST.md`
+
+Post-execution: confirms architecture doc created, no code/schema changes.
+
+**NOTE — PHASE 2 PRE-IMPLEMENTATION GATE (SECURITY & SCHEMA CONTROL)**
 
 ---
 
-### 1. Scope Categories
+## CONTEXT
 
-**8 items** (down from 9 — OCR removed):
-
-**Core Enhancements:**
-
-- Push Notifications
-- Email Notifications
-- Notification Preferences
-
-**UX Improvements:**
-
-- Device-First UX
-- Rich Text Notes
-- Category Filtering
-
-**System Extensions:**
-
-- Document Templates
-- Reopen Count Limits
-
-### 2. Priority Classification
-
-
-| Item                     | Category | Priority | Justification                    |
-| ------------------------ | -------- | -------- | -------------------------------- |
-| Push Notifications       | Core     | P1       | Real-time workflow awareness     |
-| Email Notifications      | Core     | P1       | External notification channel    |
-| Notification Preferences | Core     | P2       | Depends on P1 notifications      |
-| Device-First UX          | UX       | P2       | Mobile/tablet experience         |
-| Rich Text Notes          | UX       | P2       | Enhanced note-taking             |
-| Document Templates       | System   | P2       | Standardized document creation   |
-| Category Filtering       | UX       | P3       | Basic display already functional |
-| Reopen Count Limits      | System   | P3       | Requires operational usage data  |
-
-
-### 3. Scope Boundaries
-
-**INCLUDED:** 8 deferred items above
-
-**PERMANENTLY EXCLUDED:**
-
-- Background Sync — KILLED (RLS bypass risk)
-- Offline Write Access — KILLED (audit integrity)
-- Signature Verification — out of scope
-- Handwriting Export — no business need
-- **OCR/Text Extraction — permanently excluded (third-party dependency, no business requirement)**
-- External access portals, public portals, multi-tenant, calendar sync, AI/ML, chat, financial, HR modules
-
-### 4. Risk Assessment (P1 Only)
-
-
-| P1 Item             | RLS Risk | Workflow Risk | Dependencies                               |
-| ------------------- | -------- | ------------- | ------------------------------------------ |
-| Push Notifications  | LOW      | LOW           | Service worker, notification permissions   |
-| Email Notifications | LOW      | LOW           | Email service (Edge Functions or external) |
-
-
-### 5. Execution Constraints
-
-- No breaking changes to v1.x data model
-- All v1.x tables, RLS, triggers unchanged
-- Additive schema only
-- Backward compatibility mandatory
-- Restore point discipline enforced
+v2.0 Phase 1 (Architecture Planning) is approved.  
+Before any implementation begins, strict validation is required.
 
 ---
 
-**NOTE — FINAL SCOPE RECONCILIATION (STRICT DEVSMART GOVERNANCE)**
+## REQUIRED PRE-CONDITIONS FOR PHASE 2
+
+### 1. Schema Change Control
+
+For EACH schema change:
+
+- Explicit migration plan
+- Rollback plan per change
+- Trigger compatibility validation
+- Audit logging verification
+
+No schema change allowed without full validation.
 
 ---
 
-## PURPOSE
+### 2. RLS Validation (MANDATORY)
 
-Ensure 100% alignment between:
-
-- v2.0 Scope Definition
-- v2.0 Scope Intake
+- All new tables must define RLS BEFORE use
+- Owner-based policies must be explicit
+- No temporary open access allowed
 
 ---
 
-## REQUIRED CHECK
+### 3. Service Layer Security
 
-Before finalizing:
+For Edge Functions:
 
-1. Confirm EXACT match:
-  - Total items = 8
-  - Same item names
-  - Same categorization
-2. Validate:
-  - No duplicate items
-  - No missing items
-  - No renamed items
-3. Confirm OCR:
-  - Not present in Scope Definition
-  - Not present in Deferred list
-  - Present only in Permanently Excluded
+- Define who can trigger each function
+- Enforce authentication checks
+- Apply rate limiting (where applicable)
+- Ensure all actions are audit logged
+
+---
+
+### 4. External Dependencies
+
+- Email service must be verified before activation
+- Push notification keys must be securely stored (Supabase secrets)
+- No hardcoded credentials
 
 ---
 
 ## CONSTRAINTS
 
-- No edits unless mismatch found
-- No reclassification
-- No additions
+- No implementation without passing this gate
+- No partial execution
+- No bypassing validation
 
 ---
 
 ## STOP CONDITION
 
-- Confirm alignment
-- Proceed with execution
+- Validation complete
+- Await Phase 2 authorization
 
 ---
 
 **Governance:**
 
-- Documentation is law
 - No assumptions
-- Zero inconsistency tolerance
+- Security first
+- RLS is mandatory
+- Audit logging is non-negotiable
 
 ---
 
 **Await Further Instructions**  
   
-  
-  
-**Restore Points**
-
-- **PRE:** `Project Restore Points/v2.0/RP-v2.0-Phase0-PRE.md`
-- **POST:** `Project Restore Points/v2.0/RP-v2.0-Phase0-POST.md`
-
-## Additional Required Update
-
-**File:** `Project Docs/Governance/v2.0_Scope_Intake.md`
-
-- Remove OCR/Text Extraction from Section 1 (Deferred Features) — it belongs only in Section 2 (Permanently Excluded), where it is already listed.
-- Deferred count changes from 9 to 8.
-
-## What is NOT touched
+What is NOT touched
 
 - No v1.x files
 - No code, schema, RLS, or UI changes
+- No implementation
+- All content sourced from verified scope definition and codebase analysis
