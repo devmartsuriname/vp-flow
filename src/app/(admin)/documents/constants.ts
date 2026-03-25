@@ -14,6 +14,7 @@ export const ENTITY_TYPE_LABELS: Record<DocumentEntityType, string> = {
   case: 'Case',
   appointment: 'Appointment',
   guest: 'Guest',
+  incoming_post: 'Incoming Post',
   none: 'Unlinked',
 }
 
