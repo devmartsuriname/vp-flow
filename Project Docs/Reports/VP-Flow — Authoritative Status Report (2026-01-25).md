@@ -231,7 +231,7 @@ The following table provides a complete inventory of all features that were expl
 
 | Feature | Original Target | Status | Reason | Current Plan |
 |---------|-----------------|--------|--------|--------------|
-| Handwriting & Pen Input | v1.1-C (Option A) | DEFERRED | PWA foundation prioritized over device-specific input | Not planned for v1.4 |
+| Handwriting & Pen Input | v1.1-C (Option A) | IMPLEMENTED (Priority 3-A) | Delivered as Notes module extension | Complete |
 | Push Notifications | v1.1-C | DEFERRED | Security review required; external channel complexity | v2.0+ consideration |
 | Background Sync | v1.1-C | KILLED | Critical security risk: potential RLS bypass | Permanently excluded |
 | Offline Write Access | v1.1-C | KILLED | Critical security risk: audit integrity compromise | Permanently excluded |
