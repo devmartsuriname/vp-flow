@@ -19,6 +19,7 @@ import {
   ProfileCard,
   ThemeSettingsCard,
   SystemInfoCard,
+  PushNotificationToggle,
 } from './components'
 
 const SettingsPage = () => {
@@ -82,6 +83,11 @@ const SettingsPage = () => {
             lastLogin={sessionStartTime}
             role={role}
           />
+        </Col>
+
+        {/* Push Notifications - VP and Secretary */}
+        <Col lg={6}>
+          <PushNotificationToggle />
         </Col>
       </Row>
     </>
