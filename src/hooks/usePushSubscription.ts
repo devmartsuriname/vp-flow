@@ -46,9 +46,15 @@ export function usePushSubscription() {
     // Check if already subscribed
     const checkSubscription = async () => {
       try {
-        const registration = await navigator.serviceWorker.ready;
-        const subscription = await registration.pushManager.getSubscription();
-        setIsSubscribed(!!subscription);
+        // Timeout after 3s to prevent hanging if SW isn't registered
+        const registration = await Promise.race([
+          navigator.serviceWorker.ready,
+          new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000)),
+        ]);
+        if (registration) {
+          const subscription = await registration.pushManager.getSubscription();
+          setIsSubscribed(!!subscription);
+        }
       } catch (e) {
         console.error('Error checking push subscription:', e);
       } finally {
