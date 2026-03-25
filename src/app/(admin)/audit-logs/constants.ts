@@ -77,6 +77,7 @@ export const ENTITY_TYPE_OPTIONS = [
   { value: 'document_links', label: 'Document Links' },
   { value: 'notifications', label: 'Notifications' },
   { value: 'note_handwriting', label: 'Handwriting' },
+  { value: 'incoming_post', label: 'Incoming Post' },
 ]
 
 export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
