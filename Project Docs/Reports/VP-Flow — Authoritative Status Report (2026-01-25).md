@@ -366,6 +366,8 @@ All features listed as deferred or skipped represent deliberate governance decis
 | v1.3-A | FROZEN |
 | v1.3-B | FROZEN |
 | v1.3-C | FROZEN |
+| Priority 3-A | FROZEN |
+| Priority 3-B | FROZEN |
 
 ### Compliance Verification
 
