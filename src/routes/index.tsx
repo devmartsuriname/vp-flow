@@ -182,4 +182,5 @@ export const appRoutes = [
   ...notificationsRoutes,
   ...usersRoutes,
   ...settingsRoutes,
+  ...incomingPostRoutes,
 ]

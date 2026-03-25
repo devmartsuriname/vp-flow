@@ -37,6 +37,12 @@ export const MENU_ITEMS: MenuItemType[] = [
     url: '/documents',
   },
   {
+    key: 'incoming-post',
+    label: 'Incoming Post',
+    icon: 'bx:mail-send',
+    url: '/incoming-post',
+  },
+  {
     key: 'notes',
     label: 'Notes',
     icon: 'bx:notepad',
