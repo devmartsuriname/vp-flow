@@ -58,7 +58,9 @@ export default defineConfig(({ mode }) => ({
         clientsClaim: true,
         skipWaiting: true,
         // C2: Size limit to prevent accidental large file caching
-        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+        // v2.0: Import push notification handler into service worker
+        importScripts: ['/sw-push.js'],
       }
     })
   ].filter(Boolean),
