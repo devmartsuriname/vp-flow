@@ -190,6 +190,41 @@ The system is fully operational and ready for daily use. All core workflows for 
 
 ---
 
+### Priority 3-A — Handwriting & Pen Input
+
+**Release Date:** 2026-03-25  
+**Status:** CLOSED & FROZEN
+
+| Status | Feature |
+|--------|---------|
+| Implemented | Canvas-based pen input using perfect-freehand library |
+| Implemented | Pressure-sensitive vector stroke storage (JSON) |
+| Implemented | VP-only access with RLS enforcement |
+| Implemented | 3 fixed pen sizes, black ink, clear-canvas action |
+| Implemented | Private Supabase Storage bucket (note-handwriting) |
+
+---
+
+### Priority 3-B — Incoming Post & Archive
+
+**Release Date:** 2026-03-25  
+**Status:** CLOSED & FROZEN
+
+| Status | Feature |
+|--------|---------|
+| Implemented | incoming_post table with 9-status state machine |
+| Implemented | Auto-generated reference numbers (SECVP-YYYY-NNNN) |
+| Implemented | VP-exclusive authority for forwarding, rejection, closure, archival |
+| Implemented | Secretary registration and advice response |
+| Implemented | Protocol metadata-only access for forwarded invitations |
+| Implemented | Archive immutability (trigger-enforced) |
+| Implemented | Status transition validation trigger |
+| Implemented | 6 new audit actions |
+| Implemented | Notification triggers for status changes |
+| Implemented | Full UI: list, create, detail pages with status workflow modals |
+
+---
+
 ## 3. Deferred & Skipped Features
 
 The following table provides a complete inventory of all features that were explicitly deferred or skipped during the v1.0-v1.3 development cycle.
