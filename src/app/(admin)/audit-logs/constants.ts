@@ -26,6 +26,12 @@ export const ACTION_BADGE_VARIANTS: Record<AuditAction, string> = {
   handwriting_created: 'success',
   handwriting_updated: 'info',
   handwriting_deleted: 'warning',
+  incoming_post_created: 'success',
+  incoming_post_updated: 'info',
+  incoming_post_status_changed: 'primary',
+  incoming_post_archived: 'secondary',
+  incoming_post_forwarded: 'primary',
+  incoming_post_appointment_linked: 'info',
 }
 
 export const ACTION_LABELS: Record<AuditAction, string> = {
@@ -54,6 +60,12 @@ export const ACTION_LABELS: Record<AuditAction, string> = {
   handwriting_created: 'Handwriting Created',
   handwriting_updated: 'Handwriting Updated',
   handwriting_deleted: 'Handwriting Deleted',
+  incoming_post_created: 'Post Created',
+  incoming_post_updated: 'Post Updated',
+  incoming_post_status_changed: 'Post Status Changed',
+  incoming_post_archived: 'Post Archived',
+  incoming_post_forwarded: 'Post Forwarded',
+  incoming_post_appointment_linked: 'Post → Appointment',
 }
 
 export const ENTITY_TYPE_OPTIONS = [
@@ -65,6 +77,7 @@ export const ENTITY_TYPE_OPTIONS = [
   { value: 'document_links', label: 'Document Links' },
   { value: 'notifications', label: 'Notifications' },
   { value: 'note_handwriting', label: 'Handwriting' },
+  { value: 'incoming_post', label: 'Incoming Post' },
 ]
 
 export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
@@ -94,4 +107,10 @@ export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
   { value: 'handwriting_created', label: 'Handwriting Created' },
   { value: 'handwriting_updated', label: 'Handwriting Updated' },
   { value: 'handwriting_deleted', label: 'Handwriting Deleted' },
+  { value: 'incoming_post_created', label: 'Post Created' },
+  { value: 'incoming_post_updated', label: 'Post Updated' },
+  { value: 'incoming_post_status_changed', label: 'Post Status Changed' },
+  { value: 'incoming_post_archived', label: 'Post Archived' },
+  { value: 'incoming_post_forwarded', label: 'Post Forwarded' },
+  { value: 'incoming_post_appointment_linked', label: 'Post → Appointment' },
 ]

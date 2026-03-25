@@ -417,6 +417,107 @@ export type Database = {
           },
         ]
       }
+      incoming_post: {
+        Row: {
+          advice_request: string | null
+          advice_response: string | null
+          archived_at: string | null
+          archived_by: string | null
+          category: Database["public"]["Enums"]["incoming_post_category"]
+          closed_at: string | null
+          closed_by: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          forwarded_at: string | null
+          forwarded_by: string | null
+          forwarding_destination: string | null
+          id: string
+          linked_appointment_id: string | null
+          received_date: string
+          reference_number: string
+          registered_at: string | null
+          registered_by: string | null
+          rejected_at: string | null
+          rejected_by: string | null
+          rejection_reason: string | null
+          sender_name: string
+          sender_organization: string | null
+          status: Database["public"]["Enums"]["incoming_post_status"]
+          subject: string
+          updated_at: string
+          urgency: Database["public"]["Enums"]["incoming_post_urgency"]
+        }
+        Insert: {
+          advice_request?: string | null
+          advice_response?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          category?: Database["public"]["Enums"]["incoming_post_category"]
+          closed_at?: string | null
+          closed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          forwarded_at?: string | null
+          forwarded_by?: string | null
+          forwarding_destination?: string | null
+          id?: string
+          linked_appointment_id?: string | null
+          received_date?: string
+          reference_number: string
+          registered_at?: string | null
+          registered_by?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
+          sender_name: string
+          sender_organization?: string | null
+          status?: Database["public"]["Enums"]["incoming_post_status"]
+          subject: string
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["incoming_post_urgency"]
+        }
+        Update: {
+          advice_request?: string | null
+          advice_response?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          category?: Database["public"]["Enums"]["incoming_post_category"]
+          closed_at?: string | null
+          closed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          forwarded_at?: string | null
+          forwarded_by?: string | null
+          forwarding_destination?: string | null
+          id?: string
+          linked_appointment_id?: string | null
+          received_date?: string
+          reference_number?: string
+          registered_at?: string | null
+          registered_by?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
+          sender_name?: string
+          sender_organization?: string | null
+          status?: Database["public"]["Enums"]["incoming_post_status"]
+          subject?: string
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["incoming_post_urgency"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incoming_post_linked_appointment_id_fkey"
+            columns: ["linked_appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       note_handwriting: {
         Row: {
           created_at: string
@@ -757,6 +858,12 @@ export type Database = {
         | "handwriting_created"
         | "handwriting_updated"
         | "handwriting_deleted"
+        | "incoming_post_created"
+        | "incoming_post_updated"
+        | "incoming_post_status_changed"
+        | "incoming_post_archived"
+        | "incoming_post_forwarded"
+        | "incoming_post_appointment_linked"
       case_priority: "high" | "medium" | "low"
       case_status:
         | "draft"
@@ -766,8 +873,31 @@ export type Database = {
         | "closed"
         | "reopened"
       client_type: "person" | "organization"
-      document_entity_type: "case" | "guest" | "appointment" | "none"
+      document_entity_type:
+        | "case"
+        | "guest"
+        | "appointment"
+        | "none"
+        | "incoming_post"
       document_status: "draft" | "final" | "archived"
+      incoming_post_category:
+        | "letter"
+        | "memo"
+        | "invitation"
+        | "legal"
+        | "report"
+        | "other"
+      incoming_post_status:
+        | "received"
+        | "registered"
+        | "waiting_advice"
+        | "advice_received"
+        | "forwarded"
+        | "rejected"
+        | "appointment_created"
+        | "closed"
+        | "archived"
+      incoming_post_urgency: "normal" | "urgent" | "confidential"
       note_entity_type: "guest" | "appointment" | "case"
       notification_category: "case" | "appointment" | "document" | "system"
       protocol_status:
@@ -942,6 +1072,12 @@ export const Constants = {
         "handwriting_created",
         "handwriting_updated",
         "handwriting_deleted",
+        "incoming_post_created",
+        "incoming_post_updated",
+        "incoming_post_status_changed",
+        "incoming_post_archived",
+        "incoming_post_forwarded",
+        "incoming_post_appointment_linked",
       ],
       case_priority: ["high", "medium", "low"],
       case_status: [
@@ -953,8 +1089,34 @@ export const Constants = {
         "reopened",
       ],
       client_type: ["person", "organization"],
-      document_entity_type: ["case", "guest", "appointment", "none"],
+      document_entity_type: [
+        "case",
+        "guest",
+        "appointment",
+        "none",
+        "incoming_post",
+      ],
       document_status: ["draft", "final", "archived"],
+      incoming_post_category: [
+        "letter",
+        "memo",
+        "invitation",
+        "legal",
+        "report",
+        "other",
+      ],
+      incoming_post_status: [
+        "received",
+        "registered",
+        "waiting_advice",
+        "advice_received",
+        "forwarded",
+        "rejected",
+        "appointment_created",
+        "closed",
+        "archived",
+      ],
+      incoming_post_urgency: ["normal", "urgent", "confidential"],
       note_entity_type: ["guest", "appointment", "case"],
       notification_category: ["case", "appointment", "document", "system"],
       protocol_status: [

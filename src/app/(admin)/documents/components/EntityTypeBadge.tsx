@@ -10,6 +10,7 @@ const ENTITY_BADGE_VARIANTS: Record<DocumentEntityType, string> = {
   case: 'primary',
   appointment: 'info',
   guest: 'secondary',
+  incoming_post: 'warning',
   none: 'light',
 }
 

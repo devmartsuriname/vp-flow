@@ -42,6 +42,11 @@ const UsersList = lazy(() => import('@/app/(admin)/users/page'))
 // Settings Module (VP/Secretary, Protocol redirected)
 const SettingsPage = lazy(() => import('@/app/(admin)/settings/page'))
 
+// Incoming Post Module
+const IncomingPostList = lazy(() => import('@/app/(admin)/incoming-post/page'))
+const IncomingPostDetail = lazy(() => import('@/app/(admin)/incoming-post/[id]/page'))
+const IncomingPostCreate = lazy(() => import('@/app/(admin)/incoming-post/create/page'))
+
 // Auth Routes
 const AuthSignIn = lazy(() => import('@/app/(other)/auth/sign-in/page'))
 const AuthSignUp = lazy(() => import('@/app/(other)/auth/sign-up/page'))
@@ -158,6 +163,13 @@ const settingsRoutes: RoutesProps[] = [
   { path: '/settings', name: 'Settings', element: <SettingsPage /> },
 ]
 
+// Incoming Post Routes
+const incomingPostRoutes: RoutesProps[] = [
+  { path: '/incoming-post', name: 'Incoming Post', element: <IncomingPostList /> },
+  { path: '/incoming-post/create', name: 'Register Post', element: <IncomingPostCreate /> },
+  { path: '/incoming-post/:id', name: 'Post Detail', element: <IncomingPostDetail /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   ...generalRoutes,
@@ -170,4 +182,5 @@ export const appRoutes = [
   ...notificationsRoutes,
   ...usersRoutes,
   ...settingsRoutes,
+  ...incomingPostRoutes,
 ]
