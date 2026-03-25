@@ -26,6 +26,12 @@ export const ACTION_BADGE_VARIANTS: Record<AuditAction, string> = {
   handwriting_created: 'success',
   handwriting_updated: 'info',
   handwriting_deleted: 'warning',
+  incoming_post_created: 'success',
+  incoming_post_updated: 'info',
+  incoming_post_status_changed: 'primary',
+  incoming_post_archived: 'secondary',
+  incoming_post_forwarded: 'primary',
+  incoming_post_appointment_linked: 'info',
 }
 
 export const ACTION_LABELS: Record<AuditAction, string> = {
