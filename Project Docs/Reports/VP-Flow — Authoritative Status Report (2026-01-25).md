@@ -269,6 +269,8 @@ The following matrix defines the access permissions for each role across all sys
 | Cases | Full CRUD + Re-open | Read Only | No Access |
 | Documents | Full CRUD + Status | Upload & View | No Access |
 | Notes | Full CRUD | No Access | No Access |
+| Handwriting | Full Access | No Access | No Access |
+| Incoming Post | Full CRUD + Archive | Register + Process | Metadata Only (Invitations) |
 | Audit Logs | Full Access | No Access | No Access |
 | Notifications | Full Access | Full Access | Full Access |
 | User Management | Full CRUD | View Only | No Access |
