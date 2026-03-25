@@ -28,6 +28,8 @@ Wallet-sized reference card for daily role-based access verification.
 │  Cases       │  ●   │  ◐   │  ○   │         │
 │  Documents   │  ●   │  ◐   │  ○   │         │
 │  Notes       │  ●   │  ○   │  ○   │         │
+│  Handwriting │  ●   │  ○   │  ○   │         │
+│  Incoming Post│ ●   │  ◐   │  ◐   │         │
 │  Audit Logs  │  ●   │  ○   │  ○   │         │
 │  Notifications│ ●   │  ●   │  ●   │         │
 │  Users       │  ●   │  ◐   │  ○   │         │
