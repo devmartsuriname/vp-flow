@@ -30,6 +30,8 @@ VP-Flow is an internal appointments and case management system developed for the
 | v1.3-A | 2026-01-25 | Documents Expansion |
 | v1.3-B | 2026-01-25 | Case Re-opening Enhancement |
 | v1.3-C | 2026-01-25 | Notifications Deepening |
+| Priority 3-A | 2026-03-25 | Handwriting & Pen Input |
+| Priority 3-B | 2026-03-25 | Incoming Post & Archive |
 
 ### Operational Readiness
 
