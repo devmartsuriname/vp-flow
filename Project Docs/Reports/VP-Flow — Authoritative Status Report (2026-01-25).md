@@ -6,8 +6,8 @@
 
 | Document Property | Value |
 |-------------------|-------|
-| Versions Covered | v1.0 through v1.3 |
-| Report Date | 2026-01-25 |
+| Versions Covered | v1.0 through Priority 3-B |
+| Report Date | 2026-03-25 |
 | Authority | Office of the Vice President of Suriname |
 | Delivery Partner | Devmart |
 | Classification | Internal Use Only |
@@ -30,6 +30,8 @@ VP-Flow is an internal appointments and case management system developed for the
 | v1.3-A | 2026-01-25 | Documents Expansion |
 | v1.3-B | 2026-01-25 | Case Re-opening Enhancement |
 | v1.3-C | 2026-01-25 | Notifications Deepening |
+| Priority 3-A | 2026-03-25 | Handwriting & Pen Input |
+| Priority 3-B | 2026-03-25 | Incoming Post & Archive |
 
 ### Operational Readiness
 
@@ -188,13 +190,48 @@ The system is fully operational and ready for daily use. All core workflows for 
 
 ---
 
+### Priority 3-A — Handwriting & Pen Input
+
+**Release Date:** 2026-03-25  
+**Status:** CLOSED & FROZEN
+
+| Status | Feature |
+|--------|---------|
+| Implemented | Canvas-based pen input using perfect-freehand library |
+| Implemented | Pressure-sensitive vector stroke storage (JSON) |
+| Implemented | VP-only access with RLS enforcement |
+| Implemented | 3 fixed pen sizes, black ink, clear-canvas action |
+| Implemented | Private Supabase Storage bucket (note-handwriting) |
+
+---
+
+### Priority 3-B — Incoming Post & Archive
+
+**Release Date:** 2026-03-25  
+**Status:** CLOSED & FROZEN
+
+| Status | Feature |
+|--------|---------|
+| Implemented | incoming_post table with 9-status state machine |
+| Implemented | Auto-generated reference numbers (SECVP-YYYY-NNNN) |
+| Implemented | VP-exclusive authority for forwarding, rejection, closure, archival |
+| Implemented | Secretary registration and advice response |
+| Implemented | Protocol metadata-only access for forwarded invitations |
+| Implemented | Archive immutability (trigger-enforced) |
+| Implemented | Status transition validation trigger |
+| Implemented | 6 new audit actions |
+| Implemented | Notification triggers for status changes |
+| Implemented | Full UI: list, create, detail pages with status workflow modals |
+
+---
+
 ## 3. Deferred & Skipped Features
 
 The following table provides a complete inventory of all features that were explicitly deferred or skipped during the v1.0-v1.3 development cycle.
 
 | Feature | Original Target | Status | Reason | Current Plan |
 |---------|-----------------|--------|--------|--------------|
-| Handwriting & Pen Input | v1.1-C (Option A) | DEFERRED | PWA foundation prioritized over device-specific input | Not planned for v1.4 |
+| Handwriting & Pen Input | v1.1-C (Option A) | IMPLEMENTED (Priority 3-A) | Delivered as Notes module extension | Complete |
 | Push Notifications | v1.1-C | DEFERRED | Security review required; external channel complexity | v2.0+ consideration |
 | Background Sync | v1.1-C | KILLED | Critical security risk: potential RLS bypass | Permanently excluded |
 | Offline Write Access | v1.1-C | KILLED | Critical security risk: audit integrity compromise | Permanently excluded |
@@ -232,6 +269,8 @@ The following matrix defines the access permissions for each role across all sys
 | Cases | Full CRUD + Re-open | Read Only | No Access |
 | Documents | Full CRUD + Status | Upload & View | No Access |
 | Notes | Full CRUD | No Access | No Access |
+| Handwriting | Full Access | No Access | No Access |
+| Incoming Post | Full CRUD + Archive | Register + Process | Metadata Only (Invitations) |
 | Audit Logs | Full Access | No Access | No Access |
 | Notifications | Full Access | Full Access | Full Access |
 | User Management | Full CRUD | View Only | No Access |
@@ -327,6 +366,8 @@ All features listed as deferred or skipped represent deliberate governance decis
 | v1.3-A | FROZEN |
 | v1.3-B | FROZEN |
 | v1.3-C | FROZEN |
+| Priority 3-A | FROZEN |
+| Priority 3-B | FROZEN |
 
 ### Compliance Verification
 
@@ -351,11 +392,11 @@ All features listed as deferred or skipped represent deliberate governance decis
 
 | Prepared By | Date |
 |-------------|------|
-| Devmart Development Team | 2026-01-25 |
+| Devmart Development Team | 2026-03-25 |
 
 ---
 
-*This document serves as the authoritative status report for VP-Flow versions v1.0 through v1.3. All statements contained herein have been verified against the production system and project documentation.*
+*This document serves as the authoritative status report for VP-Flow versions v1.0 through Priority 3-B. All statements contained herein have been verified against the production system and project documentation.*
 
 ---
 

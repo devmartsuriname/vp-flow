@@ -2,8 +2,8 @@
 
 **Document Type:** Stakeholder Quick Reference  
 **Classification:** Internal Use Only  
-**Version:** v1.3  
-**Date:** 2026-01-25
+**Version:** v1.3-P3B  
+**Date:** 2026-03-25
 
 ---
 
@@ -28,6 +28,8 @@ Wallet-sized reference card for daily role-based access verification.
 │  Cases       │  ●   │  ◐   │  ○   │         │
 │  Documents   │  ●   │  ◐   │  ○   │         │
 │  Notes       │  ●   │  ○   │  ○   │         │
+│  Handwriting │  ●   │  ○   │  ○   │         │
+│  Incoming Post│ ●   │  ◐   │  ◐   │         │
 │  Audit Logs  │  ●   │  ○   │  ○   │         │
 │  Notifications│ ●   │  ●   │  ●   │         │
 │  Users       │  ●   │  ◐   │  ○   │         │
@@ -55,7 +57,7 @@ Wallet-sized reference card for daily role-based access verification.
 ├─────────────────────────────────────────────┤
 │  Office of the Vice President               │
 │  Republic of Suriname                       │
-│  VP-Flow v1.3 | 2026-01-25                  │
+│  VP-Flow v1.3-P3B | 2026-03-25               │
 └─────────────────────────────────────────────┘
 ```
 
@@ -71,6 +73,8 @@ Wallet-sized reference card for daily role-based access verification.
 | Cases | ● | ◐ | ○ | Secretary: Read-only |
 | Documents | ● | ◐ | ○ | Secretary: Read-only |
 | Notes | ● | ○ | ○ | VP-exclusive |
+| Handwriting | ● | ○ | ○ | VP-exclusive, Notes module extension |
+| Incoming Post | ● | ◐ | ◐ | Secretary: Register+Process; Protocol: Invitation metadata only |
 | Audit Logs | ● | ○ | ○ | VP-exclusive |
 | Notifications | ● | ● | ● | Own notifications only |
 | Users | ● | ◐ | ○ | Secretary: View directory |
