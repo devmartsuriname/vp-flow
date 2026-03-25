@@ -2,8 +2,8 @@
 
 **Document Type:** Stakeholder Quick Reference  
 **Classification:** Internal Use Only  
-**Version:** v1.3  
-**Date:** 2026-01-25
+**Version:** v1.3-P3B  
+**Date:** 2026-03-25
 
 ---
 
