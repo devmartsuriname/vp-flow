@@ -60,6 +60,12 @@ export const ACTION_LABELS: Record<AuditAction, string> = {
   handwriting_created: 'Handwriting Created',
   handwriting_updated: 'Handwriting Updated',
   handwriting_deleted: 'Handwriting Deleted',
+  incoming_post_created: 'Post Created',
+  incoming_post_updated: 'Post Updated',
+  incoming_post_status_changed: 'Post Status Changed',
+  incoming_post_archived: 'Post Archived',
+  incoming_post_forwarded: 'Post Forwarded',
+  incoming_post_appointment_linked: 'Post → Appointment',
 }
 
 export const ENTITY_TYPE_OPTIONS = [
