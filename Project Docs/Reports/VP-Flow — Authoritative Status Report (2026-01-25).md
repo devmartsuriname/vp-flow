@@ -6,8 +6,8 @@
 
 | Document Property | Value |
 |-------------------|-------|
-| Versions Covered | v1.0 through v1.3 |
-| Report Date | 2026-01-25 |
+| Versions Covered | v1.0 through Priority 3-B |
+| Report Date | 2026-03-25 |
 | Authority | Office of the Vice President of Suriname |
 | Delivery Partner | Devmart |
 | Classification | Internal Use Only |
