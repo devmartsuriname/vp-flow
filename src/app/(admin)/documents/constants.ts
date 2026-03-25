@@ -6,6 +6,7 @@ export const ENTITY_TYPE_OPTIONS: { value: DocumentEntityType | ''; label: strin
   { value: 'case', label: 'Cases' },
   { value: 'appointment', label: 'Appointments' },
   { value: 'guest', label: 'Guests' },
+  { value: 'incoming_post', label: 'Incoming Post' },
   { value: 'none', label: 'Unlinked' },
 ]
 

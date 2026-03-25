@@ -107,4 +107,10 @@ export const ACTION_OPTIONS: { value: AuditAction | ''; label: string }[] = [
   { value: 'handwriting_created', label: 'Handwriting Created' },
   { value: 'handwriting_updated', label: 'Handwriting Updated' },
   { value: 'handwriting_deleted', label: 'Handwriting Deleted' },
+  { value: 'incoming_post_created', label: 'Post Created' },
+  { value: 'incoming_post_updated', label: 'Post Updated' },
+  { value: 'incoming_post_status_changed', label: 'Post Status Changed' },
+  { value: 'incoming_post_archived', label: 'Post Archived' },
+  { value: 'incoming_post_forwarded', label: 'Post Forwarded' },
+  { value: 'incoming_post_appointment_linked', label: 'Post → Appointment' },
 ]
