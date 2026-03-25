@@ -396,7 +396,7 @@ All features listed as deferred or skipped represent deliberate governance decis
 
 ---
 
-*This document serves as the authoritative status report for VP-Flow versions v1.0 through v1.3. All statements contained herein have been verified against the production system and project documentation.*
+*This document serves as the authoritative status report for VP-Flow versions v1.0 through Priority 3-B. All statements contained herein have been verified against the production system and project documentation.*
 
 ---
 

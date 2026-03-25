@@ -73,6 +73,8 @@ Wallet-sized reference card for daily role-based access verification.
 | Cases | ● | ◐ | ○ | Secretary: Read-only |
 | Documents | ● | ◐ | ○ | Secretary: Read-only |
 | Notes | ● | ○ | ○ | VP-exclusive |
+| Handwriting | ● | ○ | ○ | VP-exclusive, Notes module extension |
+| Incoming Post | ● | ◐ | ◐ | Secretary: Register+Process; Protocol: Invitation metadata only |
 | Audit Logs | ● | ○ | ○ | VP-exclusive |
 | Notifications | ● | ● | ● | Own notifications only |
 | Users | ● | ◐ | ○ | Secretary: View directory |
