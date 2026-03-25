@@ -1,88 +1,157 @@
-# Correction: Global Search Status in Authoritative Status Report
+# Zero-Risk Consolidation — Final Governance Completion
 
-## Issue
-
-Line 239 of `Project Docs/Reports/VP-Flow — Authoritative Status Report (2026-01-25).md` lists Global Search as `DEFERRED`. This is incorrect — Global Search was implemented under **Priority 1 — Secure Execution** (read-only, covering Guests, Appointments, and Cases, respecting RLS boundaries).
-
-## Required Change
-
-**File:** `Project Docs/Reports/VP-Flow — Authoritative Status Report (2026-01-25).md`
-
-**Line 239 — Update row:**
-
-- FROM: `| Global Search | v1.2+ | DEFERRED | Cross-module architecture required | v1.4+ consideration |`
-- TO: `| Global Search | v1.2+ | IMPLEMENTED (Priority 1) | Delivered as read-only cross-module search | Complete |`
-
-## Scope
-
-- Single line change in one file
-- No other modifications
-- No reclassification of any other items
-
-## Validation
-
-All remaining deferred items on lines 235-246 cross-checked against memory and system state:
-
-- Push Notifications → DEFERRED (confirmed, not implemented)
-- Device-First UX → DEFERRED (confirmed)
-- Document Templates → DEFERRED (confirmed)
-- Email Notifications → DEFERRED (confirmed)
-- OCR/Text Extraction → DEFERRED (confirmed)
-- Reopen Count Limits → DEFERRED (confirmed)
-- Rich Text Notes → DEFERRED (confirmed)
-- Notification Preferences → DEFERRED (confirmed)
-- Category Filtering → DEFERRED (confirmed)
-
-All verified. No other corrections needed.  
-  
-**NOTE — EXECUTION SAFETY IMPROVEMENT**
+## Scope: 3 files (1 update, 2 create)
 
 ---
 
-## Issue
+## PRE Restore Point
 
-The change references a fixed line number:
+**File:** `Project Restore Points/RP-Governance-Completion-PRE.md`
 
-- Line 239 — Global Search row
+Brief snapshot documenting:
 
-This is fragile if file structure has shifted.
+- Access Matrix Card line 74 currently says "Read-only" for Secretary/Documents
+- `Change_Control_Protocol.md` and `v2.0_Scope_Intake.md` do not yet exist
+- No code/schema/RLS changes planned
 
 ---
 
-## REQUIRED ADJUSTMENT
+## Task 1 — Fix Access Matrix Card
 
-Before applying the change:
+**File:** `Project Docs/Reports/VP-Flow — Access Matrix Quick Reference Card.md`
 
-1. Locate the row by **content match**, not line number:
-  - Find row containing: "Global Search | v1.2+ | DEFERRED"
-2. Replace ONLY that row with:
-  - "Global Search | v1.2+ | IMPLEMENTED (Priority 1) | Delivered as read-only cross-module search | Complete"
-3. Do NOT rely on line numbers
+**Line 74 — single cell update:**
+
+- FROM: `| Documents | ● | ◐ | ○ | Secretary: Read-only |`
+- TO: `| Documents | ● | ◐ | ○ | Secretary: Upload & View |`
+
+No other lines touched.
+
+---
+
+## Task 2 — Create Governance Documents
+
+### File A: `Project Docs/Governance/Change_Control_Protocol.md`
+
+Contents from previously approved plan:
+
+- Classification Matrix (Critical / High / Low / Enhancement)
+- Change Request Process (5 steps)
+- Authority Model (VP sole approver for v1.x)
+- Hotfix Rules (restore points mandatory, scope-limited)
+
+### File B: `Project Docs/Governance/v2.0_Scope_Intake.md`
+
+Contents from previously approved plan (with Global Search correction applied):
+
+- Section 1: Deferred Features table (9 items — no Global Search)
+- Section 2: Permanently Excluded (Background Sync, Offline Write, Signature Verification, Handwriting Export, OCR)
+- Section 3: Future Improvement Candidates (empty template)
+- Section 4: Out-of-Scope Boundaries
+
+---
+
+## POST Restore Point
+
+**File:** `Project Restore Points/RP-Governance-Completion-POST.md`
+
+Documents changes applied, confirms zero-risk checklist.
+
+---
+
+**NOTE — v2.0 STRUCTURE INITIALIZATION (STRICT DEVSMART GOVERNANCE)**
+
+---
+
+## CONTEXT
+
+VP-Flow v1.x is PRODUCTION FROZEN.  
+v2.0 must start with strict structural separation.
+
+---
+
+## REQUIRED ACTION
+
+### 1. Restore Points Structure
+
+Create new folder:
+
+Project Restore Points/v2.0/
+
+All future restore points for v2.0 must be stored here.
+
+---
+
+### 2. Project Docs Structure
+
+Create new folder:
+
+Project Docs/v2.0/
+
+All v2.0 documentation must be placed here.
+
+---
+
+### 3. Governance Rules
+
+- v1.x files MUST NOT be modified
+- v2.0 artifacts MUST NOT be mixed with v1.x
+- Every v2.0 phase must:
+  - Create restore point in v2.0 folder
+  - Update documentation in v2.0 folder only
+
+---
+
+### 4. Naming Convention
+
+Follow existing discipline:
+
+- Restore Points:  
+RP-v2.0-[phase-name]-[PRE.md](http://PRE.md)  
+RP-v2.0-[phase-name]-[POST.md](http://POST.md)
+- Documents:  
+Maintain same structure as v1.x (Reports, Phases, etc.)
 
 ---
 
 ## CONSTRAINTS
 
-- No additional edits
-- No restructuring
-- No assumptions
+- No restructuring of existing v1.x folders
+- No movement of existing files
+- Only create new folders
 
 ---
 
 ## STOP CONDITION
 
-- Apply correction
-- Stop immediately
+- Create folders
+- Confirm structure
 - Await further instructions
 
 ---
 
 **Governance:**
 
-- No assumptions
-- Documentation must match reality
-- Zero-risk execution
+- No scope creep
+- Version isolation is mandatory
+- Documentation discipline enforced
 
 ---
 
-**Await Further Instructions**
+**Await Further Instructions**  
+  
+  
+Verification
+
+After execution:
+
+- Access Matrix Card line 74 matches Status Report line 270 ("Upload & View")
+- Both governance files exist under `Project Docs/Governance/`
+- No other files modified
+- Zero-Risk Checklist confirmed
+
+## Technical Notes
+
+- No code, schema, RLS, or UI changes
+- All governance content sourced from previously approved plan
+- Global Search excluded from deferred list per approved correction
