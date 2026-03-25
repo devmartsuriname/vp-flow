@@ -163,6 +163,13 @@ const settingsRoutes: RoutesProps[] = [
   { path: '/settings', name: 'Settings', element: <SettingsPage /> },
 ]
 
+// Incoming Post Routes
+const incomingPostRoutes: RoutesProps[] = [
+  { path: '/incoming-post', name: 'Incoming Post', element: <IncomingPostList /> },
+  { path: '/incoming-post/create', name: 'Register Post', element: <IncomingPostCreate /> },
+  { path: '/incoming-post/:id', name: 'Post Detail', element: <IncomingPostDetail /> },
+]
+
 export const appRoutes = [
   ...initialRoutes,
   ...generalRoutes,
