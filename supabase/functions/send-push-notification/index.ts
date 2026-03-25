@@ -11,8 +11,10 @@ serve(async (req) => {
   }
 
   try {
-    // JWT validation
+    // Authorization: Only accept internal trigger calls
     const authHeader = req.headers.get('Authorization');
+    const triggerSource = req.headers.get('x-trigger-source');
+    
     if (!authHeader?.startsWith('Bearer ')) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
@@ -26,7 +28,7 @@ serve(async (req) => {
     const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-    // Validate caller identity
+    // Validate JWT
     const userClient = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: authHeader } },
     });
@@ -36,6 +38,19 @@ serve(async (req) => {
     if (claimsError || !claimsData?.claims) {
       return new Response(JSON.stringify({ error: 'Invalid token' }), {
         status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Security: Only allow internal trigger calls (anon role + pg_trigger header)
+    // or service_role calls. Block direct client invocations.
+    const callerRole = (claimsData.claims as Record<string, unknown>).role;
+    const isInternalTrigger = callerRole === 'anon' && triggerSource === 'pg_trigger';
+    const isServiceRole = callerRole === 'service_role';
+    
+    if (!isInternalTrigger && !isServiceRole) {
+      return new Response(JSON.stringify({ error: 'Forbidden: internal use only' }), {
+        status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
