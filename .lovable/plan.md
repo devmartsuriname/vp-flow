@@ -1,177 +1,91 @@
-# Incoming Post & Archive — Corrected Architecture
-
-## Corrected State Machine
-
-```text
-                    +------------+
-                    |  received  |  Secretary scans/uploads
-                    +-----+------+
-                          |
-                    Secretary adds metadata
-                          |
-                    +-----v-------+
-                    | registered  |  Metadata complete, doc attached
-                    +-----+-------+
-                          |
-                    VP reviews registered item
-                          |
-              +-----------+-----------+-----------+
-              |                       |           |
-        VP requests advice      VP decides     VP rejects
-              |                  to forward        |
-        +-----v-----------+   +-----v------+  +---v------+
-        | waiting_advice   |   | forwarded  |  | rejected |
-        +-----+-----------+   +-----+------+  +---+------+
-              |                       |            |
-        Secretary/VP provides         |            |
-        advice response               |         (terminal
-              |                       |          before close)
-        +-----v-----------+          |
-        | advice_received  |          |
-        +-----+-----------+          |
-              |                       |
-              +--- VP decides --------+
-              |    to forward         |
-              |                       |
-              +--- VP decides ---+    |
-              |    appointment   |    |
-              |                  |    |
-        +-----v----------------+ |    |
-        | appointment_created  | |    |
-        +-----+----------------+ |    |
-              |                   |    |
-              +-------------------+----+
-              |
-        VP marks closed
-              |
-        +-----v------+
-        |   closed   |  All actions complete
-        +-----+------+
-              |
-        VP archives (IMMUTABLE LOCK)
-              |
-        +-----v------+
-        |  archived  |  FINAL — no modifications
-        +------------+
-```
-
-### Key Design Decisions
-
-- `**closed` is mandatory before `archived**` — archive is only a preservation lock, not an action resolution
-- `**rejected**` is a VP-only terminal decision; must be closed before archival
-- `**waiting_advice` / `advice_received**` explicitly models the advice loop
-- `**appointment_created**` records that an appointment was spawned; creates a linkage audit event
-- Secretary **cannot** forward — only VP can transition to `forwarded`
-
----
-
-## Transition Table
 
 
-| From                | To                  | Authority     | Conditions                           |
-| ------------------- | ------------------- | ------------- | ------------------------------------ |
-| received            | registered          | Secretary, VP | Metadata complete, document attached |
-| registered          | forwarded           | **VP only**   | VP forwarding decision               |
-| registered          | waiting_advice      | VP            | VP requests advice                   |
-| registered          | rejected            | **VP only**   | VP rejection decision                |
-| waiting_advice      | advice_received     | Secretary, VP | Advice response provided             |
-| advice_received     | forwarded           | **VP only**   | VP forwarding decision post-advice   |
-| advice_received     | rejected            | **VP only**   | VP rejection decision post-advice    |
-| advice_received     | appointment_created | **VP only**   | VP creates linked appointment        |
-| forwarded           | appointment_created | **VP only**   | VP creates linked appointment        |
-| forwarded           | closed              | **VP only**   | Action complete                      |
-| appointment_created | closed              | **VP only**   | Appointment handled                  |
-| rejected            | closed              | **VP only**   | Rejection finalized                  |
-| closed              | archived            | **VP only**   | Immutable lock applied               |
-| archived            | *(none)*            | —             | **IMMUTABLE — trigger-enforced**     |
+# Incoming Post & Archive — Implementation Plan
 
+## Overview
+Full implementation of the Incoming Post module: database schema, triggers, RLS, audit trail, and complete UI module following existing Darkone patterns.
 
-### Prohibited Transitions
+## Phase 1: Database Migration
 
-- Secretary **cannot** transition to: `forwarded`, `rejected`, `closed`, `archived`, `appointment_created`
-- No status can skip `closed` to reach `archived`
-- No backward transitions from `closed` or `archived`
+Single migration containing all schema changes:
 
----
+### Enums
+- `incoming_post_status`: received, registered, waiting_advice, advice_received, forwarded, rejected, appointment_created, closed, archived
+- `incoming_post_urgency`: normal, urgent, confidential
+- `incoming_post_category`: letter, memo, invitation, legal, report, other
+- Extend `document_entity_type` with `'incoming_post'`
+- Extend `audit_action` with 6 new values: `incoming_post_created`, `incoming_post_updated`, `incoming_post_status_changed`, `incoming_post_archived`, `incoming_post_forwarded`, `incoming_post_appointment_linked`
 
-## Updated RLS Matrix
+### Table: `incoming_post`
+All columns per locked spec, including `linked_appointment_id` FK to appointments, `reference_number` (unique, auto-generated via sequence per year).
 
+### Reference Number Generation
+- Yearly sequence + trigger: `generate_incoming_post_reference()` auto-assigns `SECVP-YYYY-NNNN` on INSERT.
 
-| Action                      | VP                         | Secretary                                                               | Protocol                                                                 |
-| --------------------------- | -------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| SELECT                      | All records                | All records                                                             | `category = 'invitation'` AND `status NOT IN ('received', 'registered')` |
-| INSERT                      | Yes                        | Yes (registration only)                                                 | No                                                                       |
-| UPDATE (metadata)           | All non-archived           | Own registered + status IN ('received', 'registered', 'waiting_advice') | No                                                                       |
-| UPDATE (status transitions) | Per transition table above | `received → registered` only                                            | No                                                                       |
-| DELETE                      | No (soft archive)          | No                                                                      | No                                                                       |
+### Triggers
+1. `prevent_archived_incoming_post_update` — blocks all updates on archived rows
+2. `validate_incoming_post_status_transition` — enforces transition table + VP-only authority checks
+3. `log_incoming_post_audit` — sanitized audit logging (SECURITY DEFINER)
+4. `update_incoming_post_updated_at` — reuses `update_updated_at_column()`
 
+### RLS Policies (6 total)
+- VP: SELECT all, INSERT, UPDATE all non-archived, no DELETE (soft archive)
+- Secretary: SELECT all, INSERT, UPDATE own registered + limited statuses
+- Protocol: SELECT where `category = 'invitation'` AND `status NOT IN ('received','registered')`
 
-### Secretary Authority (Explicit)
+### Notification Trigger
+- `notify_incoming_post_status_change` — notifies VP on registration, notifies Secretary on forwarding decisions
 
-- **CAN:** Scan/upload document, register metadata, provide advice response
-- **CANNOT:** Forward, reject, create appointments, close, or archive
+## Phase 2: Frontend — Types & Hooks
 
-### VP Authority (Explicit)
+### Files to create under `src/app/(admin)/incoming-post/`:
 
-- **CAN:** All Secretary actions + all status transitions + archive finalization
-- Full decision authority on forwarding, rejection, advice requests, and appointment linkage
+**types.ts** — TypeScript types mirroring DB schema, status config, transition rules, helper functions (following cases/types.ts pattern)
 
----
+**constants.ts** — Status badge variants, urgency labels, category labels, filter options
 
-## Appointment Linkage
+**hooks/**
+- `useIncomingPosts.ts` — List query with filters (status, category, urgency)
+- `useIncomingPost.ts` — Single record fetch
+- `useCreateIncomingPost.ts` — Insert mutation (Secretary/VP)
+- `useUpdateIncomingPost.ts` — Metadata update mutation
+- `useUpdateIncomingPostStatus.ts` — Status transition mutation with authority validation
+- `index.ts` — barrel export
 
-When VP transitions to `appointment_created`:
+## Phase 3: Frontend — UI Components
 
-1. A new appointment is created via existing Appointments module
-2. `incoming_post` record stores `linked_appointment_id` (nullable UUID FK → appointments)
-3. Audit event: `incoming_post_appointment_linked` logged with both IDs
-4. The incoming post continues its lifecycle independently (→ closed → archived)
+**components/**
+- `IncomingPostTable.tsx` — List table with status badges, urgency indicators, category tags
+- `IncomingPostStatusBadge.tsx` — Color-coded status badge
+- `IncomingPostUrgencyBadge.tsx` — Urgency indicator
+- `IncomingPostDetail.tsx` — Full detail view with metadata, status actions, linked documents
+- `IncomingPostForm.tsx` — Registration form (subject, sender, category, urgency, received date)
+- `StatusTransitionModal.tsx` — Confirmation modal for status changes (advice request, forward, reject, close, archive)
+- `AdviceResponseModal.tsx` — Modal for Secretary/VP to provide advice
+- `index.ts` — barrel export
 
-### Additional Schema Field
+**Pages:**
+- `page.tsx` — List page with filters (category, status, urgency)
+- `create/page.tsx` — Registration page
+- `[id]/page.tsx` — Detail page with status workflow actions
 
-```text
-linked_appointment_id  uuid  nullable, FK → appointments(id)
-```
+## Phase 4: Integration
 
-### Additional Audit Action
+1. **Routes** — Add to `src/routes/index.tsx`: `/incoming-post`, `/incoming-post/create`, `/incoming-post/:id`
+2. **Navigation** — Add menu item to `src/assets/data/menu-items.ts` (icon: `bx:mail-send`, positioned after Documents)
+3. **Documents constants** — Add `'incoming_post'` option to `ENTITY_TYPE_OPTIONS` and `ENTITY_TYPE_LABELS` in documents/constants.ts
+4. **Audit logs constants** — Add 6 new audit actions to badge variants, labels, and action options
+5. **Document notification trigger** — Update `notify_document_uploaded` to handle `incoming_post` entity type link
 
-```text
-incoming_post_appointment_linked
-```
+## Phase 5: Documentation
 
-Total new audit actions: **6** (created, updated, status_changed, archived, forwarded, appointment_linked)
+- PRE restore point before execution
+- POST restore point after completion
 
----
+## Technical Notes
 
-## Archive Enforcement
+- No new storage buckets — documents attached via existing `documents` table with `entity_type = 'incoming_post'`
+- Secretary CANNOT forward/reject/close/archive — enforced at DB trigger level AND UI level (buttons hidden)
+- Archive is terminal — trigger-enforced immutability identical to `prevent_closed_case_update` pattern
+- Reference numbers use a DB function with advisory lock to prevent race conditions
 
-Database trigger: `prevent_archived_incoming_post_update`
-
-- Pattern: identical to existing `prevent_closed_case_update`
-- Blocks ALL updates/deletes on rows where `status = 'archived'`
-- `archived_at` and `archived_by` set automatically on transition to `archived`
-
-Status transition trigger: `validate_incoming_post_status_transition`
-
-- Enforces the transition table above
-- Ensures `archived` is only reachable from `closed`
-- Enforces VP-only transitions via `is_vp(auth.uid())` check
-
----
-
-## Open Decisions (Carried Forward)
-
-1. **Protocol document access for invitations** — Decision Required
-2. **Reference number format** (auto vs manual) — Decision Required
-3. **Case linkage** (can incoming post generate a case?) — Recommended deferred
-
----
-
-**Note:**  
-Approved for documentation baseline. Before implementation starts, explicitly lock these three decisions:
-
-1. Whether Protocol may view the attached invitation document itself, or only the Incoming Post record metadata.
-2. Reference number format must be fixed as auto-generated yearly sequence with prefix (recommended: `SECVP-YYYY-0001`).
-3. Case linkage remains deferred unless explicitly authorized in a later phase.  
-  
-**HARD STOP — Documentation only. No implementation performed. Awaiting explicit authorization.**
