@@ -57,7 +57,7 @@ Wallet-sized reference card for daily role-based access verification.
 ├─────────────────────────────────────────────┤
 │  Office of the Vice President               │
 │  Republic of Suriname                       │
-│  VP-Flow v1.3 | 2026-01-25                  │
+│  VP-Flow v1.3-P3B | 2026-03-25               │
 └─────────────────────────────────────────────┘
 ```
 
