@@ -1,91 +1,67 @@
+# Controlled Finalization — Revised Plan (Strict Minimum)
 
+## Scope: 2 files only
 
-# Incoming Post & Archive — Implementation Plan
+### File 1: Authoritative Status Report
 
-## Overview
-Full implementation of the Incoming Post module: database schema, triggers, RLS, audit trail, and complete UI module following existing Darkone patterns.
+**Path:** `Project Docs/Reports/VP-Flow — Authoritative Status Report (2026-01-25).md`
 
-## Phase 1: Database Migration
+**Changes (additive only, no removals):**
 
-Single migration containing all schema changes:
+- Line 9: Update "Versions Covered" from `v1.0 through v1.3` to `v1.0 through Priority 3-B`
+- Line 10: Update date to `2026-03-25`
+- Lines 31-32: Add two rows to Delivery Timeline table:
+  - `Priority 3-A | 2026-03-25 | Handwriting & Pen Input`
+  - `Priority 3-B | 2026-03-25 | Incoming Post & Archive`
+- After line 188 (end of v1.3-C section): Add two new version sections:
+  - **Priority 3-A** — Status: CLOSED & FROZEN. Implemented: perfect-freehand pen input, vector stroke storage, VP-only access, 3 pen sizes. No deferred items listed (use existing report data only).
+  - **Priority 3-B** — Status: CLOSED & FROZEN. Implemented: incoming_post table, 9-status state machine, SECVP-YYYY-NNNN reference numbers, VP authority enforcement, Secretary registration, Protocol metadata-only access, archive immutability trigger. No deferred items listed.
+- Line 197: Update Handwriting row status from `DEFERRED` to `IMPLEMENTED (Priority 3-A)`
+- Line 227-238 (Access Matrix): Add two rows:
+  - `Incoming Post | Full CRUD + Archive | Register + Process | Metadata Only (Invitations)`
+  - `Handwriting | Full Access | No Access | No Access`
+- Lines 325-329 (Version Freeze): Add `Priority 3-A | FROZEN` and `Priority 3-B | FROZEN`
+- Line 352: Update date to `2026-03-25`
+- Line 358: Update "v1.0 through v1.3" to "v1.0 through Priority 3-B"
 
-### Enums
-- `incoming_post_status`: received, registered, waiting_advice, advice_received, forwarded, rejected, appointment_created, closed, archived
-- `incoming_post_urgency`: normal, urgent, confidential
-- `incoming_post_category`: letter, memo, invitation, legal, report, other
-- Extend `document_entity_type` with `'incoming_post'`
-- Extend `audit_action` with 6 new values: `incoming_post_created`, `incoming_post_updated`, `incoming_post_status_changed`, `incoming_post_archived`, `incoming_post_forwarded`, `incoming_post_appointment_linked`
+### File 2: Access Matrix Quick Reference Card
 
-### Table: `incoming_post`
-All columns per locked spec, including `linked_appointment_id` FK to appointments, `reference_number` (unique, auto-generated via sequence per year).
+**Path:** `Project Docs/Reports/VP-Flow — Access Matrix Quick Reference Card.md`
 
-### Reference Number Generation
-- Yearly sequence + trigger: `generate_incoming_post_reference()` auto-assigns `SECVP-YYYY-NNNN` on INSERT.
+**NOTE — FINAL SAFETY CORRECTIONS**
 
-### Triggers
-1. `prevent_archived_incoming_post_update` — blocks all updates on archived rows
-2. `validate_incoming_post_status_transition` — enforces transition table + VP-only authority checks
-3. `log_incoming_post_audit` — sanitized audit logging (SECURITY DEFINER)
-4. `update_incoming_post_updated_at` — reuses `update_updated_at_column()`
+1. **Replace line-based edits with section-based targeting**
+  - Use section headers instead of line numbers
+  - Prevent misalignment if file structure changed
+2. **Version Label Consistency**
+  - Only update version string if it matches existing versioning convention
+  - If uncertain → keep original format and append Priority 3 reference  
+    
+    
+  **Changes:**
 
-### RLS Policies (6 total)
-- VP: SELECT all, INSERT, UPDATE all non-archived, no DELETE (soft archive)
-- Secretary: SELECT all, INSERT, UPDATE own registered + limited statuses
-- Protocol: SELECT where `category = 'invitation'` AND `status NOT IN ('received','registered')`
+- Line 5: Version `v1.3` → `v1.3-P3B`
+- Line 6: Date → `2026-03-25`
+- Card Front (lines 30-31): Add two rows before Audit Logs:
+  - `Incoming Post │  ●   │  ◐   │  ◐   │`
+  - `Handwriting   │  ●   │  ○   │  ○   │`
+- Card Back (line 58): Update version string to `v1.3-P3B | 2026-03-25`
+- Reference Table (lines 73-74): Add two rows after Notes:
+  - `Incoming Post | ● | ◐ | ◐ | Secretary: Register+Process; Protocol: Invitation metadata only`
+  - `Handwriting | ● | ○ | ○ | VP-exclusive, Notes module extension`
 
-### Notification Trigger
-- `notify_incoming_post_status_change` — notifies VP on registration, notifies Secretary on forwarding decisions
+## What is NOT touched
 
-## Phase 2: Frontend — Types & Hooks
+- No Workflow Desk Reference Poster changes
+- No User Quick Start Guide changes
+- No Executive Summary changes
+- No diagrams created or modified
+- No table counts updated
+- No new deferred items added
+- No code, schema, RLS, or UI changes
 
-### Files to create under `src/app/(admin)/incoming-post/`:
+## Verification
 
-**types.ts** — TypeScript types mirroring DB schema, status config, transition rules, helper functions (following cases/types.ts pattern)
-
-**constants.ts** — Status badge variants, urgency labels, category labels, filter options
-
-**hooks/**
-- `useIncomingPosts.ts` — List query with filters (status, category, urgency)
-- `useIncomingPost.ts` — Single record fetch
-- `useCreateIncomingPost.ts` — Insert mutation (Secretary/VP)
-- `useUpdateIncomingPost.ts` — Metadata update mutation
-- `useUpdateIncomingPostStatus.ts` — Status transition mutation with authority validation
-- `index.ts` — barrel export
-
-## Phase 3: Frontend — UI Components
-
-**components/**
-- `IncomingPostTable.tsx` — List table with status badges, urgency indicators, category tags
-- `IncomingPostStatusBadge.tsx` — Color-coded status badge
-- `IncomingPostUrgencyBadge.tsx` — Urgency indicator
-- `IncomingPostDetail.tsx` — Full detail view with metadata, status actions, linked documents
-- `IncomingPostForm.tsx` — Registration form (subject, sender, category, urgency, received date)
-- `StatusTransitionModal.tsx` — Confirmation modal for status changes (advice request, forward, reject, close, archive)
-- `AdviceResponseModal.tsx` — Modal for Secretary/VP to provide advice
-- `index.ts` — barrel export
-
-**Pages:**
-- `page.tsx` — List page with filters (category, status, urgency)
-- `create/page.tsx` — Registration page
-- `[id]/page.tsx` — Detail page with status workflow actions
-
-## Phase 4: Integration
-
-1. **Routes** — Add to `src/routes/index.tsx`: `/incoming-post`, `/incoming-post/create`, `/incoming-post/:id`
-2. **Navigation** — Add menu item to `src/assets/data/menu-items.ts` (icon: `bx:mail-send`, positioned after Documents)
-3. **Documents constants** — Add `'incoming_post'` option to `ENTITY_TYPE_OPTIONS` and `ENTITY_TYPE_LABELS` in documents/constants.ts
-4. **Audit logs constants** — Add 6 new audit actions to badge variants, labels, and action options
-5. **Document notification trigger** — Update `notify_document_uploaded` to handle `incoming_post` entity type link
-
-## Phase 5: Documentation
-
-- PRE restore point before execution
-- POST restore point after completion
-
-## Technical Notes
-
-- No new storage buckets — documents attached via existing `documents` table with `entity_type = 'incoming_post'`
-- Secretary CANNOT forward/reject/close/archive — enforced at DB trigger level AND UI level (buttons hidden)
-- Archive is terminal — trigger-enforced immutability identical to `prevent_closed_case_update` pattern
-- Reference numbers use a DB function with advisory lock to prevent race conditions
-
+- Only 2 files modified
+- All additions reflect verified implemented behavior
+- No assumptions or architectural interpretations
