@@ -1,157 +1,155 @@
-# Zero-Risk Consolidation — Final Governance Completion
+# v2.0 Phase 0: Scope Definition & Prioritization (CORRECTED)
 
-## Scope: 3 files (1 update, 2 create)
+## Correction Applied
 
----
+OCR/Text Extraction removed from v2.0 scope and moved to Permanently Excluded. It is already listed as permanently excluded in `v2.0_Scope_Intake.md` Section 2, making its inclusion in v2.0 scope inconsistent.
 
-## PRE Restore Point
+## Deliverable
 
-**File:** `Project Restore Points/RP-Governance-Completion-PRE.md`
-
-Brief snapshot documenting:
-
-- Access Matrix Card line 74 currently says "Read-only" for Secretary/Documents
-- `Change_Control_Protocol.md` and `v2.0_Scope_Intake.md` do not yet exist
-- No code/schema/RLS changes planned
+**File:** `Project Docs/v2.0/v2.0_Scope_Definition.md`
 
 ---
 
-## Task 1 — Fix Access Matrix Card
+### 1. Scope Categories
 
-**File:** `Project Docs/Reports/VP-Flow — Access Matrix Quick Reference Card.md`
+**8 items** (down from 9 — OCR removed):
 
-**Line 74 — single cell update:**
+**Core Enhancements:**
 
-- FROM: `| Documents | ● | ◐ | ○ | Secretary: Read-only |`
-- TO: `| Documents | ● | ◐ | ○ | Secretary: Upload & View |`
+- Push Notifications
+- Email Notifications
+- Notification Preferences
 
-No other lines touched.
+**UX Improvements:**
 
----
+- Device-First UX
+- Rich Text Notes
+- Category Filtering
 
-## Task 2 — Create Governance Documents
+**System Extensions:**
 
-### File A: `Project Docs/Governance/Change_Control_Protocol.md`
+- Document Templates
+- Reopen Count Limits
 
-Contents from previously approved plan:
+### 2. Priority Classification
 
-- Classification Matrix (Critical / High / Low / Enhancement)
-- Change Request Process (5 steps)
-- Authority Model (VP sole approver for v1.x)
-- Hotfix Rules (restore points mandatory, scope-limited)
 
-### File B: `Project Docs/Governance/v2.0_Scope_Intake.md`
+| Item                     | Category | Priority | Justification                    |
+| ------------------------ | -------- | -------- | -------------------------------- |
+| Push Notifications       | Core     | P1       | Real-time workflow awareness     |
+| Email Notifications      | Core     | P1       | External notification channel    |
+| Notification Preferences | Core     | P2       | Depends on P1 notifications      |
+| Device-First UX          | UX       | P2       | Mobile/tablet experience         |
+| Rich Text Notes          | UX       | P2       | Enhanced note-taking             |
+| Document Templates       | System   | P2       | Standardized document creation   |
+| Category Filtering       | UX       | P3       | Basic display already functional |
+| Reopen Count Limits      | System   | P3       | Requires operational usage data  |
 
-Contents from previously approved plan (with Global Search correction applied):
 
-- Section 1: Deferred Features table (9 items — no Global Search)
-- Section 2: Permanently Excluded (Background Sync, Offline Write, Signature Verification, Handwriting Export, OCR)
-- Section 3: Future Improvement Candidates (empty template)
-- Section 4: Out-of-Scope Boundaries
+### 3. Scope Boundaries
 
----
+**INCLUDED:** 8 deferred items above
 
-## POST Restore Point
+**PERMANENTLY EXCLUDED:**
 
-**File:** `Project Restore Points/RP-Governance-Completion-POST.md`
+- Background Sync — KILLED (RLS bypass risk)
+- Offline Write Access — KILLED (audit integrity)
+- Signature Verification — out of scope
+- Handwriting Export — no business need
+- **OCR/Text Extraction — permanently excluded (third-party dependency, no business requirement)**
+- External access portals, public portals, multi-tenant, calendar sync, AI/ML, chat, financial, HR modules
 
-Documents changes applied, confirms zero-risk checklist.
+### 4. Risk Assessment (P1 Only)
 
----
 
-**NOTE — v2.0 STRUCTURE INITIALIZATION (STRICT DEVSMART GOVERNANCE)**
+| P1 Item             | RLS Risk | Workflow Risk | Dependencies                               |
+| ------------------- | -------- | ------------- | ------------------------------------------ |
+| Push Notifications  | LOW      | LOW           | Service worker, notification permissions   |
+| Email Notifications | LOW      | LOW           | Email service (Edge Functions or external) |
 
----
 
-## CONTEXT
+### 5. Execution Constraints
 
-VP-Flow v1.x is PRODUCTION FROZEN.  
-v2.0 must start with strict structural separation.
-
----
-
-## REQUIRED ACTION
-
-### 1. Restore Points Structure
-
-Create new folder:
-
-Project Restore Points/v2.0/
-
-All future restore points for v2.0 must be stored here.
-
----
-
-### 2. Project Docs Structure
-
-Create new folder:
-
-Project Docs/v2.0/
-
-All v2.0 documentation must be placed here.
+- No breaking changes to v1.x data model
+- All v1.x tables, RLS, triggers unchanged
+- Additive schema only
+- Backward compatibility mandatory
+- Restore point discipline enforced
 
 ---
 
-### 3. Governance Rules
-
-- v1.x files MUST NOT be modified
-- v2.0 artifacts MUST NOT be mixed with v1.x
-- Every v2.0 phase must:
-  - Create restore point in v2.0 folder
-  - Update documentation in v2.0 folder only
+**NOTE — FINAL SCOPE RECONCILIATION (STRICT DEVSMART GOVERNANCE)**
 
 ---
 
-### 4. Naming Convention
+## PURPOSE
 
-Follow existing discipline:
+Ensure 100% alignment between:
 
-- Restore Points:  
-RP-v2.0-[phase-name]-[PRE.md](http://PRE.md)  
-RP-v2.0-[phase-name]-[POST.md](http://POST.md)
-- Documents:  
-Maintain same structure as v1.x (Reports, Phases, etc.)
+- v2.0 Scope Definition
+- v2.0 Scope Intake
+
+---
+
+## REQUIRED CHECK
+
+Before finalizing:
+
+1. Confirm EXACT match:
+  - Total items = 8
+  - Same item names
+  - Same categorization
+2. Validate:
+  - No duplicate items
+  - No missing items
+  - No renamed items
+3. Confirm OCR:
+  - Not present in Scope Definition
+  - Not present in Deferred list
+  - Present only in Permanently Excluded
 
 ---
 
 ## CONSTRAINTS
 
-- No restructuring of existing v1.x folders
-- No movement of existing files
-- Only create new folders
+- No edits unless mismatch found
+- No reclassification
+- No additions
 
 ---
 
 ## STOP CONDITION
 
-- Create folders
-- Confirm structure
-- Await further instructions
+- Confirm alignment
+- Proceed with execution
 
 ---
 
 **Governance:**
 
-- No scope creep
-- Version isolation is mandatory
-- Documentation discipline enforced
+- Documentation is law
+- No assumptions
+- Zero inconsistency tolerance
 
 ---
 
 **Await Further Instructions**  
   
   
-Verification
+  
+**Restore Points**
 
-After execution:
+- **PRE:** `Project Restore Points/v2.0/RP-v2.0-Phase0-PRE.md`
+- **POST:** `Project Restore Points/v2.0/RP-v2.0-Phase0-POST.md`
 
-- Access Matrix Card line 74 matches Status Report line 270 ("Upload & View")
-- Both governance files exist under `Project Docs/Governance/`
-- No other files modified
-- Zero-Risk Checklist confirmed
+## Additional Required Update
 
-## Technical Notes
+**File:** `Project Docs/Governance/v2.0_Scope_Intake.md`
 
+- Remove OCR/Text Extraction from Section 1 (Deferred Features) — it belongs only in Section 2 (Permanently Excluded), where it is already listed.
+- Deferred count changes from 9 to 8.
+
+## What is NOT touched
+
+- No v1.x files
 - No code, schema, RLS, or UI changes
-- All governance content sourced from previously approved plan
-- Global Search excluded from deferred list per approved correction
