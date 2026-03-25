@@ -42,6 +42,11 @@ const UsersList = lazy(() => import('@/app/(admin)/users/page'))
 // Settings Module (VP/Secretary, Protocol redirected)
 const SettingsPage = lazy(() => import('@/app/(admin)/settings/page'))
 
+// Incoming Post Module
+const IncomingPostList = lazy(() => import('@/app/(admin)/incoming-post/page'))
+const IncomingPostDetail = lazy(() => import('@/app/(admin)/incoming-post/[id]/page'))
+const IncomingPostCreate = lazy(() => import('@/app/(admin)/incoming-post/create/page'))
+
 // Auth Routes
 const AuthSignIn = lazy(() => import('@/app/(other)/auth/sign-in/page'))
 const AuthSignUp = lazy(() => import('@/app/(other)/auth/sign-up/page'))
