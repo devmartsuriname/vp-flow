@@ -158,7 +158,7 @@ After any migration: document in restore point and verify no regressions.
 
 | Issue | Severity |
 |---|---|
-| Global search: /guests/:id links but route is /clients/:id | MEDIUM — DECISION: bug in hook. TC-002 DRAFT |
+| Global search: /guests/:id links but route is /clients/:id | RESOLVED 2026-05-11 — TC-002 executed. useGlobalSearch.ts line 70 now links to /clients/:id |
 | Protocol settings: docs say full access, code blocks Protocol | RESOLVED 2026-05-11 — TC-001 executed. Protocol gets Profile + Theme + System Info; Push toggle guarded internally |
 | Push notifications: v2.0 partially started without authorized TC | MEDIUM — DECISION: Continuation TC-003 DRAFT |
 | Hard-coded Supabase URL in push migration | MEDIUM |

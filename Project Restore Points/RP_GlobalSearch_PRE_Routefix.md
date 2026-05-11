@@ -1,3 +1,53 @@
+# RP — Global Search PRE Routefix
+
+**Type:** PRE restore point
+**TC:** TC-002 — Global Search Route Fix
+**Lane:** B
+**Created:** 2026-05-11
+**Module:** Global Search
+**Author:** Claude Code (under Delroy authority)
+
+---
+
+## Current State Summary
+
+`src/hooks/useGlobalSearch.ts` constructs guest result links using `/guests/${client.id}`
+on line 70. The actual route defined in `src/routes/index.tsx` is `/clients/:id`.
+Clicking a guest result in Global Search therefore navigates to a non-existent
+route. This restore point captures the file state immediately before TC-002 is
+executed.
+
+---
+
+## What Will Change
+
+- Line 70 of `src/hooks/useGlobalSearch.ts`:
+  - From: `link: \`/guests/${client.id}\``
+  - To:   `link: \`/clients/${client.id}\``
+
+---
+
+## What Is NOT Touched
+
+- Route definitions in `src/routes/index.tsx`
+- UI labels ("Guests" stays everywhere)
+- Any other hook, component, or utility
+- Migrations, RLS, auth, or storage policies
+- Appointment and case link patterns
+
+---
+
+## Risks
+
+- LOW. Single string change in a single hook. No database, RLS, or build-graph impact.
+- Pre-existing repo-wide lint errors are NOT introduced by this change and are
+  out of scope.
+
+---
+
+## Full File State (PRE) — src/hooks/useGlobalSearch.ts
+
+```ts
 import { useState, useEffect, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
@@ -67,7 +117,7 @@ export const useGlobalSearch = (query: string) => {
           ? client.organization_name || 'Unknown Organization'
           : `${client.first_name || ''} ${client.last_name || ''}`.trim() || 'Unknown',
         subtitle: client.email || 'No email',
-        link: `/clients/${client.id}`
+        link: `/guests/${client.id}`
       }))
     },
     enabled: searchEnabled,
@@ -158,3 +208,4 @@ export const useGlobalSearch = (query: string) => {
 }
 
 export default useGlobalSearch
+```
