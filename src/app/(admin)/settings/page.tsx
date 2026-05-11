@@ -1,19 +1,16 @@
 /**
  * Settings Page - Settings & System Configuration
  * Module 9 - Phase 4 UI Implementation
- * 
+ *
  * Role Access:
  * - VP: Full access to all 4 cards
- * - Secretary: Access to Profile, Theme, Notifications cards
- * - Protocol: Redirected to dashboard
+ * - Secretary: Full access to all 4 cards
+ * - Protocol: Profile, Theme, System Info (Push toggle hidden internally)
  */
 
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Row, Col, Spinner } from 'react-bootstrap'
 import PageTitle from '@/components/PageTitle'
 import { useAuthContext } from '@/context/useAuthContext'
-import { isProtocol, isVP } from '@/hooks/useUserRole'
 import { useUserProfile } from './hooks'
 import {
   ProfileCard,
@@ -23,15 +20,7 @@ import {
 } from './components'
 
 const SettingsPage = () => {
-  const navigate = useNavigate()
-  const { user, session, role, isLoading: authLoading } = useAuthContext()
-
-  // Redirect Protocol users
-  useEffect(() => {
-    if (!authLoading && role && isProtocol(role)) {
-      navigate('/dashboards', { replace: true })
-    }
-  }, [authLoading, role, navigate])
+  const { session, role, isLoading: authLoading } = useAuthContext()
 
   const {
     data: profile,
@@ -48,13 +37,8 @@ const SettingsPage = () => {
     )
   }
 
-  // Block Protocol (should be redirected, but safety check)
-  if (isProtocol(role)) {
-    return null
-  }
-
   // Get session start time for "Last Login" display
-  const sessionStartTime = session?.access_token 
+  const sessionStartTime = session?.access_token
     ? new Date().toISOString() // Session doesn't expose created_at, use current time as approximation
     : null
 
@@ -85,7 +69,7 @@ const SettingsPage = () => {
           />
         </Col>
 
-        {/* Push Notifications - VP and Secretary */}
+        {/* Push Notifications - VP and Secretary (Protocol guarded internally) */}
         <Col lg={6}>
           <PushNotificationToggle />
         </Col>

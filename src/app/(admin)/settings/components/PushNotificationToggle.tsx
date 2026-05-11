@@ -1,15 +1,18 @@
 /**
  * PushNotificationToggle — Push notification permission and subscription management
  * v2.0 Phase 1A.1
- * 
- * Role Access: VP, Secretary (Protocol redirected from Settings)
+ *
+ * Role Access: VP, Secretary (Protocol guarded internally — returns null)
  */
 
 import { Card, ListGroup, Form, Spinner, Badge } from 'react-bootstrap';
 import { usePushSubscription } from '@/hooks/usePushSubscription';
+import { useAuthContext } from '@/context/useAuthContext';
+import { isProtocol } from '@/hooks/useUserRole';
 import { toast } from 'react-toastify';
 
 const PushNotificationToggle = () => {
+  const { role } = useAuthContext();
   const {
     isSubscribed,
     isLoading,
@@ -18,6 +21,10 @@ const PushNotificationToggle = () => {
     subscribe,
     unsubscribe,
   } = usePushSubscription();
+
+  if (isProtocol(role)) {
+    return null;
+  }
 
   const handleToggle = async () => {
     if (isSubscribed) {
