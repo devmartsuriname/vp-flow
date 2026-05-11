@@ -6,7 +6,8 @@
       "Bash(grep -qE \"ready in|error|ERROR\" \"C:\\\\\\\\Users\\\\\\\\delro\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\c--Users-delro-OneDrive-Documents-Devmart-Github-Repos-vp-flow\\\\\\\\57822b51-eae9-4310-b130-d8d5ca4bf059\\\\\\\\tasks\\\\\\\\bunzw5it5.output\")",
       "Bash(Get-Date -Format \"yyyyMMddHHmmss\")",
       "Bash(supabase functions *)",
-      "Bash(supabase link *)"
+      "Bash(supabase link *)",
+      "Bash(git rm *)"
     ]
   }
 }
