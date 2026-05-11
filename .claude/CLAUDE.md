@@ -160,7 +160,7 @@ After any migration: document in restore point and verify no regressions.
 |---|---|
 | Global search: /guests/:id links but route is /clients/:id | RESOLVED 2026-05-11 — TC-002 executed. useGlobalSearch.ts line 70 now links to /clients/:id |
 | Protocol settings: docs say full access, code blocks Protocol | RESOLVED 2026-05-11 — TC-001 executed. Protocol gets Profile + Theme + System Info; Push toggle guarded internally |
-| Push notifications: v2.0 partially started without authorized TC | MEDIUM — DECISION: Continuation TC-003 DRAFT |
+| Push notifications: v2.0 partially started without authorized TC | RESOLVED 2026-05-11 — TC-005 executed. Edge Function A3+ deployed, smoke test 200 OK |
 | Hard-coded Supabase URL in push migration | MEDIUM |
 | Push Edge Function CORS is * | LOW |
 | Service-role push delivery — secrets unverified | MEDIUM |

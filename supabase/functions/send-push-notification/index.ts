@@ -1,57 +1,60 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
-};
+// Server-side only: invoked by pg_net from the trigger_push_notification trigger.
+// No browser caller exists; CORS headers removed intentionally (TC-003, 2026-05-11).
+const jsonHeaders = { 'Content-Type': 'application/json' };
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: jsonHeaders,
+    });
   }
 
   try {
     // Authorization: Only accept internal trigger calls
     const authHeader = req.headers.get('Authorization');
     const triggerSource = req.headers.get('x-trigger-source');
-    
+
     if (!authHeader?.startsWith('Bearer ')) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
       });
     }
 
     const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-    // Validate JWT
-    const userClient = createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: authHeader } },
-    });
-    const { data: claimsData, error: claimsError } = await userClient.auth.getClaims(
-      authHeader.replace('Bearer ', '')
-    );
-    if (claimsError || !claimsData?.claims) {
+    // Validate JWT — manual payload decode.
+    // Auth Gateway (Verify JWT with legacy secret) has already verified the HS256
+    // signature before invoking this function. auth.getClaims() uses the new ECC key
+    // and rejects legacy HS256 tokens, so we decode the payload directly instead.
+    // Safe: signature verification is the Auth Gateway's responsibility (TC-005 A3+).
+    const jwt = authHeader.replace('Bearer ', '');
+    let callerRole: string;
+    try {
+      const payloadBase64 = jwt.split('.')[1];
+      const payload = JSON.parse(atob(payloadBase64)) as Record<string, unknown>;
+      callerRole = payload.role as string;
+      if (!callerRole) throw new Error('no role claim');
+    } catch {
       return new Response(JSON.stringify({ error: 'Invalid token' }), {
         status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
       });
     }
 
-    // Security: Only allow internal trigger calls (anon role + pg_trigger header)
-    // or service_role calls. Block direct client invocations.
-    const callerRole = (claimsData.claims as Record<string, unknown>).role;
-    const isInternalTrigger = callerRole === 'anon' && triggerSource === 'pg_trigger';
-    const isServiceRole = callerRole === 'service_role';
-    
-    if (!isInternalTrigger && !isServiceRole) {
+    // Security: Only allow internal trigger calls (service_role + pg_trigger header).
+    // TC-005 Path A3+: trigger sends vault-stored service_role JWT; x-trigger-source
+    // is a secondary defense-in-depth check.
+    if (callerRole !== 'service_role' || triggerSource !== 'pg_trigger') {
       return new Response(JSON.stringify({ error: 'Forbidden: internal use only' }), {
         status: 403,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
       });
     }
 
@@ -60,7 +63,7 @@ serve(async (req) => {
     if (!userId || !title) {
       return new Response(JSON.stringify({ error: 'userId and title are required' }), {
         status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
       });
     }
 
@@ -71,7 +74,7 @@ serve(async (req) => {
     if (!vapidPublicKey || !vapidPrivateKey || !vapidSubject) {
       return new Response(JSON.stringify({ error: 'VAPID keys not configured' }), {
         status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
       });
     }
 
@@ -86,14 +89,14 @@ serve(async (req) => {
       console.error('Error fetching subscriptions:', subError);
       return new Response(JSON.stringify({ error: 'Failed to fetch subscriptions' }), {
         status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
       });
     }
 
     if (!subscriptions || subscriptions.length === 0) {
       return new Response(JSON.stringify({ sent: 0, message: 'No push subscriptions found' }), {
         status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
       });
     }
 
@@ -132,13 +135,13 @@ serve(async (req) => {
 
     return new Response(JSON.stringify({ sent, failed }), {
       status: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: jsonHeaders,
     });
   } catch (error) {
     console.error('Edge function error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: jsonHeaders,
     });
   }
 });

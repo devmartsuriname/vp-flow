@@ -1,5 +1,43 @@
 # VP-Flow — Consolidated Task List
 
+**Project:** VP-Flow
+**Client:** Office of the Vice President of Suriname
+**Document Type:** Operational Task List
+**Status:** UPDATED — Post Source of Truth Audit 2026-05-11
+
+---
+
+## AUDIT CORRECTION NOTICE — 2026-05-11
+
+**Source:** Codex Source of Truth Audit (2026-05-11)
+**Authority:** Active codebase + March 25, 2026 Authoritative Status Report
+
+The sections below marked with [STALE] were found to conflict with the actual codebase state.
+The active codebase confirms these items ARE IMPLEMENTED, contrary to the "BLOCKED" labels below.
+
+Stale sections preserved for historical reference. Do not use as execution guidance.
+
+**Confirmed IMPLEMENTED (overrides stale labels below):**
+- v1.1-A: Documents Module — IMPLEMENTED
+- v1.1-A: Case Re-opening — IMPLEMENTED
+- v1.1-B: Notes Module — IMPLEMENTED
+- v1.1-B: Dashboard Widgets — IMPLEMENTED
+- v1.1-C: PWA — IMPLEMENTED (app shell + offline guard — runtime not tested)
+- v1.2: In-app Notifications — IMPLEMENTED
+- v1.3: Documents expansion, Notifications deepening — IMPLEMENTED
+- Priority 1: Global search (route bug: /guests/:id vs /clients/:id — OPEN)
+- Priority 3-A: Handwriting — IMPLEMENTED
+- Priority 3-B: Incoming Post & Archive — IMPLEMENTED
+- v2.0 Push Notifications: PARTIALLY STARTED (not yet authorized via TC)
+
+**Open Conflicts (awaiting Delroy decision):**
+1. Protocol Settings access — docs: full access / code: blocked
+2. Global search guest route — /guests/:id vs /clients/:id (likely bug)
+
+---
+
+# VP-Flow — Consolidated Task List
+
 **Project:** VP-Flow  
 **Client:** Office of the Vice President of Suriname  
 **Document Type:** Operational Task List  

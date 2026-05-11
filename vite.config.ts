@@ -61,7 +61,8 @@ export default defineConfig(({ mode }) => ({
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         // v2.0: Import push notification handler into service worker
         importScripts: ['/sw-push.js'],
-      }
+      },
+      devOptions: { enabled: true, type: 'module' }
     })
   ].filter(Boolean),
   resolve: {

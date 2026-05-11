@@ -1,5 +1,29 @@
 # VP-Flow Master Project Plan
 
+## AUDIT CORRECTION NOTICE — 2026-05-11
+
+**Source:** Codex Source of Truth Audit (2026-05-11)
+
+The phase table below reflects the ORIGINAL planning state. Actual implementation status per audit:
+
+| Version | Documented Status | Actual Status (2026-05-11 audit) |
+|---|---|---|
+| v1.0 | COMPLETE | CONFIRMED IMPLEMENTED |
+| v1.1 | NOT AUTHORIZED (stale) | CONFIRMED IMPLEMENTED |
+| v1.2 | NOT AUTHORIZED (stale) | CONFIRMED IMPLEMENTED |
+| v1.3 | NOT AUTHORIZED (stale) | CONFIRMED IMPLEMENTED |
+| Priority 1 | NOT AUTHORIZED (stale) | CONFIRMED IMPLEMENTED (route bug open) |
+| Priority 3-A | NOT AUTHORIZED (stale) | CONFIRMED IMPLEMENTED |
+| Priority 3-B | NOT AUTHORIZED (stale) | CONFIRMED IMPLEMENTED |
+| v2.0 | SCOPE LOCKED | PARTIALLY STARTED (push scaffolding) |
+| Phase 6 | NOT AUTHORIZED | STILL BLOCKED — VP Office authorization required |
+
+Authoritative source: active codebase + /Project Docs/Reports/VP-Flow - Authoritative Status Report (March 25, 2026)
+
+---
+
+# VP-Flow Master Project Plan
+
 ## Documentation-Only Reference Document
 
 **Project:** VP-Flow (VP Appointments & Case Management System)  

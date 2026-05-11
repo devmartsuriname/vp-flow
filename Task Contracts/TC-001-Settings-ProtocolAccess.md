@@ -87,6 +87,4 @@ No changes to any other file.
 
 ## Notes
 
-The RLS policy for `user_profiles` (Protocol: R self only) is already in place — no DB change needed. This is purely a UI gating correction to align the frontend with the PRD.
-
-After execution: update CLAUDE.md Section 14 to mark this issue as RESOLVED.
+The RLS policy for `u

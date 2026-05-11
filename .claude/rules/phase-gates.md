@@ -7,7 +7,7 @@ A phase gate is a hard stop between execution phases. No phase may begin without
 | Phase | Status | Gate Decision |
 |---|---|---|
 | v1.0 → v1.3 + Priority 1 + Priority 3 | COMPLETE | FROZEN |
-| v2.0 Phase 1A.1 — Push Notifications | MID-FLIGHT | Awaiting Delroy disposition decision |
+| v2.0 Phase 1A.1 — Push Notifications | CLOSED | Closed 2026-05-11 via TC-005. Smoke test passed (200 OK). POST restore point: RP_PushNotifications_POST_TC005.md |
 | v2.0 Phase 1A.2 — Email Notifications | BLOCKED | Cannot start until 1A.1 is formally closed |
 | v2.0 Phase 1B+ | BLOCKED | Cannot start until 1A is complete |
 
