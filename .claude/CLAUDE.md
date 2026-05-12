@@ -43,8 +43,8 @@ When documentation and code conflict, resolve in this order:
 
 1. Active codebase (highest authority)
 2. Latest authoritative reports in /Project Restore Points/ and /Project Docs/Reports/
-3. Version completion reports (v1.x, Priority 1, Priority 3)
-4. Master_Project_Plan.md and Tasks.md — historical reference only (partially stale as of 2026-05-11 audit)
+3. Version completion reports (v1.x, Priority 1, Priority 3) — archived to /archive/docs/ as of 2026-05-12
+4. Master_Project_Plan.md and Tasks.md — archived to /archive/docs/ as of 2026-05-12 (do not use as authoritative source)
 
 ---
 

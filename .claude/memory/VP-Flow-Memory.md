@@ -92,8 +92,8 @@ All of the following are confirmed implemented in code:
 | src/context/useAuthContext.tsx | Auth and session |
 | src/hooks/useUserRole.ts | Role model client |
 | supabase/migrations/ | All DB migrations (additive only) |
-| Project Docs/Master_Project_Plan.md | Phase overview (partially stale) |
-| Project Docs/Tasks.md | Task list (partially stale — v1.1+ marked as blocked but implemented) |
+| archive/docs/Master_Project_Plan.md | Phase overview (partially stale) |
+| archive/docs/Tasks.md | Task list (partially stale — v1.1+ marked as blocked but implemented) |
 | Project Docs/Reports/ | Authoritative status reports |
 | Task Contracts/ | All approved TCs |
 | Project Restore Points/ | All restore points |
