@@ -1,11 +1,17 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import nodemailer from "npm:nodemailer";
 
-// TC-006 Phase 1A.2 — Email Notifications
-// Server-side only: invoked by pg_net from trigger_email_notification AND
-// by the Settings UI Test Connection button (via supabase.functions.invoke).
-// No browser-direct calls. CORS headers omitted intentionally (mirrors push fn).
-const jsonHeaders = { "Content-Type": "application/json" };
+// TC-006 Phase 1A.2 — Email Notifications (amended by TC-006-A)
+// Invoked by:
+//   (a) pg_net from trigger_email_notification — service_role + x-trigger-source
+//   (b) Settings UI Test Connection (browser) — authenticated JWT + VP role check
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-trigger-source",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+const jsonHeaders = { ...corsHeaders, "Content-Type": "application/json" };
 
 type EmailSettingsRow = {
   smtp_host: string;
@@ -18,6 +24,11 @@ type EmailSettingsRow = {
 };
 
 serve(async (req) => {
+  // CORS preflight — must precede method gate
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 200, headers: corsHeaders });
+  }
+
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
@@ -36,14 +47,15 @@ serve(async (req) => {
       });
     }
 
-    // Manual JWT payload decode — identical pattern to send-push-notification.
-    // Auth Gateway verifies signature; we only inspect the role claim.
+    // Decode role claim from JWT payload (signature verified upstream by Auth Gateway)
     const jwt = authHeader.replace("Bearer ", "");
     let callerRole: string;
+    let callerSub: string | undefined;
     try {
       const payloadBase64 = jwt.split(".")[1];
       const payload = JSON.parse(atob(payloadBase64)) as Record<string, unknown>;
       callerRole = payload.role as string;
+      callerSub = payload.sub as string | undefined;
       if (!callerRole) throw new Error("no role claim");
     } catch {
       return new Response(JSON.stringify({ error: "Invalid token" }), {
@@ -52,30 +64,48 @@ serve(async (req) => {
       });
     }
 
-    if (callerRole !== "service_role") {
-      return new Response(JSON.stringify({ error: "Forbidden: service role required" }), {
-        status: 403,
-        headers: jsonHeaders,
-      });
-    }
-
     const body = await req.json().catch(() => ({}));
     const isTest = body?.test === true;
-
-    // Normal (trigger) mode requires x-trigger-source header. Test mode does not
-    // (called by Settings UI via supabase.functions.invoke), but still requires
-    // service_role JWT above.
-    if (!isTest && triggerSource !== "pg_trigger") {
-      return new Response(JSON.stringify({ error: "Forbidden: internal use only" }), {
-        status: 403,
-        headers: jsonHeaders,
-      });
-    }
 
     const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
+
+    // Two mutually exclusive auth paths:
+    //   Test path    — browser-initiated, authenticated user, must be VP
+    //   Trigger path — server-to-server, service_role + x-trigger-source
+    if (isTest) {
+      if (callerRole !== "authenticated" || !callerSub) {
+        return new Response(JSON.stringify({ error: "Forbidden: authenticated user required" }), {
+          status: 403,
+          headers: jsonHeaders,
+        });
+      }
+      const { data: isVp, error: roleErr } = await adminClient.rpc("has_role", {
+        _user_id: callerSub,
+        _role: "vp",
+      });
+      if (roleErr || isVp !== true) {
+        return new Response(JSON.stringify({ error: "Forbidden: VP role required" }), {
+          status: 403,
+          headers: jsonHeaders,
+        });
+      }
+    } else {
+      if (callerRole !== "service_role") {
+        return new Response(JSON.stringify({ error: "Forbidden: service role required" }), {
+          status: 403,
+          headers: jsonHeaders,
+        });
+      }
+      if (triggerSource !== "pg_trigger") {
+        return new Response(JSON.stringify({ error: "Forbidden: internal use only" }), {
+          status: 403,
+          headers: jsonHeaders,
+        });
+      }
+    }
 
     // Load SMTP settings (single-row config)
     const { data: settings, error: settingsError } = await adminClient
