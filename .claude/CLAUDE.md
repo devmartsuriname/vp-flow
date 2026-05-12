@@ -154,16 +154,20 @@ After any migration: document in restore point and verify no regressions.
 
 ---
 
-## 14. Known Issues (2026-05-11 audit — do not fix without approved TC)
+## 14. Known Issues (updated 2026-05-12)
 
 | Issue | Severity |
 |---|---|
 | Global search: /guests/:id links but route is /clients/:id | RESOLVED 2026-05-11 — TC-002 executed. useGlobalSearch.ts line 70 now links to /clients/:id |
 | Protocol settings: docs say full access, code blocks Protocol | RESOLVED 2026-05-11 — TC-001 executed. Protocol gets Profile + Theme + System Info; Push toggle guarded internally |
 | Push notifications: v2.0 partially started without authorized TC | RESOLVED 2026-05-11 — TC-005 executed. Edge Function A3+ deployed, smoke test 200 OK |
-| Hard-coded Supabase URL in push migration | MEDIUM |
-| Push Edge Function CORS is * | LOW |
-| Service-role push delivery — secrets unverified | MEDIUM |
+| Email notifications CORS + auth split | RESOLVED 2026-05-12 — TC-006-A executed. CORS headers + OPTIONS handler + test/trigger auth split implemented. Both paths smoke tested. |
+| LinkedNotes.tsx rules-of-hooks violation | RESOLVED 2026-05-12 — TC-008 executed. useQuery moved before early return; enabled: isVP(userRole) guard added. |
+| 329 pre-existing lint errors | RESOLVED 2026-05-12 — TC-007 executed. npm run lint exits 0 errors. |
+| 12 lint warnings in src/context/ + hooks | LOW — accepted 2026-05-12 via TC-009. 5 react-refresh (structural), 1 useMemo 8-dep (risky), 6 out-of-scope. No TC needed unless priority changes. |
+| Hard-coded Supabase URL in push + email triggers | MEDIUM — separate TC required (TC-010 candidate) |
+| Push + Email Edge Function CORS is * | LOW — deferred to Hostinger production deployment |
+| Service-role push delivery — secrets unverified | MEDIUM — separate TC required |
 
 ---
 
@@ -171,8 +175,8 @@ After any migration: document in restore point and verify no regressions.
 
 | Item | Priority | Status |
 |---|---|---|
-| Push Notifications | P1 | Partially started — requires TC |
-| Email Notifications | P1 | Not started |
+| Push Notifications | P1 | COMPLETE — TC-005. Phase 1A.1 closed 2026-05-11 |
+| Email Notifications | P1 | COMPLETE — TC-006 + TC-006-A. Phase 1A.2 closed 2026-05-12 |
 | Notification Preferences | P2 | Not started |
 | Device-First UX | P2 | Not started |
 | Rich Text Notes | P2 | Not started |
@@ -205,10 +209,8 @@ See /.claude/memory/VP-Flow-Memory.md for project memory and session context.
 
 Lane C is the highest risk. Always stop and re-confirm with Delroy before executing any Lane C task.
 
-## 19. Unsealed Work (as of 2026-05-11)
+## 19. Phase 1A Status (closed 2026-05-12)
 
-v2.0 Phase 1A.1 Push Notifications has recent commits without formal TC closure:
-- 4e685aa Fix push toggle hang
-- 9235b3b Add push toggle flow
-
-This phase is UNSEALED. See /.claude/rules/phase-gates.md for disposition options.
+Phase 1A.1 (Push Notifications) and Phase 1A.2 (Email Notifications) are both formally CLOSED.
+See /.claude/rules/phase-gates.md for full gate status.
+Phase 1B+ is BLOCKED until Delroy opens a new TC.
