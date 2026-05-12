@@ -35,12 +35,8 @@ export default function LinkedNotes({
   const [selectedNote, setSelectedNote] = useState<LinkedNote | null>(null)
   const deleteMutation = useDeleteNote()
 
-  // Only VP can see notes
-  if (!isVP(userRole)) {
-    return null
-  }
-
-  // Fetch notes linked to this entity
+  // Fetch notes linked to this entity (hook must be called unconditionally;
+  // `enabled` guards the network call for non-VP roles).
   const { data: notes = [], isLoading, isError, refetch } = useQuery<LinkedNote[], Error>({
     queryKey: ['linked-notes', entityType, entityId],
     queryFn: async () => {
@@ -78,7 +74,13 @@ export default function LinkedNotes({
         link_id: links.find((l) => l.note_id === note.id)?.id || '',
       }))
     },
+    enabled: isVP(userRole),
   })
+
+  // Only VP can see notes (guard placed after hooks to satisfy rules-of-hooks)
+  if (!isVP(userRole)) {
+    return null
+  }
 
   const handleDelete = () => {
     if (!selectedNote) return
