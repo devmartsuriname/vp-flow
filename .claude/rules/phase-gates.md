@@ -8,8 +8,8 @@ A phase gate is a hard stop between execution phases. No phase may begin without
 |---|---|---|
 | v1.0 → v1.3 + Priority 1 + Priority 3 | COMPLETE | FROZEN |
 | v2.0 Phase 1A.1 — Push Notifications | CLOSED | Closed 2026-05-11 via TC-005. Smoke test passed (200 OK). POST restore point: RP_PushNotifications_POST_TC005.md |
-| v2.0 Phase 1A.2 — Email Notifications | BLOCKED | Cannot start until 1A.1 is formally closed |
-| v2.0 Phase 1B+ | BLOCKED | Cannot start until 1A is complete |
+| v2.0 Phase 1A.2 — Email Notifications | CLOSED | Closed 2026-05-12 via TC-006 + TC-006-A. Test path + trigger path smoke tests passed. POST restore point: RP_EmailNotifications_POST_TC006_TC006A.md |
+| v2.0 Phase 1B+ | BLOCKED | Cannot start until Delroy opens a new TC |
 
 ## Gate Rules
 

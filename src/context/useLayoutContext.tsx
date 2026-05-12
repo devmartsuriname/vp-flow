@@ -88,7 +88,7 @@ const LayoutProvider = ({ children }: ChildrenType) => {
     if (offcanvasStates.showBackdrop) htmlTag.classList.remove('sidebar-enable')
     else htmlTag.classList.add('sidebar-enable')
     setOffcanvasStates({ ...offcanvasStates, showBackdrop: !offcanvasStates.showBackdrop })
-  }, [offcanvasStates.showBackdrop])
+  }, [offcanvasStates])
 
   useEffect(() => {
     toggleDocumentAttribute('data-bs-theme', settings.theme)
