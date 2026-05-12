@@ -3,7 +3,7 @@ import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import { Link } from 'react-router-dom'
 import type { KPICardData } from '../types'
 
-interface KPICardProps extends KPICardData {}
+type KPICardProps = KPICardData
 
 const KPICard = ({ title, count, icon, color, link }: KPICardProps) => {
   const cardContent = (

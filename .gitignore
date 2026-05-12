@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated / temporary
+dev-dist/
+lint-baseline.txt
+.claude/settings.local.json

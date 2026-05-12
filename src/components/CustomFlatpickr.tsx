@@ -4,7 +4,7 @@ import Flatpickr from 'react-flatpickr'
 type FlatpickrProps = {
   className?: string
   value?: Date | [Date, Date]
-  options?: any
+  options?: Record<string, unknown>
   placeholder?: string
 }
 

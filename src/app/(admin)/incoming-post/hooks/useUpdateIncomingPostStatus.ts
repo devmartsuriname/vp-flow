@@ -28,7 +28,7 @@ export function useUpdateIncomingPostStatus() {
 
       const { data, error } = await supabase
         .from('incoming_post')
-        .update(updateData as any)
+        .update(updateData as never)
         .eq('id', id)
         .select()
         .single()

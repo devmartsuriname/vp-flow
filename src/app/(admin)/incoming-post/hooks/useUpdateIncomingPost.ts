@@ -15,7 +15,7 @@ export function useUpdateIncomingPost() {
     mutationFn: async ({ id, updates }) => {
       const { data, error } = await supabase
         .from('incoming_post')
-        .update(updates as any)
+        .update(updates as never)
         .eq('id', id)
         .select()
         .single()

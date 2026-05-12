@@ -141,7 +141,7 @@ const AppMenu = ({ menuItems }: AppMenuProps) => {
         return (-c / 2) * (t * (t - 2) - 1) + b
       }
 
-      const scrollTo = (element: any, to: number, duration: number) => {
+      const scrollTo = (element: HTMLElement, to: number, duration: number) => {
         const start = element.scrollTop,
           change = to - start,
           increment = 20

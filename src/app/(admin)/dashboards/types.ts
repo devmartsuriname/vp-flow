@@ -29,9 +29,9 @@ export interface RecentAppointment extends Appointment {
   } | null
 }
 
-export interface RecentCase extends Case {}
+export type RecentCase = Case
 
-export interface RecentClient extends Client {}
+export type RecentClient = Client
 
 export interface RecentNote {
   id: string

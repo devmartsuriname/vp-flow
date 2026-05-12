@@ -23,7 +23,7 @@ export function useCreateIncomingPost() {
           description: formData.description || null,
           created_by: user.id,
           reference_number: 'TEMP', // Will be overwritten by trigger
-        } as any)
+        } as never)
         .select()
         .single()
 

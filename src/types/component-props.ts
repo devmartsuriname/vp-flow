@@ -40,9 +40,9 @@ export type DropzoneFormInputProps = {
 export type CalendarFormType = {
   isEditable: boolean
   eventData?: EventInput
-  onUpdateEvent: (data: any) => void
+  onUpdateEvent: (data: unknown) => void
   onRemoveEvent: () => void
-  onAddEvent: (data: any) => void
+  onAddEvent: (data: unknown) => void
 } & OffcanvasControlType
 
 export type CalendarProps = {
