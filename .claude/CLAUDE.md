@@ -165,7 +165,7 @@ After any migration: document in restore point and verify no regressions.
 | LinkedNotes.tsx rules-of-hooks violation | RESOLVED 2026-05-12 — TC-008 executed. useQuery moved before early return; enabled: isVP(userRole) guard added. |
 | 329 pre-existing lint errors | RESOLVED 2026-05-12 — TC-007 executed. npm run lint exits 0 errors. |
 | 12 lint warnings in src/context/ + hooks | LOW — accepted 2026-05-12 via TC-009. 5 react-refresh (structural), 1 useMemo 8-dep (risky), 6 out-of-scope. No TC needed unless priority changes. |
-| Hard-coded Supabase URL in push + email triggers | MEDIUM — separate TC required (TC-010 candidate) |
+| Hard-coded Supabase URL in push + email triggers | RESOLVED 2026-05-12 — TC-010 executed. Both trigger functions now read SUPABASE_PROJECT_URL from vault with NULL guard. Smoke test: email 200 / push 200. db-guard PASS. |
 | Push + Email Edge Function CORS is * | LOW — deferred to Hostinger production deployment |
 | Service-role push delivery — secrets unverified | MEDIUM — separate TC required |
 
