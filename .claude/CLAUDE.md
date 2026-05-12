@@ -166,6 +166,7 @@ After any migration: document in restore point and verify no regressions.
 | 329 pre-existing lint errors | RESOLVED 2026-05-12 — TC-007 executed. npm run lint exits 0 errors. |
 | 12 lint warnings in src/context/ + hooks | LOW — accepted 2026-05-12 via TC-009. 5 react-refresh (structural), 1 useMemo 8-dep (risky), 6 out-of-scope. No TC needed unless priority changes. |
 | Hard-coded Supabase URL in push + email triggers | RESOLVED 2026-05-12 — TC-010 executed. Both trigger functions now read SUPABASE_PROJECT_URL from vault with NULL guard. Smoke test: email 200 / push 200. db-guard PASS. |
+| No per-user notification opt-out for push + email | RESOLVED 2026-05-12 — TC-011 executed. notification_preferences table + Settings UI card + Edge Function preference checks live. Opt-out model: NULL/no row = send. Smoke tests A/B/C PASS. |
 | Push + Email Edge Function CORS is * | LOW — deferred to Hostinger production deployment |
 | Service-role push delivery — secrets unverified | MEDIUM — separate TC required |
 
@@ -177,7 +178,7 @@ After any migration: document in restore point and verify no regressions.
 |---|---|---|
 | Push Notifications | P1 | COMPLETE — TC-005. Phase 1A.1 closed 2026-05-11 |
 | Email Notifications | P1 | COMPLETE — TC-006 + TC-006-A. Phase 1A.2 closed 2026-05-12 |
-| Notification Preferences | P2 | Not started |
+| Notification Preferences | P2 | COMPLETE — TC-011. Phase 1B closed 2026-05-12 |
 | Device-First UX | P2 | Not started |
 | Rich Text Notes | P2 | Not started |
 | Document Templates | P2 | Not started |

@@ -78,8 +78,27 @@ serve(async (req) => {
       });
     }
 
-    // Use service role to query push subscriptions (cross-user)
+    // Use service role for all cross-user queries
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
+
+    // TC-011 Phase 1B — per-user preference check (opt-out model).
+    // No row OR push_enabled = true → continue. push_enabled = false → silent skip.
+    const { data: pref, error: prefError } = await adminClient
+      .from('notification_preferences')
+      .select('push_enabled')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (prefError) {
+      console.error('notification_preferences lookup error:', prefError);
+      // Fail open — do not block delivery on preference lookup failure.
+    } else if (pref && pref.push_enabled === false) {
+      return new Response(JSON.stringify({ sent: 0, skipped: 1, reason: 'push disabled by user' }), {
+        status: 200,
+        headers: jsonHeaders,
+      });
+    }
+
     const { data: subscriptions, error: subError } = await adminClient
       .from('push_subscriptions')
       .select('endpoint, p256dh, auth_key')

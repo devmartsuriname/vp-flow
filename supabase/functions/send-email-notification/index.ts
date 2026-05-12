@@ -180,6 +180,24 @@ serve(async (req) => {
       });
     }
 
+    // TC-011 Phase 1B — per-user preference check (trigger path only, opt-out model).
+    // No row OR email_enabled = true → continue. email_enabled = false → silent skip.
+    const { data: emailPref, error: emailPrefError } = await adminClient
+      .from("notification_preferences")
+      .select("email_enabled")
+      .eq("user_id", userId)
+      .maybeSingle<{ email_enabled: boolean }>();
+
+    if (emailPrefError) {
+      console.error("notification_preferences lookup error:", emailPrefError);
+      // Fail open — do not block delivery on preference lookup failure.
+    } else if (emailPref && emailPref.email_enabled === false) {
+      return new Response(
+        JSON.stringify({ sent: 0, skipped: 1, reason: "email disabled by user" }),
+        { status: 200, headers: jsonHeaders },
+      );
+    }
+
     // Resolve target user email via auth admin API
     const { data: userResult, error: userError } = await adminClient.auth.admin.getUserById(userId);
     if (userError || !userResult?.user?.email) {

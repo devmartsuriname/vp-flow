@@ -18,6 +18,7 @@ import {
   SystemInfoCard,
   PushNotificationToggle,
   EmailSettingsCard,
+  NotificationPreferencesCard,
 } from './components'
 
 const SettingsPage = () => {
@@ -73,6 +74,11 @@ const SettingsPage = () => {
         {/* Push Notifications - VP and Secretary (Protocol guarded internally) */}
         <Col lg={6}>
           <PushNotificationToggle />
+        </Col>
+
+        {/* Notification Preferences - All roles (TC-011 Phase 1B) */}
+        <Col lg={6}>
+          <NotificationPreferencesCard />
         </Col>
 
         {/* Email Notifications - VP only (TC-006 Phase 1A.2) */}
