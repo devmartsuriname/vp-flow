@@ -17,6 +17,7 @@ import {
   ThemeSettingsCard,
   SystemInfoCard,
   PushNotificationToggle,
+  EmailSettingsCard,
 } from './components'
 
 const SettingsPage = () => {
@@ -73,6 +74,13 @@ const SettingsPage = () => {
         <Col lg={6}>
           <PushNotificationToggle />
         </Col>
+
+        {/* Email Notifications - VP only (TC-006 Phase 1A.2) */}
+        {role === 'vp' && (
+          <Col lg={12}>
+            <EmailSettingsCard />
+          </Col>
+        )}
       </Row>
     </>
   )
