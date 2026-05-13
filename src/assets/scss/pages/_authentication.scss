@@ -4,33 +4,98 @@
 
 body {
      &.authentication-bg {
-          background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-          background-size: 400% 400%;
-          animation: gradient 15s ease infinite;
+          background: var(--#{$prefix}body-bg);
 
           .account-pages {
-               align-items: center;
+               align-items: stretch;
                display: flex;
                min-height: 100vh;
           }
      }
 }
 
-@keyframes gradient {
-     0% {
-          background-position: 0% 50%;
-     }
+// Split-screen auth layout
+.auth-split {
+     display: flex;
+     min-height: 100vh;
+     width: 100%;
+}
 
-     50% {
-          background-position: 100% 50%;
-     }
+.auth-split-form {
+     flex: 0 0 100%;
+     max-width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 2.5rem 1.5rem;
+     background: var(--#{$prefix}body-bg);
 
-     100% {
-          background-position: 0% 50%;
+     @media (min-width: 992px) {
+          flex: 0 0 60%;
+          max-width: 60%;
+          padding: 3rem;
      }
 }
 
+.auth-split-form-inner {
+     width: 100%;
+     max-width: 440px;
+}
 
+.auth-split-visual {
+     display: none;
+     position: relative;
+     overflow: hidden;
+     background:
+          radial-gradient(circle at 20% 20%, rgba($primary, 0.55) 0%, transparent 55%),
+          radial-gradient(circle at 80% 80%, rgba($indigo, 0.55) 0%, transparent 55%),
+          linear-gradient(135deg, $indigo 0%, $primary 50%, $gray-900 100%);
+
+     @media (min-width: 992px) {
+          display: flex;
+          flex: 0 0 40%;
+          max-width: 40%;
+          align-items: center;
+          justify-content: center;
+          padding: 3rem;
+     }
+
+     &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg stroke-opacity='0.13'%3E%3Cg transform='translate(70 90)'%3E%3Crect x='0' y='0' width='22' height='28' rx='2'/%3E%3Cpath d='M5 8 H17 M5 13 H17 M5 18 H13'/%3E%3C/g%3E%3Cg transform='translate(500 60)'%3E%3Crect x='0' y='3' width='26' height='24' rx='2'/%3E%3Cpath d='M0 10 H26 M7 0 V6 M19 0 V6'/%3E%3C/g%3E%3Cg transform='translate(160 200)'%3E%3Cpath d='M13 0 L0 6 V14 C0 22 6 28 13 30 C20 28 26 22 26 14 V6 Z'/%3E%3C/g%3E%3Cg transform='translate(460 240)'%3E%3Cpath d='M2 8 C2 4 6 0 12 0 C18 0 22 4 22 8 V14 L26 18 H-2 L2 14 Z'/%3E%3Cpath d='M9 22 C9 24 10 26 12 26 C14 26 15 24 15 22'/%3E%3C/g%3E%3Cg transform='translate(80 360)'%3E%3Cpath d='M0 12 L8 20 L24 4'/%3E%3C/g%3E%3Cg transform='translate(420 420)'%3E%3Cpath d='M2 4 C2 1 4 0 6 0 H22 C24 0 26 1 26 4 V16 C26 18 24 20 22 20 H10 L4 26 V20 C3 20 2 18 2 16 Z'/%3E%3C/g%3E%3Cg transform='translate(280 80)'%3E%3Cpath d='M0 6 C0 2 4 0 8 0 H18 C22 0 26 2 26 6 V20 C26 24 22 26 18 26 H8 C4 26 0 24 0 20 Z'/%3E%3Cpath d='M6 8 H20 M6 13 H20 M6 18 H14'/%3E%3C/g%3E%3Cg transform='translate(530 380)'%3E%3Crect x='0' y='0' width='22' height='28' rx='2'/%3E%3Cpath d='M5 8 H17 M5 13 H17 M5 18 H13'/%3E%3C/g%3E%3Cg transform='translate(250 460)'%3E%3Cpath d='M13 0 L0 6 V14 C0 22 6 28 13 30 C20 28 26 22 26 14 V6 Z'/%3E%3C/g%3E%3Cg transform='translate(380 160)'%3E%3Cpath d='M0 12 L8 20 L24 4'/%3E%3C/g%3E%3Cg transform='translate(120 480)'%3E%3Cpath d='M2 8 C2 4 6 0 12 0 C18 0 22 4 22 8 V14 L26 18 H-2 L2 14 Z'/%3E%3Cpath d='M9 22 C9 24 10 26 12 26 C14 26 15 24 15 22'/%3E%3C/g%3E%3Cg transform='translate(490 500)'%3E%3Crect x='0' y='3' width='26' height='24' rx='2'/%3E%3Cpath d='M0 10 H26 M7 0 V6 M19 0 V6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+          background-size: 520px 520px;
+          background-position: center;
+          background-repeat: repeat;
+          pointer-events: none;
+     }
+}
+
+.auth-split-visual-content {
+     position: relative;
+     z-index: 1;
+     color: $white;
+     text-align: center;
+     max-width: 380px;
+}
+
+.auth-split-visual-brand {
+     font-family: $font-family-primary;
+     font-weight: 700;
+     font-size: 2.5rem;
+     letter-spacing: 0.04em;
+     margin-bottom: 0.75rem;
+     color: $white;
+}
+
+.auth-split-visual-tagline {
+     font-size: 0.95rem;
+     font-weight: 400;
+     line-height: 1.6;
+     color: rgba($white, 0.85);
+     margin-bottom: 0;
+}
 
 .auth-logo {
      .logo-dark {

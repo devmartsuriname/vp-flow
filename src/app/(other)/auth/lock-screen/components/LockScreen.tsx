@@ -3,8 +3,8 @@ import Logo from '@/assets/images/vpflow-logo-light.png'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
-import { Card, CardBody, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import AuthVisualPanel from '../../components/AuthVisualPanel'
 
 const LockScreen = () => {
   useEffect(() => {
@@ -23,73 +23,67 @@ const LockScreen = () => {
   const { handleSubmit, control } = useForm({
     resolver: yupResolver(messageSchema),
   })
+
   return (
-    <>
-      <div className="">
-        <div className="account-pages py-5">
-          <div className="container">
-            <Row className="justify-content-center">
-              <Col md={6} lg={5}>
-                <Card className="border-0 shadow-lg">
-                  <CardBody className=" p-5">
-                    <div className="text-center">
-                      <div className="mx-auto mb-4 text-center auth-logo">
-                        <Link to="/">
-                          <img src={Logo} height={40} alt="VP-Flow" />
-                        </Link>
-                      </div>
-                      <h4 className="fw-bold text-dark mb-2">Session Locked</h4>
-                      <p className="text-muted">Enter your password to access VP-Flow.</p>
-                    </div>
-                    <form onSubmit={handleSubmit(() => {})} className="mt-4">
-                      <div className="mb-3">
-                        <label className="form-label">Password</label>
-                        <Controller
-                          name="password"
-                          control={control}
-                          render={({ field, fieldState: { error } }) => (
-                            <>
-                              <input
-                                {...field}
-                                type="password"
-                                placeholder="Enter your password"
-                                className={`form-control bg-light bg-opacity-50 border-light py-2 ${error ? 'is-invalid' : ''}`}
-                              />
-                              {error && (
-                                <div className="invalid-feedback">{error.message}</div>
-                              )}
-                            </>
-                          )}
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <div className="form-check">
-                          <input type="checkbox" className="form-check-input" id="checkbox-signin" />
-                          <label className="form-check-label" htmlFor="checkbox-signin">
-                            I accept Terms and Condition
-                          </label>
-                        </div>
-                      </div>
-                      <div className="mb-1 text-center d-grid">
-                        <button className="btn btn-dark btn-lg fw-medium" type="submit">
-                          Sign In
-                        </button>
-                      </div>
-                    </form>
-                  </CardBody>
-                </Card>
-                <p className="text-center mt-4 text-white text-opacity-50">
-                  Not you? return&nbsp;
-                  <Link to="/auth/sign-up" className="text-decoration-none text-white fw-bold">
-                    Sign Up
-                  </Link>
-                </p>
-              </Col>
-            </Row>
+    <div className="auth-split">
+      <div className="auth-split-form">
+        <div className="auth-split-form-inner">
+          <div className="mb-4 auth-logo">
+            <Link to="/">
+              <img src={Logo} height={40} alt="VP-Flow" />
+            </Link>
           </div>
+          <h4 className="fw-bold mb-2">Session Locked</h4>
+          <p className="text-muted mb-4">Enter your password to access VP-Flow.</p>
+
+          <form onSubmit={handleSubmit(() => {})}>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="lock-password">Password</label>
+              <Controller
+                name="password"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <input
+                      {...field}
+                      id="lock-password"
+                      type="password"
+                      placeholder="Enter your password"
+                      className={`form-control ${error ? 'is-invalid' : ''}`}
+                    />
+                    {error && (
+                      <div className="invalid-feedback">{error.message}</div>
+                    )}
+                  </>
+                )}
+              />
+            </div>
+
+            <div className="form-check mb-4">
+              <input type="checkbox" className="form-check-input" id="checkbox-signin" />
+              <label className="form-check-label" htmlFor="checkbox-signin">
+                I accept Terms and Condition
+              </label>
+            </div>
+
+            <div className="d-grid">
+              <button className="btn btn-primary btn-lg fw-medium" type="submit">
+                Sign In
+              </button>
+            </div>
+          </form>
+
+          <p className="text-muted text-center mt-4 mb-0">
+            Not you? return&nbsp;
+            <Link to="/auth/sign-in" className="text-decoration-none fw-bold">
+              Sign In
+            </Link>
+          </p>
         </div>
       </div>
-    </>
+
+      <AuthVisualPanel />
+    </div>
   )
 }
 
