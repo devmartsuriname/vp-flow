@@ -9,7 +9,9 @@ A phase gate is a hard stop between execution phases. No phase may begin without
 | v1.0 → v1.3 + Priority 1 + Priority 3 | COMPLETE | FROZEN |
 | v2.0 Phase 1A.1 — Push Notifications | CLOSED | Closed 2026-05-11 via TC-005. Smoke test passed (200 OK). POST restore point: RP_PushNotifications_POST_TC005.md |
 | v2.0 Phase 1A.2 — Email Notifications | CLOSED | Closed 2026-05-12 via TC-006 + TC-006-A. Test path + trigger path smoke tests passed. POST restore point: RP_EmailNotifications_POST_TC006_TC006A.md |
-| v2.0 Phase 1B+ | BLOCKED | Cannot start until Delroy opens a new TC |
+| v2.0 Phase 1B — Notification Preferences | CLOSED | Closed 2026-05-12 via TC-011. Smoke tests A/B/C passed. POST restore point: RP_NotificationPreferences_POST_TC011.md. Commit: 4af306f |
+| v2.0 Phase 1C-A — Rich Text Notes (Tiptap) | CLOSED | Closed 2026-05-12 via TC-012. Migration applied (notes.content_format), Tiptap editor + viewer live, lint 0 errors, build PASS. POST restore point: RP_RichTextNotes_POST_TC012.md |
+| v2.0 Phase 1C-B+ | BLOCKED | Cannot start until Delroy opens a new TC |
 
 ## Gate Rules
 
@@ -29,13 +31,3 @@ A phase gate is a hard stop between execution phases. No phase may begin without
 
 Lane C tasks are the highest risk category. Always stop and confirm with Delroy before executing.
 
-## Unsealed Work (2026-05-11)
-
-v2.0 Phase 1A.1 (Push Notifications) has recent commits that were not formally closed via TC:
-- 4e685aa — Fix push toggle hang
-- 9235b3b — Add push toggle flow
-- 5dc8d43 — Split phase 1A.1 post-execution
-
-This work is UNSEALED. Before any new v2.0 work begins, Delroy must decide:
-- Option A: Issue a closing TC that formally seals Phase 1A.1 as complete (with final POST restore point)
-- Option B: Issue a continuation TC that picks up from current state and defines remaining push work

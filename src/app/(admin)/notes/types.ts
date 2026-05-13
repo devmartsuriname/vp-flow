@@ -17,10 +17,14 @@ export type NoteWithLink = Note & {
   note_links: NoteLink | NoteLink[] | null
 }
 
+// Content format discriminator: 'plain' for legacy textarea notes, 'json' for Tiptap-authored notes
+export type NoteContentFormat = 'plain' | 'json'
+
 // Form data for create/edit operations
 export interface NoteFormData {
   title: string
   content: string
+  contentFormat: NoteContentFormat
   entityType: NoteEntityType | null
   entityId: string | null
 }

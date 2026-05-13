@@ -8,6 +8,7 @@ import { getNoteDisplayTitle, ENTITY_TYPE_LABELS } from '../types'
 import { useUnlinkNote } from '../hooks'
 import { supabase } from '@/integrations/supabase/client'
 import HandwritingSection from './HandwritingSection'
+import TiptapViewer from './TiptapViewer'
 import { useAuthContext } from '@/context/useAuthContext'
 
 type NoteDetailProps = {
@@ -124,9 +125,10 @@ export default function NoteDetail({ note, onDelete, readOnly = false }: NoteDet
           </Card.Header>
           <Card.Body>
             {note.content ? (
-              <p className="mb-0" style={{ whiteSpace: 'pre-wrap' }}>
-                {note.content}
-              </p>
+              <TiptapViewer
+                content={note.content}
+                format={note.content_format === 'json' ? 'json' : 'plain'}
+              />
             ) : (
               <p className="text-muted mb-0">No content</p>
             )}

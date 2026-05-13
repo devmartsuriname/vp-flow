@@ -37,6 +37,7 @@ const NoteCreatePage = () => {
       const note = await createMutation.mutateAsync({
         title: data.title,
         content: data.content,
+        contentFormat: data.contentFormat,
       })
 
       // If entity is selected, create the link

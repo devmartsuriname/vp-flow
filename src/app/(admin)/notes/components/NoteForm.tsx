@@ -3,12 +3,14 @@ import { Card, Form, Button, Spinner, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
 import EntityLinkSelector from './EntityLinkSelector'
-import type { NoteFormData, NoteEntityType } from '../types'
+import TiptapEditor from './TiptapEditor'
+import type { NoteFormData, NoteEntityType, NoteContentFormat } from '../types'
 
 type NoteFormProps = {
   initialData?: {
     title: string
     content: string
+    contentFormat?: NoteContentFormat
     entityType?: NoteEntityType | null
     entityId?: string | null
   }
@@ -16,6 +18,24 @@ type NoteFormProps = {
   onCancel?: () => void
   isLoading?: boolean
   submitLabel?: string
+}
+
+function hasNonEmptyContent(content: string, format: NoteContentFormat): boolean {
+  if (!content) return false
+  if (format === 'plain') return content.trim().length > 0
+  try {
+    const doc = JSON.parse(content)
+    const collectText = (node: unknown): string => {
+      if (!node || typeof node !== 'object') return ''
+      const n = node as { text?: string; content?: unknown[] }
+      if (typeof n.text === 'string') return n.text
+      if (Array.isArray(n.content)) return n.content.map(collectText).join('')
+      return ''
+    }
+    return collectText(doc).trim().length > 0
+  } catch {
+    return false
+  }
 }
 
 export default function NoteForm({
@@ -27,6 +47,9 @@ export default function NoteForm({
 }: NoteFormProps) {
   const [title, setTitle] = useState(initialData?.title || '')
   const [content, setContent] = useState(initialData?.content || '')
+  const [contentFormat, setContentFormat] = useState<NoteContentFormat>(
+    initialData?.contentFormat || 'plain'
+  )
   const [entityType, setEntityType] = useState<NoteEntityType | null>(
     initialData?.entityType || null
   )
@@ -34,11 +57,17 @@ export default function NoteForm({
     initialData?.entityId || null
   )
 
+  const handleEditorChange = (newContent: string, newFormat: 'json') => {
+    setContent(newContent)
+    setContentFormat(newFormat)
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit({
       title: title.trim(),
-      content: content.trim(),
+      content: contentFormat === 'plain' ? content.trim() : content,
+      contentFormat,
       entityType,
       entityId,
     })
@@ -48,6 +77,8 @@ export default function NoteForm({
     setEntityType(type)
     setEntityId(id)
   }
+
+  const contentValid = hasNonEmptyContent(content, contentFormat)
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -72,18 +103,15 @@ export default function NoteForm({
 
           <Form.Group className="mb-0">
             <Form.Label>Content <span className="text-danger">*</span></Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={10}
+            <TiptapEditor
               value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Enter your note content..."
+              format={contentFormat}
+              onChange={handleEditorChange}
+              placeholder="Schrijf hier uw notitie..."
               disabled={isLoading}
-              required
-              style={{ resize: 'vertical', minHeight: '200px' }}
             />
             <Form.Text className="text-muted">
-              Plain text only. No formatting supported.
+              Rich text supported — bold, italic, headings, lists, blockquotes.
             </Form.Text>
           </Form.Group>
         </Card.Body>
@@ -111,10 +139,10 @@ export default function NoteForm({
       <Row>
         <Col>
           <div className="d-flex gap-2">
-            <Button 
-              type="submit" 
-              variant="primary" 
-              disabled={isLoading || !content.trim()}
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isLoading || !contentValid}
             >
               {isLoading ? (
                 <>

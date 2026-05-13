@@ -48,6 +48,7 @@ const NoteEditPage = () => {
         data: {
           title: data.title,
           content: data.content,
+          contentFormat: data.contentFormat,
         },
       })
 
@@ -139,6 +140,7 @@ const NoteEditPage = () => {
         initialData={{
           title: note.title || '',
           content: note.content,
+          contentFormat: note.content_format === 'json' ? 'json' : 'plain',
           entityType: currentLink?.entity_type as NoteEntityType | undefined,
           entityId: currentLink?.entity_id,
         }}

@@ -597,6 +597,7 @@ export type Database = {
       notes: {
         Row: {
           content: string
+          content_format: string
           created_at: string
           deleted_at: string | null
           id: string
@@ -606,6 +607,7 @@ export type Database = {
         }
         Insert: {
           content: string
+          content_format?: string
           created_at?: string
           deleted_at?: string | null
           id?: string
@@ -615,6 +617,7 @@ export type Database = {
         }
         Update: {
           content?: string
+          content_format?: string
           created_at?: string
           deleted_at?: string | null
           id?: string

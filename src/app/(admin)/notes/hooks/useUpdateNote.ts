@@ -1,15 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import type { NoteUpdate } from '../types'
+import type { NoteUpdate, NoteContentFormat } from '../types'
 
 export function useUpdateNote() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: { title: string; content: string } }) => {
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string
+      data: { title: string; content: string; contentFormat: NoteContentFormat }
+    }) => {
       const updateData: NoteUpdate = {
         title: data.title || null,
         content: data.content,
+        content_format: data.contentFormat,
         updated_at: new Date().toISOString(),
       }
 
