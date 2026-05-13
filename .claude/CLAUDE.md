@@ -169,6 +169,7 @@ After any migration: document in restore point and verify no regressions.
 | No per-user notification opt-out for push + email | RESOLVED 2026-05-12 — TC-011 executed. notification_preferences table + Settings UI card + Edge Function preference checks live. Opt-out model: NULL/no row = send. Smoke tests A/B/C PASS. |
 | Push + Email Edge Function CORS is * | LOW — deferred to Hostinger production deployment |
 | Service-role push delivery — secrets unverified | MEDIUM — separate TC required |
+| Auth pages wrong logo (navy PNG) | RESOLVED 2026-05-13 — TC-014 executed. All auth components now use vp-flow-logo-dark.svg. PWA icons replaced (purple). theme-color #7e67fe. Copyright footer added. |
 
 ---
 
@@ -180,7 +181,8 @@ After any migration: document in restore point and verify no regressions.
 | Email Notifications | P1 | COMPLETE — TC-006 + TC-006-A. Phase 1A.2 closed 2026-05-12 |
 | Notification Preferences | P2 | COMPLETE — TC-011. Phase 1B closed 2026-05-12 |
 | Device-First UX | P2 | Not started |
-| Rich Text Notes | P2 | Not started |
+| Rich Text Notes | P2 | COMPLETE — TC-012. Phase 1C-A closed 2026-05-12 |
+| Design Style Guide + Logo Set | P1 | COMPLETE — TC-014. Phase 1D closed 2026-05-13 |
 | Document Templates | P2 | Not started |
 | Category Filtering | P3 | Not started |
 | Reopen Count Limits | P3 | Not started |

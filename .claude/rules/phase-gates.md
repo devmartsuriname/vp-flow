@@ -11,7 +11,8 @@ A phase gate is a hard stop between execution phases. No phase may begin without
 | v2.0 Phase 1A.2 — Email Notifications | CLOSED | Closed 2026-05-12 via TC-006 + TC-006-A. Test path + trigger path smoke tests passed. POST restore point: RP_EmailNotifications_POST_TC006_TC006A.md |
 | v2.0 Phase 1B — Notification Preferences | CLOSED | Closed 2026-05-12 via TC-011. Smoke tests A/B/C passed. POST restore point: RP_NotificationPreferences_POST_TC011.md. Commit: 4af306f |
 | v2.0 Phase 1C-A — Rich Text Notes (Tiptap) | CLOSED | Closed 2026-05-12 via TC-012. Migration applied (notes.content_format), Tiptap editor + viewer live, lint 0 errors, build PASS. POST restore point: RP_RichTextNotes_POST_TC012.md |
-| v2.0 Phase 1C-B+ | BLOCKED | Cannot start until Delroy opens a new TC |
+| v2.0 Phase 1D — Design Style Guide + Logo Set | CLOSED | Closed 2026-05-13 via TC-014. Logo v3 "Authority Gate" approved. All logo refs replaced, auth wrong-logo fixed, PWA icons purple brand, theme-color #7e67fe, copyright footer. Lint 0, build 0. POST restore point: RP_LogoSet_POST_TC014.md |
+| v2.0 Phase 1C-B+ | BLOCKED | Cannot start until Delroy opens a new TC and Phase 1D |
 
 ## Gate Rules
 
