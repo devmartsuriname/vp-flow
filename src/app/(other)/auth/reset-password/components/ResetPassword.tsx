@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import AuthFooter from '../../components/AuthFooter'
 import AuthVisualPanel from '../../components/AuthVisualPanel'
 
 const ResetPassword = () => {
@@ -72,6 +73,8 @@ const ResetPassword = () => {
               Sign In
             </Link>
           </p>
+
+          <AuthFooter />
         </div>
       </div>
 

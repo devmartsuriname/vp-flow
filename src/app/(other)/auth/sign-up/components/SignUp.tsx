@@ -6,6 +6,7 @@ import * as yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '@/integrations/supabase/client'
 import { useNotificationContext } from '@/context/useNotificationContext'
+import AuthFooter from '../../components/AuthFooter'
 import AuthVisualPanel from '../../components/AuthVisualPanel'
 
 const SignUp = () => {
@@ -199,6 +200,8 @@ const SignUp = () => {
               Sign In
             </Link>
           </p>
+
+          <AuthFooter />
         </div>
       </div>
 

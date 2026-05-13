@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
+import AuthFooter from '../../components/AuthFooter'
 import AuthVisualPanel from '../../components/AuthVisualPanel'
 
 const LockScreen = () => {
@@ -79,6 +80,8 @@ const LockScreen = () => {
               Sign In
             </Link>
           </p>
+
+          <AuthFooter />
         </div>
       </div>
 

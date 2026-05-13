@@ -2,6 +2,7 @@ import Logo from '@/assets/images/vpflow-logo-light.png'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Controller } from 'react-hook-form'
+import AuthFooter from '../../components/AuthFooter'
 import AuthVisualPanel from '../../components/AuthVisualPanel'
 import useSignIn from '../useSignIn'
 
@@ -88,6 +89,8 @@ const SignIn = () => {
               </button>
             </div>
           </form>
+
+          <AuthFooter />
         </div>
       </div>
 
