@@ -15,30 +15,40 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico'],
+      includeAssets: [
+        'vp-flow-logo-dark.svg',
+        'vp-flow-logo-light.svg',
+        'vp-flow-icon.svg',
+        'vp-flow-icon-boxed.svg',
+        'favicon-16.png',
+        'favicon-32.png',
+        'icon-192.png',
+        'icon-512.png',
+        'icon-512-maskable.png',
+      ],
       manifest: {
         name: 'VP-Flow',
         short_name: 'VP-Flow',
         description: 'Appointment and Case Management System for the Office of the Vice President',
-        theme_color: '#1e3a5f',
-        background_color: '#0f172a',
+        theme_color: '#7e67fe',
+        background_color: '#191e23',
         display: 'standalone',
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
         icons: [
           {
-            src: '/pwa-192x192.png',
+            src: '/icon-192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: '/pwa-512x512.png',
+            src: '/icon-512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: '/pwa-512x512.png',
+            src: '/icon-512-maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'

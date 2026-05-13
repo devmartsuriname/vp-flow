@@ -1,0 +1,5 @@
+<svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+  <!-- Standalone mark — use on brand purple (#7e67fe) or dark (#191e23) backgrounds -->
+  <path d="M14 12 L26 41 L38 12" stroke="white" stroke-width="4.5" stroke-linecap="butt" stroke-linejoin="miter" fill="none"/>
+  <line x1="9" y1="23" x2="43" y2="23" stroke="white" stroke-width="4.5" stroke-linecap="butt"/>
+</svg>

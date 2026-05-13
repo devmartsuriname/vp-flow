@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import Logo from '@/assets/images/vpflow-logo-light.png'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
@@ -30,8 +29,11 @@ const LockScreen = () => {
       <div className="auth-split-form">
         <div className="auth-split-form-inner">
           <div className="mb-4 auth-logo">
-            <Link to="/">
-              <img src={Logo} height={40} alt="VP-Flow" />
+            <Link to="/" className="logo-dark">
+              <img src="/vp-flow-logo-light.svg" height={40} alt="VP-Flow" />
+            </Link>
+            <Link to="/" className="logo-light">
+              <img src="/vp-flow-logo-dark.svg" height={40} alt="VP-Flow" />
             </Link>
           </div>
           <h4 className="fw-bold mb-2">Session Locked</h4>

@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- High-res boxed icon — source for all PNG exports -->
+  <!-- Container: rx scaled from 9/52 ratio = ~88px at 512px -->
+  <rect width="512" height="512" rx="88" fill="#7e67fe"/>
+  <!-- V mark: scaled from 52px original -->
+  <path d="M138 118 L256 402 L374 118" stroke="white" stroke-width="44" stroke-linecap="butt" stroke-linejoin="miter" fill="none"/>
+  <!-- Crossbar at y=226 (golden ratio: 118 + (402-118)*0.38 ≈ 226) -->
+  <line x1="88" y1="226" x2="424" y2="226" stroke="white" stroke-width="44" stroke-linecap="butt"/>
+</svg>

@@ -16,8 +16,8 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: data.body || data.message || '',
-    icon: '/pwa-192x192.png',
-    badge: '/pwa-192x192.png',
+    icon: '/icon-192.png',
+    badge: '/icon-192.png',
     tag: data.tag || 'vp-flow-notification',
     data: {
       url: data.link || data.url || '/',

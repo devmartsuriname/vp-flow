@@ -1,0 +1,11 @@
+<svg width="240" height="52" viewBox="0 0 240 52" xmlns="http://www.w3.org/2000/svg">
+  <!-- Boxed icon mark -->
+  <rect width="52" height="52" rx="9" fill="#7e67fe"/>
+  <path d="M14 12 L26 41 L38 12" stroke="white" stroke-width="4.5" stroke-linecap="butt" stroke-linejoin="miter" fill="none"/>
+  <line x1="9" y1="23" x2="43" y2="23" stroke="white" stroke-width="4.5" stroke-linecap="butt"/>
+  <!-- Wordmark: VP (purple) + -Flow (dark) -->
+  <text x="66" y="34" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="800" font-size="22" fill="#7e67fe" letter-spacing="-0.5">VP</text>
+  <text x="100" y="34" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="200" font-size="22" fill="#21252e" letter-spacing="-0.3">-Flow</text>
+  <!-- Tagline -->
+  <text x="66" y="47" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="400" font-size="7.5" fill="rgba(0,0,0,0.38)" letter-spacing="3.2">SYSTEM OF RECORD</text>
+</svg>

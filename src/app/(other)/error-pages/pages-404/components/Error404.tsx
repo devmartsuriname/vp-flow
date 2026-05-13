@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import error404Img from '@/assets/images/404.svg'
-import logoDark from '@/assets/images/vpflow-logo-dark.png'
-import logoLight from '@/assets/images/vpflow-logo-light.png'
+const logoDark = '/vp-flow-logo-light.svg'
+const logoLight = '/vp-flow-logo-dark.svg'
 
 import { Card, CardBody, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
