@@ -27,3 +27,9 @@ dist-ssr
 dev-dist/
 lint-baseline.txt
 .claude/settings.local.json
+
+# Environment variables — NEVER commit secrets
+.env
+.env.local
+.env.*.local
+.env.production
