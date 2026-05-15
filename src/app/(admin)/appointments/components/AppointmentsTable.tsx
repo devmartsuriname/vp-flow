@@ -146,23 +146,25 @@ export default function AppointmentsTable({
                     <AppointmentStatusBadge status={appointment.status} />
                   </td>
                   <td className="text-end">
-                    <Link
-                      to={`/appointments/${appointment.id}`}
-                      className="btn btn-sm btn-soft-primary me-1"
-                      title="View"
-                    >
-                      <IconifyIcon icon="bx:show" />
-                    </Link>
-                    {/* Edit only for VP or non-terminal statuses */}
-                    {isVP(userRole) && !['rejected', 'cancelled', 'completed'].includes(appointment.status) && (
+                    <div className="d-flex gap-1 justify-content-end">
                       <Link
-                        to={`/appointments/${appointment.id}/edit`}
-                        className="btn btn-sm btn-soft-info"
-                        title="Edit"
+                        to={`/appointments/${appointment.id}`}
+                        className="btn btn-sm btn-soft-primary"
+                        title="View"
                       >
-                        <IconifyIcon icon="bx:edit" />
+                        <IconifyIcon icon="bx:show" />
                       </Link>
-                    )}
+                      {/* Edit only for VP or non-terminal statuses */}
+                      {isVP(userRole) && !['rejected', 'cancelled', 'completed'].includes(appointment.status) && (
+                        <Link
+                          to={`/appointments/${appointment.id}/edit`}
+                          className="btn btn-sm btn-soft-info"
+                          title="Edit"
+                        >
+                          <IconifyIcon icon="bx:edit" />
+                        </Link>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))

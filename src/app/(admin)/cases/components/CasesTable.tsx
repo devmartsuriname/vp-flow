@@ -180,23 +180,25 @@ export default function CasesTable({
                       </div>
                     </td>
                     <td className="text-end">
-                      <Link
-                        to={`/cases/${caseItem.id}`}
-                        className="btn btn-sm btn-soft-primary me-1"
-                        title="View"
-                      >
-                        <IconifyIcon icon="bx:show" />
-                      </Link>
-                      {/* Edit only for VP and non-closed cases */}
-                      {isVP(userRole) && caseItem.status !== 'closed' && (
+                      <div className="d-flex gap-1 justify-content-end">
                         <Link
-                          to={`/cases/${caseItem.id}/edit`}
-                          className="btn btn-sm btn-soft-info"
-                          title="Edit"
+                          to={`/cases/${caseItem.id}`}
+                          className="btn btn-sm btn-soft-primary"
+                          title="View"
                         >
-                          <IconifyIcon icon="bx:edit" />
+                          <IconifyIcon icon="bx:show" />
                         </Link>
-                      )}
+                        {/* Edit only for VP and non-closed cases */}
+                        {isVP(userRole) && caseItem.status !== 'closed' && (
+                          <Link
+                            to={`/cases/${caseItem.id}/edit`}
+                            className="btn btn-sm btn-soft-info"
+                            title="Edit"
+                          >
+                            <IconifyIcon icon="bx:edit" />
+                          </Link>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 )

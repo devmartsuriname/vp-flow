@@ -121,30 +121,32 @@ export default function ClientsTable({
                   <td>{client.phone || '—'}</td>
                   <td>{client.district || '—'}</td>
                   <td className="text-end">
-                    <Link 
-                      to={`/clients/${client.id}`}
-                      className="btn btn-sm btn-soft-primary me-1"
-                      title="View"
-                    >
-                      <IconifyIcon icon="bx:show" />
-                    </Link>
-                    <Link 
-                      to={`/clients/${client.id}/edit`}
-                      className="btn btn-sm btn-soft-info me-1"
-                      title="Edit"
-                    >
-                      <IconifyIcon icon="bx:edit" />
-                    </Link>
-                    {isVP(userRole) && onDelete && (
-                      <Button
-                        variant="soft-danger"
-                        size="sm"
-                        title="Delete"
-                        onClick={() => onDelete(client)}
+                    <div className="d-flex gap-1 justify-content-end">
+                      <Link
+                        to={`/clients/${client.id}`}
+                        className="btn btn-sm btn-soft-primary"
+                        title="View"
                       >
-                        <IconifyIcon icon="bx:trash" />
-                      </Button>
-                    )}
+                        <IconifyIcon icon="bx:show" />
+                      </Link>
+                      <Link
+                        to={`/clients/${client.id}/edit`}
+                        className="btn btn-sm btn-soft-info"
+                        title="Edit"
+                      >
+                        <IconifyIcon icon="bx:edit" />
+                      </Link>
+                      {isVP(userRole) && onDelete && (
+                        <Button
+                          variant="soft-danger"
+                          size="sm"
+                          title="Delete"
+                          onClick={() => onDelete(client)}
+                        >
+                          <IconifyIcon icon="bx:trash" />
+                        </Button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))

@@ -75,30 +75,32 @@ export default function NotesTable({ notes, isLoading, onDelete }: NotesTablePro
                   </span>
                 </td>
                 <td className="text-end">
-                  <Link 
-                    to={`/notes/${note.id}`} 
-                    className="btn btn-sm btn-outline-primary me-1"
-                    title="View"
-                  >
-                    <IconifyIcon icon="bx:show" />
-                  </Link>
-                  <Link 
-                    to={`/notes/${note.id}/edit`} 
-                    className="btn btn-sm btn-outline-secondary me-1"
-                    title="Edit"
-                  >
-                    <IconifyIcon icon="bx:edit" />
-                  </Link>
-                  {onDelete && (
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => onDelete(note)}
-                      title="Delete"
+                  <div className="d-flex gap-1 justify-content-end">
+                    <Link
+                      to={`/notes/${note.id}`}
+                      className="btn btn-sm btn-outline-primary"
+                      title="View"
                     >
-                      <IconifyIcon icon="bx:trash" />
-                    </Button>
-                  )}
+                      <IconifyIcon icon="bx:show" />
+                    </Link>
+                    <Link
+                      to={`/notes/${note.id}/edit`}
+                      className="btn btn-sm btn-outline-secondary"
+                      title="Edit"
+                    >
+                      <IconifyIcon icon="bx:edit" />
+                    </Link>
+                    {onDelete && (
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => onDelete(note)}
+                        title="Delete"
+                      >
+                        <IconifyIcon icon="bx:trash" />
+                      </Button>
+                    )}
+                  </div>
                 </td>
               </tr>
             )
