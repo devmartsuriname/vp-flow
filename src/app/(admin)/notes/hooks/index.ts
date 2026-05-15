@@ -1,4 +1,4 @@
-export { useNotes } from './useNotes'
+export { useNotes, NOTES_PAGE_SIZE } from './useNotes'
 export { useNote } from './useNote'
 export { useCreateNote } from './useCreateNote'
 export { useUpdateNote } from './useUpdateNote'

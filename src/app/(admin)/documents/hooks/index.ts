@@ -1,4 +1,4 @@
-export { useDocuments } from './useDocuments'
+export { useDocuments, useDocumentsPaginated, DOCUMENTS_PAGE_SIZE } from './useDocuments'
 export { useDocument } from './useDocument'
 export { useUploadDocument } from './useUploadDocument'
 export { useDeactivateDocument } from './useDeactivateDocument'

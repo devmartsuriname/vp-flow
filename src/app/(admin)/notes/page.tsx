@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Card, CardBody, Button, Row, Col } from 'react-bootstrap'
+import { Card, CardBody, Button, Row, Col, Pagination } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
-import { useNotes, useDeleteNote } from './hooks'
+import { useNotes, useDeleteNote, NOTES_PAGE_SIZE } from './hooks'
 import { NotesTable, DeleteNoteModal } from './components'
 import { useAuthContext } from '@/context/useAuthContext'
 import { isVP } from '@/hooks/useUserRole'
@@ -13,21 +13,28 @@ import { getNoteDisplayTitle } from './types'
 const NotesPage = () => {
   const navigate = useNavigate()
   const { role, isLoading: authLoading } = useAuthContext()
-  const { data: notes = [], isLoading, error } = useNotes()
+  const [page, setPage] = useState(1)
+  const { data, isLoading, error } = useNotes(page)
   const deleteMutation = useDeleteNote()
+
+  const notes = data?.rows ?? []
+  const totalCount = data?.count ?? 0
+  const totalPages = Math.max(1, Math.ceil(totalCount / NOTES_PAGE_SIZE))
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedNote, setSelectedNote] = useState<NoteWithLink | null>(null)
 
-  // VP-only access - redirect non-VP users
+  // VP-only access — wait for role to be resolved (not just authLoading) to avoid
+  // race condition on direct URL navigation where AuthContext sets isLoading=false
+  // before role is fetched.
   useEffect(() => {
-    if (!authLoading && !isVP(role)) {
+    if (!authLoading && role !== null && !isVP(role)) {
       navigate('/dashboards', { replace: true })
     }
   }, [role, authLoading, navigate])
 
-  // Don't render if not VP
-  if (!authLoading && !isVP(role)) return null
+  // Don't render content for non-VP (redirect pending)
+  if (!authLoading && role !== null && !isVP(role)) return null
 
   const handleDeleteClick = (note: NoteWithLink) => {
     setSelectedNote(note)
@@ -60,6 +67,9 @@ const NotesPage = () => {
     )
   }
 
+  const from = totalCount === 0 ? 0 : (page - 1) * NOTES_PAGE_SIZE + 1
+  const to = Math.min(page * NOTES_PAGE_SIZE, totalCount)
+
   return (
     <>
       <PageTitle subName="VP-Flow" title="Notes" />
@@ -85,6 +95,26 @@ const NotesPage = () => {
             onDelete={handleDeleteClick}
           />
         </CardBody>
+        {totalCount > 0 && (
+          <div className="d-flex justify-content-between align-items-center px-3 py-2 border-top">
+            <small className="text-muted">Showing {from}–{to} of {totalCount}</small>
+            {totalPages > 1 && (
+              <div className="d-flex align-items-center gap-2">
+                <small className="text-muted">Page {page} of {totalPages}</small>
+                <Pagination className="mb-0">
+                  <Pagination.Prev
+                    disabled={page === 1 || isLoading}
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  />
+                  <Pagination.Next
+                    disabled={page >= totalPages || isLoading}
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  />
+                </Pagination>
+              </div>
+            )}
+          </div>
+        )}
       </Card>
 
       {/* Delete Modal */}

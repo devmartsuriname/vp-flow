@@ -1,4 +1,4 @@
-export { useClients } from './useClients'
+export { useClients, useClientsPaginated, CLIENTS_PAGE_SIZE } from './useClients'
 export { useClient } from './useClient'
 export { useCreateClient } from './useCreateClient'
 export { useUpdateClient } from './useUpdateClient'

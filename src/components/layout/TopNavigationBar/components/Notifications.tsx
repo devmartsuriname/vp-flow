@@ -88,13 +88,11 @@ const NotificationItem = ({ notification, onMarkAsRead }: NotificationItemProps)
 }
 
 const Notifications = () => {
-  const { data: notifications = [], isLoading } = useNotifications({ status: 'all' })
+  // Server-side limit: fetch only the 5 most recent notifications (no full-list scan).
+  const { data: recentNotifications = [], isLoading } = useNotifications({ status: 'all', limit: 5 })
   const { data: unreadCount = 0 } = useUnreadCount()
   const markAsRead = useMarkAsRead()
   const markAllAsRead = useMarkAllAsRead()
-
-  // Show only the 5 most recent notifications in the dropdown
-  const recentNotifications = notifications.slice(0, 5)
 
   const handleMarkAsRead = (id: string) => {
     markAsRead.mutate({ id, isRead: true })

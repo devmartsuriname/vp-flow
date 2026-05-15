@@ -1,4 +1,4 @@
-export { useAppointments } from './useAppointments'
+export { useAppointments, APPOINTMENTS_PAGE_SIZE } from './useAppointments'
 export { useAppointment } from './useAppointment'
 export { useCreateAppointment } from './useCreateAppointment'
 export { useUpdateAppointment } from './useUpdateAppointment'

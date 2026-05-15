@@ -4,19 +4,29 @@ import type { AuditEventWithActor, AuditLogFilters, AuditAction, AuditEvent } fr
 import type { VPFlowRole } from '@/types/auth'
 import { isVP } from '@/hooks/useUserRole'
 
-export function useAuditLogs(role: VPFlowRole | null, filters?: AuditLogFilters) {
+export const AUDIT_LOGS_PAGE_SIZE = 20
 
-  return useQuery<AuditEventWithActor[], Error>({
-    queryKey: ['audit-logs', filters, role],
+export type AuditLogsPage = {
+  rows: AuditEventWithActor[]
+  count: number
+}
+
+export function useAuditLogs(role: VPFlowRole | null, filters?: AuditLogFilters, page: number = 1) {
+
+  return useQuery<AuditLogsPage, Error>({
+    queryKey: ['audit-logs', filters, role, page],
     queryFn: async () => {
       // Only VP has access per RLS
       if (!isVP(role)) {
-        return []
+        return { rows: [], count: 0 }
       }
+
+      const from = (page - 1) * AUDIT_LOGS_PAGE_SIZE
+      const to = from + AUDIT_LOGS_PAGE_SIZE - 1
 
       let query = supabase
         .from('audit_events')
-        .select('*')
+        .select('*', { count: 'exact' })
         .order('performed_at', { ascending: false })
 
       // Apply filters
@@ -36,7 +46,7 @@ export function useAuditLogs(role: VPFlowRole | null, filters?: AuditLogFilters)
         query = query.eq('entity_type', filters.entityType)
       }
 
-      const { data, error } = await query.limit(100)
+      const { data, error, count } = await query.range(from, to)
 
       if (error) {
         throw new Error(error.message)
@@ -48,7 +58,10 @@ export function useAuditLogs(role: VPFlowRole | null, filters?: AuditLogFilters)
       const userIds = [...new Set(auditEvents.map((e) => e.performed_by).filter(Boolean))]
 
       if (userIds.length === 0) {
-        return auditEvents.map((e) => ({ ...e, user_profiles: null }))
+        return {
+          rows: auditEvents.map((e) => ({ ...e, user_profiles: null })),
+          count: count ?? 0,
+        }
       }
 
       // Fetch user profiles separately (no FK relationship)
@@ -60,16 +73,22 @@ export function useAuditLogs(role: VPFlowRole | null, filters?: AuditLogFilters)
       if (profileError) {
         console.error('Error fetching user profiles:', profileError)
         // Continue without profiles rather than failing
-        return auditEvents.map((e) => ({ ...e, user_profiles: null }))
+        return {
+          rows: auditEvents.map((e) => ({ ...e, user_profiles: null })),
+          count: count ?? 0,
+        }
       }
 
       // Map profiles to events
       const profileMap = new Map(profiles?.map((p) => [p.id, p]) || [])
 
-      return auditEvents.map((event) => ({
-        ...event,
-        user_profiles: event.performed_by ? profileMap.get(event.performed_by) || null : null,
-      }))
+      return {
+        rows: auditEvents.map((event) => ({
+          ...event,
+          user_profiles: event.performed_by ? profileMap.get(event.performed_by) || null : null,
+        })),
+        count: count ?? 0,
+      }
     },
     enabled: !!role && isVP(role),
   })

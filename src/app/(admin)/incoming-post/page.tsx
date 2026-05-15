@@ -1,24 +1,21 @@
-import { useEffect } from 'react'
-import { Card, CardBody, Row, Col } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Card, CardBody, Row, Col, Pagination } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
-import { useIncomingPosts } from './hooks'
+import { useIncomingPosts, INCOMING_POST_PAGE_SIZE } from './hooks'
 import { IncomingPostTable } from './components'
 import { useAuthContext } from '@/context/useAuthContext'
-import { isProtocol, isVPOrSecretary } from '@/hooks/useUserRole'
+import { isVPOrSecretary } from '@/hooks/useUserRole'
 
 const IncomingPostPage = () => {
-  const navigate = useNavigate()
-  const { role, isLoading: authLoading } = useAuthContext()
-  const { data: posts = [], isLoading, error } = useIncomingPosts(role)
+  const { role } = useAuthContext()
+  const [page, setPage] = useState(1)
+  const { data, isLoading, error } = useIncomingPosts(role, page)
 
-  useEffect(() => {
-    if (!authLoading && isProtocol(role)) {
-      // Protocol can only see forwarded invitations — let them through
-      // The query will filter appropriately via RLS
-    }
-  }, [role, authLoading, navigate])
+  const posts = data?.rows ?? []
+  const totalCount = data?.count ?? 0
+  const totalPages = Math.max(1, Math.ceil(totalCount / INCOMING_POST_PAGE_SIZE))
 
   if (error) {
     return (
@@ -34,6 +31,9 @@ const IncomingPostPage = () => {
       </>
     )
   }
+
+  const from = totalCount === 0 ? 0 : (page - 1) * INCOMING_POST_PAGE_SIZE + 1
+  const to = Math.min(page * INCOMING_POST_PAGE_SIZE, totalCount)
 
   return (
     <>
@@ -58,6 +58,26 @@ const IncomingPostPage = () => {
         <CardBody>
           <IncomingPostTable posts={posts} isLoading={isLoading} />
         </CardBody>
+        {totalCount > 0 && (
+          <div className="d-flex justify-content-between align-items-center px-3 py-2 border-top">
+            <small className="text-muted">Showing {from}–{to} of {totalCount}</small>
+            {totalPages > 1 && (
+              <div className="d-flex align-items-center gap-2">
+                <small className="text-muted">Page {page} of {totalPages}</small>
+                <Pagination className="mb-0">
+                  <Pagination.Prev
+                    disabled={page === 1 || isLoading}
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  />
+                  <Pagination.Next
+                    disabled={page >= totalPages || isLoading}
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  />
+                </Pagination>
+              </div>
+            )}
+          </div>
+        )}
       </Card>
     </>
   )

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Card, CardBody, Button, Row, Col } from 'react-bootstrap'
+import { Card, CardBody, Button, Row, Col, Pagination } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
-import { useClients, useDeleteClient } from './hooks'
+import { useClientsPaginated, useDeleteClient, CLIENTS_PAGE_SIZE } from './hooks'
 import { ClientsTable, DeleteClientModal } from './components'
 import { useAuthContext } from '@/context/useAuthContext'
 import { isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
@@ -12,8 +12,13 @@ import type { Client } from './types'
 const ClientsPage = () => {
   const navigate = useNavigate()
   const { role, isLoading: authLoading } = useAuthContext()
-  const { data: clients = [], isLoading, error } = useClients()
+  const [page, setPage] = useState(1)
+  const { data, isLoading, error } = useClientsPaginated(page)
   const deleteClient = useDeleteClient()
+
+  const clients = data?.rows ?? []
+  const totalCount = data?.count ?? 0
+  const totalPages = Math.max(1, Math.ceil(totalCount / CLIENTS_PAGE_SIZE))
 
   const [clientToDelete, setClientToDelete] = useState<Client | null>(null)
 
@@ -65,6 +70,9 @@ const ClientsPage = () => {
     )
   }
 
+  const from = totalCount === 0 ? 0 : (page - 1) * CLIENTS_PAGE_SIZE + 1
+  const to = Math.min(page * CLIENTS_PAGE_SIZE, totalCount)
+
   return (
     <>
       <PageTitle subName="VP-Flow" title="Guests" />
@@ -93,6 +101,26 @@ const ClientsPage = () => {
             onDelete={handleDeleteClick}
           />
         </CardBody>
+        {totalCount > 0 && (
+          <div className="d-flex justify-content-between align-items-center px-3 py-2 border-top">
+            <small className="text-muted">Showing {from}–{to} of {totalCount}</small>
+            {totalPages > 1 && (
+              <div className="d-flex align-items-center gap-2">
+                <small className="text-muted">Page {page} of {totalPages}</small>
+                <Pagination className="mb-0">
+                  <Pagination.Prev
+                    disabled={page === 1 || isLoading}
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  />
+                  <Pagination.Next
+                    disabled={page >= totalPages || isLoading}
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  />
+                </Pagination>
+              </div>
+            )}
+          </div>
+        )}
       </Card>
 
       <DeleteClientModal

@@ -1,4 +1,4 @@
-export { useCases } from './useCases'
+export { useCases, CASES_PAGE_SIZE } from './useCases'
 export { useCase } from './useCase'
 export { useCreateCase } from './useCreateCase'
 export { useUpdateCase } from './useUpdateCase'

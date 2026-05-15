@@ -1,4 +1,4 @@
-export { useIncomingPosts } from './useIncomingPosts'
+export { useIncomingPosts, INCOMING_POST_PAGE_SIZE } from './useIncomingPosts'
 export { useIncomingPost } from './useIncomingPost'
 export { useCreateIncomingPost } from './useCreateIncomingPost'
 export { useUpdateIncomingPost } from './useUpdateIncomingPost'

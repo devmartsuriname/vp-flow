@@ -17,8 +17,8 @@ const AdminLayout = ({ children }: ChildrenType) => {
         <VerticalNavigationBar />
       </Suspense>
       <AnimationStar />
-      <div className="page-content">
-        <Container fluid>
+      <div className="page-content d-flex flex-column min-vh-100">
+        <Container fluid className="flex-grow-1">
           <ErrorBoundary>
             {children}
           </ErrorBoundary>

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Card, CardBody, Button, Row, Col, Form } from 'react-bootstrap'
+import { Card, CardBody, Button, Row, Col, Form, Pagination } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import PageTitle from '@/components/PageTitle'
 import IconifyIcon from '@/components/wrapper/IconifyIcon'
-import { useDocuments, useDeactivateDocument, useDocumentAudit } from './hooks'
+import { useDocumentsPaginated, useDeactivateDocument, useDocumentAudit, DOCUMENTS_PAGE_SIZE } from './hooks'
 import { DocumentsTable, DeactivateModal } from './components'
 import { ENTITY_TYPE_OPTIONS } from './constants'
 import { useAuthContext } from '@/context/useAuthContext'
-import { isVPOrSecretary, isProtocol } from '@/hooks/useUserRole'
+import { isProtocol } from '@/hooks/useUserRole'
 import { supabase } from '@/integrations/supabase/client'
 import type { Document, DocumentEntityType } from './types'
 
@@ -17,11 +17,22 @@ const DocumentsPage = () => {
   const [entityTypeFilter, setEntityTypeFilter] = useState<DocumentEntityType | ''>('')
   const [showDeactivateModal, setShowDeactivateModal] = useState(false)
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null)
+  const [page, setPage] = useState(1)
 
-  const { data: documents = [], isLoading, error } = useDocuments({
+  const { data, isLoading, error } = useDocumentsPaginated({
     entityType: entityTypeFilter || undefined,
     activeOnly: true,
-  })
+  }, page)
+
+  const documents = data?.rows ?? []
+  const totalCount = data?.count ?? 0
+  const totalPages = Math.max(1, Math.ceil(totalCount / DOCUMENTS_PAGE_SIZE))
+
+  // Reset to page 1 when filter changes
+  const handleFilterChange = (value: DocumentEntityType | '') => {
+    setEntityTypeFilter(value)
+    setPage(1)
+  }
 
   const deactivateDocument = useDeactivateDocument()
   const documentAudit = useDocumentAudit()
@@ -129,7 +140,7 @@ const DocumentsPage = () => {
                 <Form.Label>Filter by Type</Form.Label>
                 <Form.Select
                   value={entityTypeFilter}
-                  onChange={(e) => setEntityTypeFilter(e.target.value as DocumentEntityType | '')}
+                  onChange={(e) => handleFilterChange(e.target.value as DocumentEntityType | '')}
                 >
                   {ENTITY_TYPE_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -141,7 +152,9 @@ const DocumentsPage = () => {
             </Col>
             <Col md={8} className="text-end">
               <small className="text-muted">
-                Showing {documents.length} document{documents.length !== 1 ? 's' : ''}
+                {totalCount === 0
+                  ? 'No documents'
+                  : `Showing ${(page - 1) * DOCUMENTS_PAGE_SIZE + 1}–${Math.min(page * DOCUMENTS_PAGE_SIZE, totalCount)} of ${totalCount}`}
               </small>
             </Col>
           </Row>
@@ -160,6 +173,21 @@ const DocumentsPage = () => {
             onDeactivate={handleDeactivate}
           />
         </CardBody>
+        {totalCount > 0 && totalPages > 1 && (
+          <div className="d-flex justify-content-between align-items-center px-3 py-2 border-top">
+            <small className="text-muted">Page {page} of {totalPages}</small>
+            <Pagination className="mb-0">
+              <Pagination.Prev
+                disabled={page === 1 || isLoading}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+              />
+              <Pagination.Next
+                disabled={page >= totalPages || isLoading}
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              />
+            </Pagination>
+          </div>
+        )}
       </Card>
 
       {/* Deactivate Modal */}

@@ -4,11 +4,21 @@ import type { AppointmentWithClient } from '../types'
 import type { VPFlowRole } from '@/types/auth'
 import { isSecretary, isProtocol } from '@/hooks/useUserRole'
 
-export function useAppointments(role: VPFlowRole | null) {
+export const APPOINTMENTS_PAGE_SIZE = 20
 
-  return useQuery<AppointmentWithClient[], Error>({
-    queryKey: ['appointments', role],
+export type AppointmentsPage = {
+  rows: AppointmentWithClient[]
+  count: number
+}
+
+export function useAppointments(role: VPFlowRole | null, page: number = 1) {
+
+  return useQuery<AppointmentsPage, Error>({
+    queryKey: ['appointments', role, page],
     queryFn: async () => {
+      const from = (page - 1) * APPOINTMENTS_PAGE_SIZE
+      const to = from + APPOINTMENTS_PAGE_SIZE - 1
+
       let query = supabase
         .from('appointments')
         .select(`
@@ -20,7 +30,7 @@ export function useAppointments(role: VPFlowRole | null) {
             organization_name,
             client_type
           )
-        `)
+        `, { count: 'exact' })
         .order('scheduled_date', { ascending: false })
         .order('scheduled_time', { ascending: false })
 
@@ -34,13 +44,16 @@ export function useAppointments(role: VPFlowRole | null) {
       }
       // VP sees all - no filter needed
 
-      const { data, error } = await query
+      const { data, error, count } = await query.range(from, to)
 
       if (error) {
         throw new Error(error.message)
       }
 
-      return (data as AppointmentWithClient[]) || []
+      return {
+        rows: (data as AppointmentWithClient[]) || [],
+        count: count ?? 0,
+      }
     },
     enabled: !!role,
   })
