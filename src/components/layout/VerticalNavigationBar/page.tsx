@@ -4,11 +4,14 @@ import SimplebarReactClient from '@/components/wrapper/SimplebarReactClient'
 import LogoBox from '@/components/wrapper/LogoBox'
 import AppMenu from './components/AppMenu'
 import { useAuthContext } from '@/context/useAuthContext'
-import { isVP } from '@/hooks/useUserRole'
+import { isVP, isProtocol } from '@/hooks/useUserRole'
 import type { MenuItemType } from '@/types/menu'
 
 /** Menu item keys that require VP role */
 const VP_ONLY_MENU_KEYS = ['notes', 'audit-logs']
+
+/** Menu item keys visible to Protocol role (title + allowed pages + Settings per TC-018) */
+const PROTOCOL_VISIBLE_MENU_KEYS = ['menu', 'dashboards', 'appointments', 'settings']
 
 const VerticalNavigationBar = () => {
   const { role } = useAuthContext()
@@ -20,7 +23,11 @@ const VerticalNavigationBar = () => {
       // VP sees all menu items
       return allMenuItems
     }
-    // Non-VP users: filter out VP-only menu items
+    if (isProtocol(role)) {
+      // Protocol: restricted to Dashboard + Appointments + Settings (TC-019)
+      return allMenuItems.filter(item => PROTOCOL_VISIBLE_MENU_KEYS.includes(item.key))
+    }
+    // Other non-VP users (Secretary): filter out VP-only menu items
     return allMenuItems.filter(item => !VP_ONLY_MENU_KEYS.includes(item.key))
   }, [allMenuItems, role])
 
