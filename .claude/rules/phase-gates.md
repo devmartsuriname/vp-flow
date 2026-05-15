@@ -13,6 +13,9 @@ A phase gate is a hard stop between execution phases. No phase may begin without
 | v2.0 Phase 1C-A — Rich Text Notes (Tiptap) | CLOSED | Closed 2026-05-12 via TC-012. Migration applied (notes.content_format), Tiptap editor + viewer live, lint 0 errors, build PASS. POST restore point: RP_RichTextNotes_POST_TC012.md |
 | v2.0 Phase 1D — Design Style Guide + Logo Set | CLOSED | Closed 2026-05-13 via TC-014. Logo v3 "Authority Gate" approved. All logo refs replaced, auth wrong-logo fixed, PWA icons purple brand, theme-color #7e67fe, copyright footer. Lint 0, build 0. POST restore point: RP_LogoSet_POST_TC014.md |
 | v2.0 Phase 1C-B+ | BLOCKED | Cannot start until Delroy opens a new TC and Phase 1D |
+| v2.0 TC-016 — Template & Dead Code Cleanup | CLOSED | Closed 2026-05-15. Lint 0, build 0. POST restore point: RP_TemplateCleanup_POST_TC016.md |
+| v2.0 TC-017 — Pagination Hardening + Routing Fix | CLOSED | Closed 2026-05-15. Lint 0, build 0. POST restore point: RP_PaginationHardening_POST_TC017.md |
+| v2.0 TC-018 — Settings Tab Refactor | CLOSED | Closed 2026-05-15. Lint 0, build 0. POST restore point: RP_SettingsTabRefactor_POST_TC018.md |
 
 ## Gate Rules
 

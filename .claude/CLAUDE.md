@@ -3,7 +3,7 @@
 
 **Status:** ACTIVE
 **Governance:** Devmart Guardian Rules v2.1
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-15
 **Authority:** Delroy (Devmart) — sole decision-maker
 
 ---
@@ -33,7 +33,7 @@ The following versions are COMPLETE and FROZEN. Do not undo, refactor, or rewrit
 | Priority 1 | Global search, Deadline notifications | FROZEN |
 | Priority 3-A | Handwriting (Notes, VP-only) | FROZEN |
 | Priority 3-B | Incoming Post & Archive | FROZEN |
-| v2.0 | Push notifications (partially started) | IN PROGRESS — requires TC |
+| v2.0 | Pre-Phase 2 hardening (TC-016/017/018) | IN PROGRESS |
 
 ---
 
@@ -170,6 +170,10 @@ After any migration: document in restore point and verify no regressions.
 | Push + Email Edge Function CORS is * | LOW — deferred to Hostinger production deployment |
 | Service-role push delivery — secrets unverified | MEDIUM — separate TC required |
 | Auth pages wrong logo (navy PNG) | RESOLVED 2026-05-13 — TC-014 executed. All auth components now use vp-flow-logo-dark.svg. PWA icons replaced (purple). theme-color #7e67fe. Copyright footer added. |
+| Template dead code + console.log | RESOLVED 2026-05-15 — TC-016. 5 dead layout dirs + 5 components/hooks verwijderd. AdminLayout footer fix. |
+| Pagination ontbreekt op alle lijsten | RESOLVED 2026-05-15 — TC-017. Server-side pagination (PAGE_SIZE=20) op alle 8 lijsten. Notifications dropdown query-level .limit(5). |
+| Routing bug /notes + /audit-logs redirect naar /dashboards | RESOLVED 2026-05-15 — TC-017. Race condition in render-guard opgelost in notes/page.tsx + audit-logs/page.tsx. |
+| Settings scrollpagina te lang | RESOLVED 2026-05-15 — TC-018. 5-tab layout. Email Config tab verborgen voor Protocol. Push toggle geconsolideerd. Versienummer dynamisch (APP_INFO.version). |
 
 ---
 
