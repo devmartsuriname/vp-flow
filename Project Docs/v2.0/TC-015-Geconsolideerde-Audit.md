@@ -57,7 +57,7 @@ Alle drie auditors vonden onderstaande bevindingen onafhankelijk. Geen Delroy-be
 
 **Aanbeveling Cowork:** Codex's CRITICAL is een false positive. TC-012 RP bevestigt 'json' als correct. De contractbreuk zit in de TC-015 tekst, niet in de code. **Beslissing: accepteer Claude Code's LOW; geen fix nodig.**
 
-**Keuze voor Delroy:** [ ] Claude Code (LOW — geen actie) · [ ] Codex (CRITICAL — fix nodig)
+**Beslissing Delroy (2026-05-16):** [x] Claude Code — LOW, geen actie nodig. TC-012 'json' is correct.
 
 ---
 
@@ -71,7 +71,7 @@ Alle drie auditors vonden onderstaande bevindingen onafhankelijk. Geen Delroy-be
 
 **Aanbeveling Cowork:** HIGH is correct. CRITICAL is voorbehouden voor broken functionality of werkelijk dataverlies — de data staat in de DB, alleen de UI toont het niet. **Beslissing: HIGH, pagination TC is urgent.**
 
-**Keuze voor Delroy:** [ ] CRITICAL (urgentste TC prioriteit) · [ ] HIGH (deel van Pagination Hardening TC)
+**Beslissing Delroy (2026-05-16):** [x] HIGH — deel van TC-017 Pagination Hardening.
 
 ---
 
@@ -85,7 +85,7 @@ Alle drie auditors vonden onderstaande bevindingen onafhankelijk. Geen Delroy-be
 
 **Aanbeveling Cowork:** Codex's bevinding accepteren. Menu toont items die Protocol geen toegang toe heeft — zelfs als pagina's daarna redirecten is dit UX-verwarrend en vermoedelijk niet de bedoeling.
 
-**Keuze voor Delroy:** [ ] Accepteer Codex HIGH · [ ] Nader onderzoek
+**Beslissing Delroy (2026-05-16):** [x] Accepteer Codex HIGH — sidebar Protocol filtering opnemen in TC-017.
 
 ---
 
@@ -213,4 +213,4 @@ Server-side pagination op alle lijsten + Audit Logs cursor-based. Notifications 
 
 ---
 
-*DRAFT — Wacht op Delroy's beslissing op Conflict A, B en C vóór dit document als "Goedgekeurd" wordt beschouwd. Geen implementatie gestart.*
+*Conflicts gesloten 2026-05-16. TC-016, TC-017, TC-018 opgesteld. Wacht op Delroy's "Goedgekeurd" per TC vóór Claude Code begint.*

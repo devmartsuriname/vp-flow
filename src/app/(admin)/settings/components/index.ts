@@ -1,6 +1,5 @@
 export { ProfileCard } from './ProfileCard'
 export { ThemeSettingsCard } from './ThemeSettingsCard'
 export { SystemInfoCard } from './SystemInfoCard'
-export { default as PushNotificationToggle } from './PushNotificationToggle'
 export { default as EmailSettingsCard } from './EmailSettingsCard'
 export { default as NotificationPreferencesCard } from './NotificationPreferencesCard'

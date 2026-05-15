@@ -6,16 +6,31 @@
  * Opt-out model: no row = both channels enabled (defaults rendered ON).
  */
 
-import { Card, ListGroup, Form, Spinner } from 'react-bootstrap'
+import { Card, ListGroup, Form, Spinner, Badge } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import {
   useGetNotificationPreferences,
   useUpsertNotificationPreferences,
 } from '../hooks/useNotificationPreferences'
+import { usePushSubscription } from '@/hooks/usePushSubscription'
 
 const NotificationPreferencesCard = () => {
   const { data, isLoading, error } = useGetNotificationPreferences()
   const upsert = useUpsertNotificationPreferences()
+  const { isSubscribed, isSupported, permission } = usePushSubscription()
+
+  const getPushStatusBadge = () => {
+    if (!isSupported) {
+      return <Badge bg="secondary">Not Supported</Badge>
+    }
+    if (permission === 'denied') {
+      return <Badge bg="danger">Blocked</Badge>
+    }
+    if (isSubscribed) {
+      return <Badge bg="success">Active</Badge>
+    }
+    return <Badge bg="warning" text="dark">Inactive</Badge>
+  }
 
   // Opt-out model: missing row → both ON by default
   const pushEnabled = data?.push_enabled ?? true
@@ -64,7 +79,8 @@ const NotificationPreferencesCard = () => {
           <ListGroup variant="flush">
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <div>
-                <span className="fw-semibold">Push notificaties</span>
+                <span className="fw-semibold me-2">Push notificaties</span>
+                {getPushStatusBadge()}
                 <br />
                 <small className="text-muted">
                   Ontvang browser push-meldingen voor afspraken, dossiers en documenten

@@ -188,7 +188,7 @@ const EmailSettingsCard = () => {
                   Testing…
                 </>
               ) : (
-                'Test Verbinding'
+                'Test Connection'
               )}
             </Button>
             <Button
@@ -202,7 +202,7 @@ const EmailSettingsCard = () => {
                   Saving…
                 </>
               ) : (
-                'Opslaan'
+                'Save'
               )}
             </Button>
           </Col>
