@@ -16,6 +16,7 @@ A phase gate is a hard stop between execution phases. No phase may begin without
 | v2.0 TC-016 — Template & Dead Code Cleanup | CLOSED | Closed 2026-05-15. Lint 0, build 0. POST restore point: RP_TemplateCleanup_POST_TC016.md |
 | v2.0 TC-017 — Pagination Hardening + Routing Fix | CLOSED | Closed 2026-05-15. Lint 0, build 0. POST restore point: RP_PaginationHardening_POST_TC017.md |
 | v2.0 TC-018 — Settings Tab Refactor | CLOSED | Closed 2026-05-15. Lint 0, build 0. POST restore point: RP_SettingsTabRefactor_POST_TC018.md |
+| v2.0 TC-022 — Final Handoff Documentation | CLOSED | Closed 2026-05-15. 7 MD bronbestanden gegenereerd vanuit codebase-scan (Claude Code). 7 PDFs gegenereerd met VP-Flow huisstijl (Cowork). Lane A — geen restore point vereist. |
 
 ## Gate Rules
 

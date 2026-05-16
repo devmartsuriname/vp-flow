@@ -33,7 +33,7 @@ The following versions are COMPLETE and FROZEN. Do not undo, refactor, or rewrit
 | Priority 1 | Global search, Deadline notifications | FROZEN |
 | Priority 3-A | Handwriting (Notes, VP-only) | FROZEN |
 | Priority 3-B | Incoming Post & Archive | FROZEN |
-| v2.0 | Pre-Phase 2 hardening (TC-016/017/018) | IN PROGRESS |
+| v2.0 | Hardening + Handoff (TC-016/017/018/022) | COMPLETE / FROZEN |
 
 ---
 
@@ -154,7 +154,7 @@ After any migration: document in restore point and verify no regressions.
 
 ---
 
-## 14. Known Issues (updated 2026-05-12)
+## 14. Known Issues (updated 2026-05-15)
 
 | Issue | Severity |
 |---|---|
@@ -174,6 +174,7 @@ After any migration: document in restore point and verify no regressions.
 | Pagination ontbreekt op alle lijsten | RESOLVED 2026-05-15 — TC-017. Server-side pagination (PAGE_SIZE=20) op alle 8 lijsten. Notifications dropdown query-level .limit(5). |
 | Routing bug /notes + /audit-logs redirect naar /dashboards | RESOLVED 2026-05-15 — TC-017. Race condition in render-guard opgelost in notes/page.tsx + audit-logs/page.tsx. |
 | Settings scrollpagina te lang | RESOLVED 2026-05-15 — TC-018. 5-tab layout. Email Config tab verborgen voor Protocol. Push toggle geconsolideerd. Versienummer dynamisch (APP_INFO.version). |
+| Deployment: Hostinger native git kopieert broncode zonder build | RESOLVED 2026-05-15 — GitHub Actions FTP deploy geconfigureerd. npm ci --legacy-peer-deps. Server IP 82.29.157.191. Auto-deploy bij push naar main. vpflow.app live. |
 
 ---
 
@@ -190,6 +191,7 @@ After any migration: document in restore point and verify no regressions.
 | Document Templates | P2 | Not started |
 | Category Filtering | P3 | Not started |
 | Reopen Count Limits | P3 | Not started |
+| Final Handoff Documentation | P1 | COMPLETE — TC-022. 7 MD bronbestanden + 7 PDFs. Closed 2026-05-15 |
 
 ---
 
